@@ -18,19 +18,15 @@
 \newcommand{\vikkonzulensCVezeteknev}{}
 \newcommand{\vikkonzulensCKeresztnev}{}
 
-\newcommand{\vikcim}{Activity Diagrammok formális ellenőrzése a Gamma keretrendszerben} % Cím
-\newcommand{\viktanszek}{\bmemit} % Tanszék
-\newcommand{\vikdoktipus}{\bsc} % Dokumentum típusa (\bsc vagy \msc)
-\newcommand{\vikmunkatipusat}{önálló labort} % a "hallgató nyilatkozat" részhez: szakdolgozatot vagy diplomatervet
+\newcommand{\vikcim}{Formal Verification of Activity Diagrams Using the Gamma Framework}
+\newcommand{\viktanszek}{\bmemit}
+\newcommand{\vikdoktipus}{\bsc}
+\newcommand{\vikmunkatipusat}{önálló labort}
 
 \input{include/tdk-variables}
 \newcommand{\szerzoMeta}{\vikszerzoVezeteknev{} \vikszerzoKeresztnev} % egy szerző esetén
-%\newcommand{\szerzoMeta}{\vikszerzoVezeteknev{} \vikszerzoKeresztnev, \tdkszerzoB} % két szerző esetén
 
-% Beállítások magyar nyelvű dolgozathoz
-\input{include/thesis-hu}
-% Settings for English documents
-%\input{include/thesis-en}
+\input{include/thesis-en}
 
 \input{include/preamble}
 
@@ -43,8 +39,8 @@
 \selectthesislanguage
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-%\include{include/titlepage}		   % Szakdolgozat/Diplomaterv címlap
-\include{include/titlepage-tdk}	% TDK címlap
+%\include{include/titlepage}		% Szakdolgozat/Diplomaterv címlap
+\include{include/titlepage-tdk}		% TDK címlap
 %\include{include/titlepage-otdk}   % OTDK címlap
 
 
@@ -66,18 +62,15 @@
 \include{content/background}
 \include{content/activity-language}
 \include{content/activity-model-verification}
+\include{content/implementation}
 \include{content/evaluation}
-
-
-% Acknowledgements
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\include{content/acknowledgement}
+\include{content/future-work}
 
 
 % List of Figures, Tables
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\listoffigures\addcontentsline{toc}{chapter}{\listfigurename}
-\listoftables\addcontentsline{toc}{chapter}{\listtablename}
+%\listoffigures\addcontentsline{toc}{chapter}{\listfigurename}
+%\listoftables\addcontentsline{toc}{chapter}{\listtablename}
 
 
 % Bibliography
@@ -85,10 +78,6 @@
 \addcontentsline{toc}{chapter}{\bibname}
 \bibliography{bib/mybib}
 
-
-% Appendix
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\include{content/appendices}
 
 %\label{page:last}
 \end{document}
