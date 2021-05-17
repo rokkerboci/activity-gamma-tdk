@@ -2,6 +2,12 @@
 \chapter{\bevezetes}
 %----------------------------------------------------------------------------
 
-% TODO
+Model-Based Systems Engineering is a widely used technique for designing, testing and executing otherwise too complicated systems in a well defined, \emph{high-level} language (e.g. SysML). Such systems usually come from critical domains (e.g. transportation, flight) which have a very low tolerance for errors. As such, early detection of otherwise deadly mistakes is mandatory.
 
-Motiváció, eddig létező megoldás, saját megoldás. A fejezetek magaszintű leírása.
+Formal model verification is a technique (among many) for detecting such errors. They use formal proving algorithms to check whether a given system property (usually an undesired state) is \emph{reachable} and how to reach that state. However, these proving methods require low-level, \emph{state based mathematical models}, which are far from the high-level languages we are used to. In order to verify such models, we need to \emph{bridge} the gap between the two worlds.
+
+Gamma is one of such frameworks. Right now Gamma only supports composite systems of only statecharts, however, real world models use activity diagrams heavily. For this reason, I propose to add an activity language to Gamma, and with it enable the systematic verification of a larger subset of SysML models.
+
+TODO valahol még le kéne írni, hogy milyen létező megoldások vannak (Beni, egyéb?)
+
+TODO dolgozat felépítése
