@@ -2,6 +2,15 @@
 \section{The Gamma Statechart Composition Framework}
 %----------------------------------------------------------------------------
 
-% TODO
+The Gamma Statechart Composition Framework is a tool created to support platform-independent modeling and heterogeneous development of [system] components. For my purposes, it provides an interface to \emph{design} composite systems and transform them to a verifiable model (XSTS).
 
-Gamma általánosságban, jelenleg mire képes, miket támogat
+% TODO: replace with better image
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=100mm, keepaspectratio]{gamma-pipeline}
+	\caption{Using Gamma to verify high-level models}
+	\label{fig:gamma-pipeline}
+\end{figure}
+
+Figure \ref{fig:gamma-pipeline} shows an abstract representation of how a \emph{high-level} SysML model could be verified using Gamma as a \emph{middle man}. Important aspect of the transformations is to have back annotations, which provide the user with the information of \emph{which} source model element the verifier returned.

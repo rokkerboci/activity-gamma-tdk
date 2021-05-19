@@ -1,6 +1,27 @@
 %----------------------------------------------------------------------------
-\section{Metamodel}
+\clearpage\section{Metamodel}
 %----------------------------------------------------------------------------
 
-% TODO
+The metamodel of the language was constructed to facilitate well defined semantics, but have as few model elements as possible.
 
+\subsection{Semantic part}
+
+This part provides elements needed to construct a semantically correct model. An Activity model has \textbf{Nodes} and \textbf{Flows} in between nodes. Flows can be connected to nodes directly, or to \textbf{Pins}, which gives us explicit control over \emph{control} flows and \emph{data} flows. See figure \ref{fig:TeXstudio}
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=100mm, keepaspectratio]{semantics}
+	\caption{Using Gamma to verify high-level models}
+	\label{fig:semantic}
+\end{figure}
+
+\subsection{Syntactic part}
+
+The metamodel also has to provide elements for the language, such as \textbf{Declaration}s, \textbf{Definition}s, etc.
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=100mm, keepaspectratio]{semantics}
+	\caption{Using Gamma to verify high-level models}
+	\label{fig:syntactic}
+\end{figure}

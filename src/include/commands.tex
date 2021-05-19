@@ -1,0 +1,17 @@
+\newcommand*\fig[4][images]{%
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[scale=#3]{#1/#2}
+		\caption{#4}\label{#2}
+	\end{figure}
+}
+\newcommand*\svg[4][images]{%
+	\begin{figure}[h!]
+		\centering
+		\includesvg[svgextension=svg,scale=#3]{#2}
+		\caption{#4}\label{#2}
+	\end{figure}
+}
+\graphicspath{{./figures/}}
+\svgpath{{./figures/}}
+\svgsetup{}

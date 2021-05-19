@@ -1,0 +1,34 @@
+package hu.mit.bme.example
+
+activity Adder(
+	in x : integer,
+	in y : integer,
+	out o : integer
+) [language=action]  {
+	self.o := self.x + self.y;
+}
+
+activity Example {
+	initial Initial
+	
+	action ReadSelf1 : activity (
+		out x : integer
+	)
+	action ReadSelf2 : activity (
+		out x : integer
+	)
+	action Add : Adder
+	action Log : activity (
+		in x : integer
+	)
+	
+	final Final
+	
+	control flow from Initial to ReadSelf1
+	control flow from Initial to ReadSelf2
+	control flow from Initial to Add
+	data flow from ReadSelf1.x to Add.x
+	data flow from ReadSelf2.x to Add.y
+	data flow from Add.o to Log.x
+	control flow from Log to Final
+}
