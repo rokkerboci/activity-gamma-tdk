@@ -1,0 +1,107 @@
+%% Creator: Inkscape 1.0.2-2 (e86c870879, 2021-01-15), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'semantics_svg-tex.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{556.91250001bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.55423877)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{semantics_svg-tex.pdf}}%
+    \put(0.35088546,0.13332436){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textit{DataNode}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{semantics_svg-tex.pdf}}%
+    \put(0.14618544,0.39458622){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textit{ActivityNode}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{semantics_svg-tex.pdf}}%
+    \put(0.42226113,0.39323951){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}ControlFlow\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{semantics_svg-tex.pdf}}%
+    \put(0.61080062,0.3918928){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}DataFlow\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{semantics_svg-tex.pdf}}%
+    \put(0.53807824,0.530604){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textit{Flow}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{semantics_svg-tex.pdf}}%
+    \put(0.49094337,0.50097637){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l} guard : \end{tabular}}}}%
+    \put(0.49094337,0.48346913){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Expression\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{semantics_svg-tex.pdf}}%
+    \put(0.0276749,0.24779476){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}ActionNode\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{semantics_svg-tex.pdf}}%
+    \put(0.58386641,0.03232106){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}JoinNode\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{semantics_svg-tex.pdf}}%
+    \put(0.11925123,0.03232106){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}ForkNode\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{semantics_svg-tex.pdf}}%
+    \put(0.42360784,0.03232106){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}DecisionN...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{semantics_svg-tex.pdf}}%
+    \put(0.2673894,0.03232106){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}MergeNode\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{semantics_svg-tex.pdf}}%
+    \put(0.17042623,0.24779476){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textit{PseudoActivityNode}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{semantics_svg-tex.pdf}}%
+    \put(0.05056899,0.13332436){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}InitialNode\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=14]{semantics_svg-tex.pdf}}%
+    \put(0.19736045,0.13332436){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}FinalNode\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=15]{semantics_svg-tex.pdf}}%
+    \put(0.76971248,0.38515925){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}InputPin\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=16]{semantics_svg-tex.pdf}}%
+    \put(0.91246381,0.38515925){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}OutputPin\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=17]{semantics_svg-tex.pdf}}%
+    \put(0.86398222,0.51983031){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textit{Pin}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=18]{semantics_svg-tex.pdf}}%
+    \put(0.81819406,0.48885597){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{ type : Type}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=19]{semantics_svg-tex.pdf}}%
+    \put(0.66062891,0.24779476){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textit{DataSourceReference}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=20]{semantics_svg-tex.pdf}}%
+    \put(0.48555653,0.24914147){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textit{DataTargetReference}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=21]{semantics_svg-tex.pdf}}%
+    \put(0.24045519,0.35149148){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{[1..1] sourceNode}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=22]{semantics_svg-tex.pdf}}%
+    \put(0.2418019,0.40940004){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{[1..1] targetNode}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=23]{semantics_svg-tex.pdf}}%
+    \put(0.66601576,0.28280924){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{[1..1] dataSourceReference}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=24]{semantics_svg-tex.pdf}}%
+    \put(0.40879402,0.27876911){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{[1..1] dataTargetReference}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=25]{semantics_svg-tex.pdf}}%
+  \end{picture}%
+\endgroup%

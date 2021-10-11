@@ -2,5 +2,16 @@
 \section{Activities as State-based Models}
 %----------------------------------------------------------------------------
 
-% TODO
+activity vagy proces-model?
 
+ahogy fentebb írtam, tokenek haladnak, és tranzíciók vannak.
+
+A process-orionted model előnye itt a hátrányunk; mivel sok process mehet teljesen függetlenül egymástól, ezért nagyon nehéz szépen leírni őket
+
+tegyük fel, hogy a node-ok és csatlakozók token-tartalma egy állapot; vagy van benne, vagy nincs. ehhez még hozzátesszük azt, hogy a node éppen fut, kész, vagy nem csinál semmit.
+
+ezek alapján le tudunk írni bármilyen process-oriontált modelt állapot alapú modellben, feltételezve, hogy bármikor bármelyik tranzíció tüzelhet.
+
+itt leírom az activity különböző node-jait, és azoknak a különböző szabályait (merge, choice, stb)
+
+majd leírom a különböző csatlakozók segítségével is
