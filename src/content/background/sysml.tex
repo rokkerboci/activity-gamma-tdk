@@ -25,17 +25,25 @@ Along with actions defined on transitions, states may also have multiple actions
 
 \subsection{Activity}
 
-Activities are a high-level abstraction over Petri nets. In this section, I will introduce the semantics of Activities using Petri nets as formal semantics. Note however, since not all elements in SysML activity diagrams have execution semantics, I will only consider a set of the modeling elements, including basic actions, initial nodes, final nodes, join nodes, fork nodes, merge nodes, decision nodes, pins and object/control flows.\cite{fuml}\cite{https://doi.org/10.1002/sys.21524}
+Activities are a high-level abstraction over Petri nets. 
 
 -- simple activity diagram --
 
-\subsubsection*{Actions}
+\subsubsection*{Elements of SysML Activities}
+
+-- metamodel of activities --
+
+\paragraph{Action}
 
 The specific operation an Action describes can be stated in various ways, usually in JavaScript or plain old English (Opaque action). In JavaScript, the engineer may access and change variables inside the containing object, send signals to connected objects, or just call existing functions.
 
 -- example of action with js --
 
 There are many different kinds of Activity Nodes, which describe different behaviour for guiding tokens through them.
+
+\subsubsection*{SysML Activities as Petri Nets}
+
+In this section, I will introduce the semantics of Activities using Petri nets as formal semantics. Note however, since not all elements in SysML activity diagrams have execution semantics, I will only consider a set of the modeling elements, including basic actions, initial nodes, final nodes, join nodes, fork nodes, merge nodes, decision nodes, pins and object/control flows.\cite{fuml}\cite{https://doi.org/10.1002/sys.21524}
 
 \subsection{Combining Behaviours}
 
