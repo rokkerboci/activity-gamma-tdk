@@ -2,30 +2,139 @@
 \clearpage\section{Formal modelling}
 %----------------------------------------------------------------------------
 
-The metamodel of the language was constructed to facilitate well defined semantics, but have as few model elements as possible.
+formal modeling howto, why needed, etc
 
-\subsection{Semantic part}
+semantic part, formal model, enforcing well formedness, etc
 
-kövér helyett texttt vagy textsc. Tök jó lenne, ha lennének példák a metamodel használatára, pl egy activity diagram - metamodel pár, ahol a kettő között húzódnának traceability csíkok
+\subsection{Root Structure}
 
-This part provides elements needed to construct a semantically correct model. An Activity model has \textbf{Nodes} and \textsc{Flows} in between nodes. Flows can be connected to nodes directly, or to \texttt{Pins}, which gives us explicit control over \emph{control} flows and \emph{data} flows. 
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
 
-fekete-fehér, kevés szín
+\paragraph{Activity Declaration}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\paragraph{Definition}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
 
 \begin{figure}[!ht]
 	\centering
-	\includesvg[inkscapelatex=false, width=100mm, keepaspectratio]{semantics}
-	\caption{Using Gamma to verify high-level models}
-	\label{fig:semantic}
+	\includesvg[inkscapelatex=false, width=120mm, keepaspectratio]{declaration}
+	\caption{The root structure of the language}
+	\label{fig:declaration}
 \end{figure}
 
-\subsection{Syntactic part}
+\subsection{Activity Nodes}
 
-The metamodel also has to provide elements for the language, such as \textbf{Declaration}s, \textbf{Definition}s, etc.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\paragraph{Pseudo Activity Node}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\paragraph{Initial Node}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\paragraph{Final Node}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\paragraph{Data Node}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\paragraph{Fork Node}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\paragraph{Join Node}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\paragraph{Decision Node}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\paragraph{Merge Node}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
 
 \begin{figure}[!ht]
 	\centering
-	\includesvg[inkscapelatex=false, width=100mm, keepaspectratio]{semantics}
-	\caption{Using Gamma to verify high-level models}
-	\label{fig:syntactic}
+	\includesvg[inkscapelatex=false, width=120mm, keepaspectratio]{activity_nodes}
+	\caption{The Activity Node structure}
+	\label{fig:activity_nodes}
+\end{figure}
+
+\subsection{Composing Activities}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\begin{figure}[!ht]
+\centering
+\includesvg[inkscapelatex=false, width=90mm, keepaspectratio]{composite-activity}
+\caption{The }
+\label{fig:composite_activity}
+\end{figure}
+
+\subsection{Flows}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\paragraph{Control Flow}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\paragraph{Data Flow}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=90mm, keepaspectratio]{flows}
+	\caption{The Flows structure}
+	\label{fig:flows}
+\end{figure}
+
+\subsection{Pins}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\paragraph{Input Pin}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\paragraph{Output Pin}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\begin{figure}[!ht]
+\centering
+\includesvg[inkscapelatex=false, width=60mm, keepaspectratio]{pins}
+\caption{The Pins structure}
+\label{fig:pins}
+\end{figure}
+
+\subsection{Data Source-Target Reference}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=110mm, keepaspectratio]{data-source-target}
+	\caption{The Data node reference structure}
+	\label{fig:data_source_target_reference}
+\end{figure}
+
+\subsection{Pin Reference}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=110mm, keepaspectratio]{pin-reference}
+	\caption{The Data node reference structure}
+	\label{fig:pin_reference}
 \end{figure}
