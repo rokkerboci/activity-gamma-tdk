@@ -2,6 +2,13 @@
 \chapter{Gamma Activity Language}
 %----------------------------------------------------------------------------
 
+The Gamma Activity Language aims at providing a medium in which one can describe Activities like in SysML, but also be semantically consistent.
+
+The aim of the language is to sit in the middle of the SysML and XSTS semantics -- provide a \emph{bridge} in between the two .
+To achieve that, first, it needs to be \textbf{semantically correct} -- at least according to our \emph{activity semantics} -- to lift the burden of filtering out incorrect models. Secondly, it needs to be easily transformed to XSTS and from SysML.
+
+The latter can be done by having a metamodel close to SysML, and the former by minimising the complexity of the language. Needless to say, this is not an easy thing to do, and requires an incremental design process.
+
 \input{content/activity-language/design-decisions}
 \input{content/activity-language/Metamodel}
 \input{content/activity-language/dsl}
