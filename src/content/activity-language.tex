@@ -2,12 +2,9 @@
 \chapter{Gamma Activity Language}
 %----------------------------------------------------------------------------
 
-The Gamma Activity Language aims at providing a medium in which one can describe Activities like in SysML, but also be semantically consistent.
+The high-level nature of SysML activities means they are easy to model complicated behaviours including many different \emph{actors} for engineers, but leads to an increasingly harder time trying to run formal verification on them. In the real world, SysML models often contain state machines that call activity diagrams as so called \emph{do behaviour}, because often times this makes the design process easier. However, models containing \emph{do activity} actions cannot be verified directly; the activities have to be pre-processed and transformed into something else, like javascript or state machines (cite Pragmatic Verification and Validation of Industrial Executable SysML Models). As discussed above in \autoref{ssec:activities-as-petri-nets}, we can define a mapping between activities and Petri nets (which have exact semantics), however, that mapping is not exhaustive.
 
-The aim of the language is to sit in the middle of the SysML and XSTS semantics -- provide a \emph{bridge} in between the two .
-To achieve that, first, it needs to be \textbf{semantically correct} -- at least according to our \emph{activity semantics} -- to lift the burden of filtering out incorrect models. Secondly, it needs to be easily transformed to XSTS and from SysML.
-
-The latter can be done by having a metamodel close to SysML, and the former by minimising the complexity of the language. Needless to say, this is not an easy thing to do, and requires an incremental design process.
+In this work, I propose the Gamma Activity Language, which aims to be an intermediary language between SysML and XSTS by having exact semantics alongside statecharts. I will also propose a transformation from Gamma Activity Language to XSTS in \autoref{ch:activiy_verification}, and integrate it into Gamma in \autoref{ch:implementation}.
 
 \input{content/activity-language/design-decisions}
 \input{content/activity-language/Metamodel}

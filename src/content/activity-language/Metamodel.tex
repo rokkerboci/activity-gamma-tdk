@@ -2,21 +2,51 @@
 \clearpage\section{Formal modelling}
 %----------------------------------------------------------------------------
 
+
 formal modeling howto, why needed, etc
 
 semantic part, formal model, enforcing well formedness, etc
 
-\subsection{Root Structure}
+Due to the complexity of the meta-model, I have split it into multiple parts for easier understanding.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
 
-\paragraph{Activity Declaration}
+In order to offer mathematical precision, formal verification methods require formally defined models with clear semantics. 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+Activities are composed of activity nodes, 
 
-\paragraph{Definition}
+nodes have tokens
+nodes are idle -> running -> done
+flows can have tokens
+nodes put tokens onto flows when done
+node take tokens from flows when idle
+if a node contains a token, it is considered running.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+In this section, I present the meta-model and the formal semantics of the Gamma Activity Language.
+
+\subsection{Formal Definition}
+
+\begin{definition}[Gamma Activity Language]
+	A Gamma Activity Language model is a tuple of \(GAL = (N, F, G)\), where:
+	
+	\begin{itemize}
+		\item \(N = { n_1, n_2, \dots, n_n } \) is a set of \emph{Nodes};
+		\item \(F = { f_1, f_2, \dots, f_n } \) is a set of \emph{Flows}, such that \(f \in N \times N : n_1 \neq n_2 \forall \{n_1, n_2\} \in N \times N\). This means, that a given flow has to be defined between two different nodes;
+		\item \(G : F -> {true, false} \) is a function determining whether a given Flow is enabled.
+	\end{itemize}
+	
+\end{definition}
+
+The state of the Activity is defined by the current state \(S : N \times F \rightarrow \mathbb{N}\). The behaviour of the system is described as follows. All nodes \(n\) have three states: \emph{Idle}, \emph{Running} and \emph{Done}. There are two kinds of nodes: \emph{load-and-send} (LAS) and \emph{immediate-repeat} (IR) (see \autoref{ssec:activities-as-petri-nets}). Let us denote the number of tokens in a given node \(n\) in state \(k\) as \(\delta_k(n)\), and the number of tokens in flow \(f\) as \(\omega_k(f) \rightarrow \{0, 1\} \), and the input/output flows as \(inflows(n)\) and \(outflows(n)\), respectively.
+
+\paragraph{LAS node behaviour}
+A LAS node \(n\) is enabled if and only if \(\omega_k(f) = 1 : \forall f \in inflows(n)\). Any enabled LAS node \(n\) may fire non-deterministically, setting the in/out flows token number as follows: \( \omega_{k + 1}(f) = 0 : f \in inflows(n) \) and \( \omega_{k + 1}(f) = 1 : f \in outflows(n) \). In words, LAS nodes wait for \emph{all} input flows to acquire a token, and sends them out on all of it's output flows.
+
+\paragraph{IR node behaviour}
+An IR node \(n\) is enabled if and only if \( \exists f_x \in inflows(n) :  \omega_k(f_x) = 1\). Any enabled IR node \(n\) may fire non-deterministically, setting the in/out flows token number as follows: \( \omega_{k + 1}(f_x) = 0 \) and \( \omega_{k + 1}(f) = 1 : f \in outflows(n) \). In words, IR nodes wait for \emph{any} input flow to acquire a token, and sends it out on all of it's output flows.
+
+\subsection{Root Structure}\label{ssec:root_structure}
+
+Every model has to have a root element structure; Activity Language is not any different. The meta-model described in this section can be seen in \autoref{fig:declaration}.
 
 \begin{figure}[!ht]
 	\centering
@@ -25,41 +55,17 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget
 	\label{fig:declaration}
 \end{figure}
 
-\subsection{Activity Nodes}
+\paragraph{Activity Declaration}\label{par:activity_declaration}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+All elements inside an activity are contained in a root \emph{ActivityDeclaration} element. It contains \emph{Pins} needed for value passing (see \autoref{ssec:pins}) and a \emph{Definition}. A declaration can be \emph{InlineActivityDeclaration}, which means they are declared in an other declaration, or \emph{NamedActivityDeclaration}, which is a standalone activity declaration. The difference will be clarified in \autoref{ssec:composing_activities}.
 
-\paragraph{Pseudo Activity Node}
+\paragraph{Definition}\label{par:definition}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+The definition \emph{defines} how the activity is described; using activity nodes, or by the Gamma Activity Language\footnote{Gamma Activity Language is a lightweight programming language-like construct for writing simple algorithms}. \emph{ActionDefinition} contains a single \emph{Block}\footnote{A \emph{Block} contains multiple \emph{Actions} which are executed one after the other}, which is executed as-is when the activity is executed\footnote{This fact means, that if one used Action to define an activity, that activity is executed atomically; it will not be interlaced with other XSTS transitions. See \autoref{ch:activiy_verification}.}. \emph{ActivityDefinition} contains \emph{ActivityNodes} (\autoref{ssec:activity_nodes}) and \emph{Flows} (\autoref{ssec:flows}).
 
-\paragraph{Initial Node}
+\subsection{Activity Nodes}\label{ssec:activity_nodes}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
-
-\paragraph{Final Node}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
-
-\paragraph{Data Node}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
-
-\paragraph{Fork Node}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
-
-\paragraph{Join Node}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
-
-\paragraph{Decision Node}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
-
-\paragraph{Merge Node}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+In the following, I will talk about the different kinds of \emph{ActivityNodes} and their special meanings. All nodes are considered \emph{LAS} nodes by default. The meta-model described in this section can be seen in \autoref{fig:activity_nodes}.
 
 \begin{figure}[!ht]
 	\centering
@@ -67,6 +73,38 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget
 	\caption{The Activity Node structure}
 	\label{fig:activity_nodes}
 \end{figure}
+
+\paragraph{Pseudo Activity Node}
+
+\emph{PseudoActivityNodes} are nodes, that do not represent a specific action, however are needed to convey specific meanings, e.g., the initial active node, or a decision between flows.
+
+\paragraph{Initial Node}
+
+\emph{InitialNodes} have one token in them when the containing activity is started. They shall only have (one or more) outgoing flows, and no input flows. 
+
+\paragraph{Final Node}
+
+When an activities \emph{FinalNode} gets a token the containing activity is considered \emph{Done}; after which the activity does not process any more tokens.
+
+\paragraph{Data Node}
+
+\emph{DataNodes} encapsulate the meaning of \emph{data} inside activities. A token may contain data (or value) of any kind, but that token can only travel to and from data \emph{sources} and \emph{targets}. More about this in \autoref{par:data_flow}.
+
+\paragraph{Fork Node}
+
+\emph{ForkNodes} are used to model parallelism, by creating one token on each of its output flows when executed. Fork nodes shall only have one input flow.
+
+\paragraph{Join Node}
+
+\emph{JoinNodes} are the pair of fork nodes; the additional created tokens are swallowed by this node, by only sending out one token, regardless of the number of input flows.
+
+\paragraph{Decision Node}
+
+\emph{DecisionNodes} create branches across multiple output flows. An input flows token is removed, and sent out to one, and only one of its output flows - depending on which of the output flows are \emph{enabled} (see \autoref{ssec:flows}).
+
+\paragraph{Merge Node}
+
+\emph{MergeNodes} 
 
 \subsection{Composing Activities}
 
@@ -79,7 +117,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget
 \label{fig:composite_activity}
 \end{figure}
 
-\subsection{Flows}
+\subsection{Flows}\label{ssec:flows}
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
 
@@ -87,7 +125,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
 
-\paragraph{Data Flow}
+\paragraph{Data Flow}\label{par:data_flow}
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
 
@@ -98,7 +136,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget
 	\label{fig:flows}
 \end{figure}
 
-\subsection{Pins}
+\subsection{Pins}\label{ssec:pins}
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
 

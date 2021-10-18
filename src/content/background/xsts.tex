@@ -2,13 +2,7 @@
 \section{Extended Symbolic Transition System}\label{sec:xsts}
 %----------------------------------------------------------------------------
 
-The high-level nature of engineering models means they are easy-to-use for engineers,
-but leads to difficulties during the formal verification process. In case of statecharts for
-example, orthogonal regions, hierarchical state-refinement or broadcast communication
-are all high-level constructs that make the modeling workflow more intuitive and enable
-the modeling of significantly more complex systems. They are however difficult to process
-using formal methods that are defined on low-level mathematical formalism and verified
-using SMT solvers. In this section, I introduce the XSTS language, which is a low-level modeling formalism designed to bridge the aforementioned gap between engineering models and formal methods.
+The high-level nature of engineering models means they are easy-to-use for engineers, but leads to difficulties during the formal verification process. SysML state machines and acitivty diagrams for example contain high-level  constructs that make the modeling workflow more intuitive and enable the modeling of significantly more complex systems, however they are difficult to process using formal methods that are defined on low-level mathematical formalism and verified using SMT solvers. In this section, I introduce the XSTS\cite{xsts} language, which is a low-level modeling formalism designed to bridge the aforementioned gap between engineering models and formal methods.
 
 \subsection{Formal definition}
 
@@ -27,145 +21,23 @@ using SMT solvers. In this section, I introduce the XSTS language, which is a lo
 	\end{itemize}
 \end{definition}\label{def:xsts}
 
-In any state of the system a single operation is executed, which is selected from the sets introduced above. The set from where the operation can be selected depends on the current state. In the initial state - (which is described by the initialization vector \(IV\)) - only operations from the \(In\) set can be executed. Operations from the \(In\) set can only fire in the initial state and nowhere else. After that, \(En\) and \(Tr\) can be fired in an alternating manner.
+In any state of the system a single operation is selected from the sets introduced above (\(Tr\), \(In\) and \(En\)). The set from where the operation can be selected depends on the current state: In the initial state - (which is described by the initialization vector \(IV\)) - only operations from the \(In\) set can be executed. Operations from the \(In\) set can only fire in the initial state and nowhere else. After that, \(En\) and \(Tr\) are selected in an alternating manner.
 
-Operations \(op \in Ops\) describe the transitions between states of the system, where \emph{Ops} is the set of all possible transitions. All operations are atomic in the sense that they are either executed in their entirety or none at all. 
+Operations \(op \in Ops\) describe the transitions between states of the system, where \(Ops\) is the set of all possible transitions. All operations are atomic in the sense that they are either executed in their entirety or none at all. XSTS defines the following operations:
 
-\subsection{Language constructs}
+\paragraph{Basic operations}
 
-In the following section, I will introduce the language constructs and their semantics of XSTS language.
+Basic operations contain no inner (nested) operations. \textbf{Assignments} assign a given value \(v\) from domain \(D_n\) to variable \(V_n\). \textbf{Havocs} behave likewise, except the value is not predetermined; giving a way to assign random value to a variable. Lastly, \textbf{assumptions} check a condition, and can only be executed if their condition evaluates to \emph{true}.
 
-\subsubsection{Types}
+\paragraph{Composite operations}
 
-XSTS contains two default variable types, logical variables (\emph{boolean}) and mathematical integers (\emph{integer}). Types defined this way make up the domains \(D_{v1}, D_{v2}, \dots, D_{vn}\) introduced in \autoref{def:xsts}. XSTS also allows the user to define \emph{custom types}, similarly to enum types in common programming languages.
+Composite operations contain other operations, and can be used to describe complex control stuctures. Note that while these are composite operations, their execution is still atomic; meaning that an \emph{assume} operation prevents its containing operations from firing. \textbf{Sequences} are essentially multiple operations executed after each other, while \textbf{parallels} execute all operations at the same time. And lastly, \textbf{choices} model non-deterministic choices between multiple operations; one and only one branch of the choice operation is selected for execution, but that selected operation can still only be executed atomically - e.g., a single failing assume operation can prevent execution.
 
-A custom type can be declared the following way:
+\subsection{Simple example}
 
-\begin{Verbatim}
-	type <name> : { <literal_1>, . . . , <literal_n> }
-\end{Verbatim}
-
-Where \(D_{name} = \{ literal_1, \dots, literal_n \}\).
-
-\subsubsection{Variables}
-
-Variables can be declared the following way, where \verb|<value>| denotes the value that will be assigned to the variable in the initialization vector:
+Below is an example XSTS model defined in the language. For a more exact presentation please see \autoref{sec:xsts_language} in the Appendix.
 
 \begin{Verbatim}
-	var <name> : <type> = <value>
-\end{Verbatim}
-
-Where \(v_{name}\) will be in domain \(D_{type}\).
-
-If the user wishes to declare a variable without an initial value, this is possible as well:
-
-\begin{Verbatim}
-	var <name> : <type>
-\end{Verbatim}
-
-A variable can be tagged as a control variable with the keyword \verb|ctrl|:
-
-\begin{Verbatim}
-	ctrl var <name> : <type>
-\end{Verbatim}
-
-In which case the variable \(v\) will also be added to \(V_C\) (the set of control variables).
-
-\subsubsection{Basic operations}
-
-Operations make up the set \(Ops\) introduced in \autoref{def:xsts}. These operations, and their compositions define the behaviour of the XSTS model.
-
-\paragraph{Assume}
- 
-An assumption operation can only be executed, if and only if its \emph{expression} evaluates to \emph{true}. This fact means, that if a composite operation contains a \emph{falsy} assumption, the whole composite operation will not fire.
-
-A simple assumption operation can be stated like the following:
- 
-\begin{Verbatim}
-	assume <expr>
-\end{Verbatim}
-
-\paragraph{Assignment}
-
-Assignments have the following syntax, where \verb|<varname>| is the name of a variable and
-\verb|<expr>| is an expression of the same type:
-
-\begin{Verbatim}
-	<varname> := <expr>
-\end{Verbatim}
-
-An assignment operation overwrites the variables value upon execution.
-
-\paragraph{Havoc}
-
-Havocs give the XSTS models randomness, by randomly \emph{assigning} a value.
-
-The syntax of havocs is the following, where \verb|<varname>| is the name of a variable:
-
-\begin{Verbatim}
-	havoc <varname>
-\end{Verbatim}
-
-\subsubsection{Composite operations}
-
-Composite operations give way to building up more complicated transition trees, by providing nesting the already introduced simple operations.
-
-\paragraph{Choice}
-
-Non-deterministic choices work by randomly executing one and only one of its composed operations.
-
-Non-deterministic choices have the following syntax, where \verb|<operation>| are arbitrary basic or composite operations:
- 
-\begin{Verbatim}
-	choice { <operation> } or { <operation> }
-\end{Verbatim}
-
-\paragraph{Sequence}
-
-Sequences execute all composed operations one-by-one from top to bottom.
-
-Sequences have the following syntax:
-
-\begin{Verbatim}
-	<operation>
-	<operation>
-	<operation>
-\end{Verbatim}
-
-\subsubsection{Transitions}
-
-Each transition is a single operation (basic or composite). We distinguish between three sets of transitions, \emph{Tran}, \emph{Init} and \emph{Env} - associating to the three different operation sets introduced in \autoref{def:xsts}. Transitions are described with the following syntax, where \verb|<transition-set>| is either \verb|tran|, \verb|env| or \verb|init|:
-
-\begin{Verbatim}
-	<transition-set> {
-		<operation>
-	} or {
-		<operation>
-	} or
-	...
-	or {
-		<operation>
-	}
-\end{Verbatim}
-
-\subsubsection{Simple example}
-
-Below is a simple example given in the textual representation of the XSTS DSL. The XSTS has two variables, \verb|x| and \verb|y|, both with the inital value 0. The init transition sets both variables’ values to 1. After this, the environment repeatedly increments the value of y, to which the systems reacts by either incrementing x, or leaving the value of x unchanged.
-
-\begin{Verbatim}
-	var x: integer = 0
-	var y: integer = 0
-	tran {
-		x:=x+1
-	} or {
-		x:=x
-	}
-	init {
-		x:=1
-		y:=1
-	}
-	env {
-		y:=y+1
-	}
+	itt majd egy szép xsts példa lesz a running example-re (vagy valami hasonlóra). Akár lehetne egy Gamma által generált statechart is.
 \end{Verbatim}
 
