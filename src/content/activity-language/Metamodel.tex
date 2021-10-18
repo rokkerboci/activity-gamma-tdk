@@ -26,23 +26,33 @@ In this section, I present the meta-model and the formal semantics of the Gamma 
 \subsection{Formal Definition}
 
 \begin{definition}[Gamma Activity Language]
-	A Gamma Activity Language model is a tuple of \(GAL = (N, F, G)\), where:
+	A Gamma Activity Language model is a tuple of \(GAL = (N, F, G, V, P)\), where:
 	
 	\begin{itemize}
 		\item \(N = { n_1, n_2, \dots, n_n } \) is a set of \emph{Nodes};
-		\item \(F = { f_1, f_2, \dots, f_n } \) is a set of \emph{Flows}, such that \(f \in N \times N : n_1 \neq n_2 \forall \{n_1, n_2\} \in N \times N\). This means, that a given flow has to be defined between two different nodes;
-		\item \(G : F -> {true, false} \) is a function determining whether a given Flow is enabled.
+		\item \(F = CF \union DF \), where \( CF = { f_1, f_2, \dots, f_n } \) is a set of \emph{Control FLows}, and \( DF = { f_1, f_2, \dots, f_n } \), such that \(f \in F : n_1 \neq n_2 \forall \{n_1, n_2\} \in N \times N\). This means, that a given \emph{Flow} has to be defined between two different nodes;
+		\item \(G : F -> {true, false} \) is a function determining whether a given Flow is enabled;
+		\item \(V : N \) is a function returning the value contained in a node;
+		\item \(P : N \) is a function returning the set of pins a node has.
 	\end{itemize}
 	
 \end{definition}
 
-The state of the Activity is defined by the current state \(S : N \times F \rightarrow \mathbb{N}\). The behaviour of the system is described as follows. All nodes \(n\) have three states: \emph{Idle}, \emph{Running} and \emph{Done}. There are two kinds of nodes: \emph{load-and-send} (LAS) and \emph{immediate-repeat} (IR) (see \autoref{ssec:activities-as-petri-nets}). Let us denote the number of tokens in a given node \(n\) in state \(k\) as \(\delta_k(n)\), and the number of tokens in flow \(f\) as \(\omega_k(f) \rightarrow \{0, 1\} \), and the input/output flows as \(inflows(n)\) and \(outflows(n)\), respectively.
+The state of the Activity is defined by the state of each nodes \(SN : N \rightarrow \{ Idle, Running, Done \}\) and the state of flows \(SF : F \rightarrow \{ Empty, Full \} \). The behaviour of the system is described as follows. We define three functions \emph{F1}, \emph{F2} and \emph{F3} (defined down below), of which one is selected and run for each node, non-deterministicly. All functions are atomic, meaning, they fire in one single step. Let us denote the number of tokens in a given node \(n\) in state \(k\) as \(\delta_k(n)\), and the number of tokens in flow \(f\) as \(\omega_k(f) \rightarrow \{0, 1\} \), and the set of input/output flows as \(inflows(n)\) and \(outflows(n)\), respectively.
 
-\paragraph{LAS node behaviour}
-A LAS node \(n\) is enabled if and only if \(\omega_k(f) = 1 : \forall f \in inflows(n)\). Any enabled LAS node \(n\) may fire non-deterministically, setting the in/out flows token number as follows: \( \omega_{k + 1}(f) = 0 : f \in inflows(n) \) and \( \omega_{k + 1}(f) = 1 : f \in outflows(n) \). In words, LAS nodes wait for \emph{all} input flows to acquire a token, and sends them out on all of it's output flows.
+\paragraph{F1} 
 
-\paragraph{IR node behaviour}
-An IR node \(n\) is enabled if and only if \( \exists f_x \in inflows(n) :  \omega_k(f_x) = 1\). Any enabled IR node \(n\) may fire non-deterministically, setting the in/out flows token number as follows: \( \omega_{k + 1}(f_x) = 0 \) and \( \omega_{k + 1}(f) = 1 : f \in outflows(n) \). In words, IR nodes wait for \emph{any} input flow to acquire a token, and sends it out on all of it's output flows.
+F1 function is enabled if and only if \( \exists n \in N : SN(n) = Idle, \forall f \in inflows(n) : SF(f) = Full \). When F1 is enabled for a node \(n\) it fires the following way: \( SN(n) := Running, \forall f \in \inflow(n) SF(f) := Empty \). In words: when there is an \emph{Idle} node, for which all input flows are \emph{Full} it fires, setting all input flow's state to \emph{Empty} and the nodes state to \emph{Running}. 
+
+\paragraph{F2} 
+
+F2 function is enabled if and only if \( \exists n \in N : SN(n) = Running \). When F2 is enabled for a node \(n\) it fires the following way: \( SN(n) := Done \). In words, this means a given node can stochastically change states form \emph{Running} to \emph{Done}.
+
+\paragraph{F3} 
+
+F3 function is enabled if and only if \( \exists n \in N : SN(n) = Done, \forall f \in outflows(n) : SF(f) = Empty, G(f) = true \). When F3 is enabled for a node \(n\) it fires the following way: \( SN(n) := Idle, \forall f \in outflows(n) SF(f) = Full \). In words, this means when a given node finished running, and all of its outpuf flows are \emph{Empty}, it will change its state to \emph{Idle}, and all of its output flows to \emph{Full} - transfering the token "state" from the node to the output flows.
+
+komment: ezek a függvények felül vannak definiálva call-activity-re, decision node-ra és merge node-ra. Hogy írjam ezt le: sorban menjek végig a különböző fajta node-okon formálisan, vagy elég, ha ezt a metamodel leírásánál írom? Ezen felül még a pinek definícióját is be kéne vezetni: az ötletem az, hogy amikor egy data flow van, akkor egy adott pin-hez is hozzá van csatolva, és minden node-hoz tartozik egy "tároló" pin, ami egy adott értéket tárol. Amikor a data flow-ban átmegy a token, akkor innen olvas, vagy ide ír (és egy adott data flow csak egy tokent tud tárolni). Vagy, akár ezt úgy is lehetne, hogy a függvényeket úgy definiálom, hogy ha data flow így: - ha control flow akkor így: -. (persze akkor be kell vezetni a cf és df fogalmát)
 
 \subsection{Root Structure}\label{ssec:root_structure}
 
