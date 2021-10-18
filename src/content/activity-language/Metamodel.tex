@@ -30,19 +30,19 @@ In this section, I present the meta-model and the formal semantics of the Gamma 
 	
 	\begin{itemize}
 		\item \(N = { n_1, n_2, \dots, n_n } \) is a set of \emph{Nodes};
-		\item \(F = CF \union DF \), where \( CF = { f_1, f_2, \dots, f_n } \) is a set of \emph{Control FLows}, and \( DF = { f_1, f_2, \dots, f_n } \), such that \(f \in F : n_1 \neq n_2 \forall \{n_1, n_2\} \in N \times N\). This means, that a given \emph{Flow} has to be defined between two different nodes;
-		\item \(G : F -> {true, false} \) is a function determining whether a given Flow is enabled;
+		\item \(F = CF \bigcup DF \), where \( CF = { f_1, f_2, \dots, f_n } \) is a set of \emph{Control Flows}, and \( DF = { f_1, f_2, \dots, f_n } \), such that \(f \in F : n_1 \neq n_2 \forall \{n_1, n_2\} \in N \times N\). This means, that a given \emph{Flow} has to be defined between two different nodes;
+		\item \(G : F -> \{true, false\} \) is a function determining whether a given Flow is enabled;
 		\item \(V : N \) is a function returning the value contained in a node;
 		\item \(P : N \) is a function returning the set of pins a node has.
 	\end{itemize}
 	
 \end{definition}
 
-The state of the Activity is defined by the state of each nodes \(SN : N \rightarrow \{ Idle, Running, Done \}\) and the state of flows \(SF : F \rightarrow \{ Empty, Full \} \). The behaviour of the system is described as follows. We define three functions \emph{F1}, \emph{F2} and \emph{F3} (defined down below), of which one is selected and run for each node, non-deterministicly. All functions are atomic, meaning, they fire in one single step. Let us denote the number of tokens in a given node \(n\) in state \(k\) as \(\delta_k(n)\), and the number of tokens in flow \(f\) as \(\omega_k(f) \rightarrow \{0, 1\} \), and the set of input/output flows as \(inflows(n)\) and \(outflows(n)\), respectively.
+The state of the Activity is defined by the state of nodes \(SN : N \rightarrow \{ Idle, Running, Done \}\) and the state of flows \(SF : F \rightarrow \{ Empty, Full \} \). The behaviour of the system is described as follows. We define three functions \emph{F1}, \emph{F2} and \emph{F3} (defined down below), of which one is non-deterministicly selected and run for each node. Let us denote the set of input/output flows as \(inflows(n)\) and \(outflows(n)\), respectively.
 
 \paragraph{F1} 
 
-F1 function is enabled if and only if \( \exists n \in N : SN(n) = Idle, \forall f \in inflows(n) : SF(f) = Full \). When F1 is enabled for a node \(n\) it fires the following way: \( SN(n) := Running, \forall f \in \inflow(n) SF(f) := Empty \). In words: when there is an \emph{Idle} node, for which all input flows are \emph{Full} it fires, setting all input flow's state to \emph{Empty} and the nodes state to \emph{Running}. 
+F1 function is enabled if and only if \( \exists n \in N : SN(n) = Idle, \forall f \in inflows(n) : SF(f) = Full \). When F1 is enabled for a node \(n\) it fires the following way: \( SN(n) := Running, \forall f \in inflow(n) SF(f) := Empty \). In words: when there is an \emph{Idle} node, for which all input flows are \emph{Full} it fires, setting all input flow's state to \emph{Empty} and the nodes state to \emph{Running}. 
 
 \paragraph{F2} 
 
