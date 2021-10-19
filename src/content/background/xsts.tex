@@ -11,8 +11,8 @@ The high-level nature of engineering models means they are easy-to-use for engin
 	An \emph{Extended symbolic transition system} is a tuple \( XSTS = (D, V, V_C, IV, Tr, In, En) \), where:
 	
 	\begin{itemize}
-		\item \(D = {D_{v1}, D_{v2}, \dots, D_{vn}}\) is a set of value domains;
-		\item \(V = {v_1, v_2, \dots, v_n}\) is a set of variables with domains \(D_{v1}, D_{v2}, \dots, D_{vn}\);
+		\item \(D = \{ D_{v1}, D_{v2}, \dots, D_{vn} \} \) is a set of value domains;
+		\item \(V = \{ v_1, v_2, \dots, v_n \} \) is a set of variables with domains \(D_{v1}, D_{v2}, \dots, D_{vn}\);
 		\item \(V_C \subseteq V\) is a set of variables marked as \emph{control variables};
 		\item \(IV \in D_{v1} \times D_{v2} \times \dots \times D_{vn}\) is the \emph{initial value function} used to describe the initial state. The initial value function \(IV\) assigns an initial value \(IV(v) \in D_v\) to variables \(v \in V\) of their domain \(D_v\);
 		\item \(Tr \subseteq Ops\) is a set of operations, representing the \emph{internal transition relation}; it describes the internal behaviour of the system;
@@ -38,6 +38,7 @@ Composite operations contain other operations, and can be used to describe compl
 Below is an example XSTS model defined in the language. For a more exact presentation please see \autoref{sec:xsts_language} in the Appendix.
 
 \begin{Verbatim}
-	itt majd egy szép xsts példa lesz a running example-re (vagy valami hasonlóra). Akár lehetne egy Gamma által generált statechart is.
+	itt majd egy szép xsts példa lesz a running example-re (vagy valami hasonlóra). 
+	Akár lehetne egy Gamma által generált statechart is.
 \end{Verbatim}
 
