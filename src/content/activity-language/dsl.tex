@@ -2,114 +2,162 @@
 \clearpage\section{Domain-specific Language}
 %----------------------------------------------------------------------------
 
+Like the Gamma Statechart Language, the Gamma Activity Language is intended to be a first-class citizen in the Gamma Framework, thus it must have a domain-specific language to represent in a textual way. This implementation draws highly from the SysMLv2\cite{omg_sysml_v2} language design, while also fitting into the already existing language family of Gamma (\autoref{sec:gamma}).
+
+\subsection{Meta-model}
+
+Due to the complexity of the final meta-model of the language, I have split it into multiple parts for easier understanding.
+
+\subsubsection*{Root Structure}\label{ssec:root_structure}
+
+Every model has to have a root element structure; Activity Language is not any different. The meta-model described in this section can be seen in \autoref{fig:declaration}.
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=120mm, keepaspectratio]{declaration}
+	\caption{The root structure of the language}
+	\label{fig:declaration}
+\end{figure}
+
+\paragraph{Activity Declaration}\label{par:activity_declaration}
+
+All elements inside an activity are contained in a root \emph{ActivityDeclaration} element. It contains \emph{Pins} needed for value passing (see \autoref{ssec:pins}) and a \emph{Definition}. A declaration can be \emph{InlineActivityDeclaration}, which means they are declared in an other declaration, or \emph{NamedActivityDeclaration}, which is a standalone activity declaration. The difference will be clarified in \autoref{ssec:composing_activities}.
+
+\paragraph{Definition}\label{par:definition}
+
+The definition \emph{defines} how the activity is described; using activity nodes, or by the Gamma Activity Language\footnote{Gamma Activity Language is a lightweight programming language-like construct for writing simple algorithms}. \emph{ActionDefinition} contains a single \emph{Block}\footnote{A \emph{Block} contains multiple \emph{Actions} which are executed one after the other}, which is executed as-is when the activity is executed\footnote{This fact means, that if one used Action to define an activity, that activity is executed atomically; it will not be interlaced with other XSTS transitions. See \autoref{ch:activiy_verification}.}. \emph{ActivityDefinition} contains \emph{ActivityNodes} (\autoref{ssec:activity_nodes}) and \emph{Flows} (\autoref{ssec:flows}).
+
+\subsubsection*{Activity Nodes}\label{ssec:activity_nodes}
+
+In the following, I will talk about the different kinds of \emph{ActivityNodes} and their special meanings. All nodes are considered \emph{LAS} nodes by default. The meta-model described in this section can be seen in \autoref{fig:activity_nodes}.
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=120mm, keepaspectratio]{activity_nodes}
+	\caption{The Activity Node structure}
+	\label{fig:activity_nodes}
+\end{figure}
+
+\paragraph{Pseudo Activity Node}
+
+\emph{PseudoActivityNodes} are nodes, that do not represent a specific action, however are needed to convey specific meanings, e.g., the initial active node, or a decision between flows.
+
+\paragraph{Initial Node}
+
+\emph{InitialNodes} have one token in them when the containing activity is started. They shall only have (one or more) outgoing flows, and no input flows. 
+
+\paragraph{Final Node}
+
+When an activities \emph{FinalNode} gets a token the containing activity is considered \emph{Done}; after which the activity does not process any more tokens.
+
+\paragraph{Data Node}
+
+\emph{DataNodes} encapsulate the meaning of \emph{data} inside activities. A token may contain data (or value) of any kind, but that token can only travel to and from data \emph{sources} and \emph{targets}. More about this in \autoref{par:data_flow}.
+
+\paragraph{Fork Node}
+
+\emph{ForkNodes} are used to model parallelism, by creating one token on each of its output flows when executed. Fork nodes shall only have one input flow.
+
+\paragraph{Join Node}
+
+\emph{JoinNodes} are the pair of fork nodes; the additional created tokens are swallowed by this node, by only sending out one token, regardless of the number of input flows.
+
+\paragraph{Decision Node}
+
+\emph{DecisionNodes} create branches across multiple output flows. An input flows token is removed, and sent out to one, and only one of its output flows - depending on which of the output flows are \emph{enabled} (see \autoref{ssec:flows}).
+
+\paragraph{Merge Node}
+
+\emph{MergeNodes} 
+
+\subsubsection*{Composing Activities}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=90mm, keepaspectratio]{composite-activity}
+	\caption{The }
+	\label{fig:composite_activity}
+\end{figure}
+
+\subsubsection*{Flows}\label{ssec:flows}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\paragraph{Control Flow}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\paragraph{Data Flow}\label{par:data_flow}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=90mm, keepaspectratio]{flows}
+	\caption{The Flows structure}
+	\label{fig:flows}
+\end{figure}
+
+\subsubsection*{Pins}\label{ssec:pins}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\paragraph{Input Pin}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\paragraph{Output Pin}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=60mm, keepaspectratio]{pins}
+	\caption{The Pins structure}
+	\label{fig:pins}
+\end{figure}
+
+\subsubsection*{Data Source-Target Reference}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=110mm, keepaspectratio]{data-source-target}
+	\caption{The Data node reference structure}
+	\label{fig:data_source_target_reference}
+\end{figure}
+
+\subsubsection*{Pin Reference}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=110mm, keepaspectratio]{pin-reference}
+	\caption{The Data node reference structure}
+	\label{fig:pin_reference}
+\end{figure}
+
+\subsubsection*{Gamma Extension}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\subsection{Xtext Language}
+
 ide még jöhet később xtext kód
 
 In order to make it easier to test both the XSTS and SysML transformations, I created an \textbf{Xtext} domain-specific language. Easy readability and writing was not one of the main priorities, because the end goal is to have a higher-level systems modelling language as a source. As a result, many many constructs are inherently repetitive to write.
 
-\subsection{Language elements}
+\subsubsection*{Example}
 
-The following section gives high level introduction into the syntax of the Gamma Activity DSL.
+The following is a basic example of an adder activity.
+It 'reads' two numbers, adds them, and then 'logs' the result.
 
-\subsubsection*{Inherited from Gamma}
+diagram, opaque action
 
-Some of the used constructs were reused from the other languages of the Gamma framework in order to provide tighter integration.
+Ehelyett egyébként lehetne a running example, amit még az egész elején definiálunk
 
-Lehet ez is rossz helyen van.. Végülis visszamehet a background részre
-
-\subsubsection*{Pins}\label{sssec:pins}
-
-Pins can be declared the following way, where \verb|<direction>| can be either \verb|in| or \verb|out|, and \verb|type| a valid Gamma Expression type.
-
-\begin{verbatim}
-	<direction> <name> : <type>
-\end{verbatim}
-
-For example: 
-
-\begin{verbatim}
-	in examplePin : integer
-\end{verbatim}
-
-where the direction is \verb|in|, the name is \verb|examplePin| and the type is \verb|integer|.
-
-\subsubsection*{Nodes}\label{sssec:nodes}
-
-Nodes can be declared by stating the \verb|type| of the node and then it's name. The type determines the underlying meta element. See figure \ref{fig:semantic}
-
-The available node types:
-
-\begin{verbatim}
-	initial InitialNode
-	decision DecisionNode
-	merge MergeNode
-	fork ForkNode
-	join JoinNode
-	final FinalNode
-	action ActionNode
-\end{verbatim}
-
-\subsubsection*{Flows}\label{sssec:flows}
-
-The behaviour of the Activity can be described by stating \verb|data| or \verb|control| flows between two nodes. Flows may have \verb|guard|s on them, which limits when the flow can fire. Activities may only be from the current activity definition's children. Pins can be accessed using the \verb|.| accessor operator, the activity on the left hand side, and the pin's name on the right. The enclosing activity's name is \verb|self|.
-
-Flows can be declared the following way, where \verb|<kind>| is the kind of flow, \verb|<source>| and \verb|<target>| is the source/target node or pin, and \verb|<guard>| is a Gamma Expression returning boolean:
-
-\begin{verbatim}
-	<kind> flow from <source> to <target> [<guard>]
-	
-	control flow from activity1 to activity2
-	control flow from activity1 to activity2 [x == 10]
-	data flow from activity1.pin1 to activity2.pin2
-	data flow from self.pin to activity3.pin2
-\end{verbatim}
-
-\subsubsection*{Declarations}
-
-Activity declarations state the \emph{name} of the activity, as well as its \emph{pins} \ref{sssec:pins}. 
-
-
-\begin{lstlisting}
-	activity Example (
-		..pins..
-	) {
-		..body..
-	}
-\end{lstlisting}
-
-You can also declare activities inline by using the \verb|:| operator:
-
-\begin{lstlisting}
-	activity Example {
-		action InlineActivityExample : activity
-	}
-\end{lstlisting}
-
-\subsubsection*{Definitions}
-
-Activities also have definitions, which give them bodies. The body language can be either \verb|activity| or \verb|action| depending on the language metadata set. Using the \verb|action| language let's you use any Gamma Action expression, including timeout resetting, raising events through component ports, or simple arithmetic operations.
-
-An example activity defined by an action body:
-
-\begin{lstlisting}
-	activity Example (
-		in x : integer,
-		out y : integer
-	) [language=action] {
-		self.y := self.x * 2;
-	}
-\end{lstlisting}
-
-Inline activities may also have pins and be defined using action language:
-
-\begin{lstlisting}
-	activity Example {
-		action InlineActivityExample : activity (
-			in input : integer,
-			out output : integer
-		) [language=action] {
-			self.output := self.input;
-		}
-	}
-\end{lstlisting}
-
-\subsection{Integration into Gamma}\label{ssec:integration-into-gamma}
+\lstinputlisting{code/language/add-example.gcd}

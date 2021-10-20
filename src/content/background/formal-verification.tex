@@ -46,32 +46,33 @@ In words: W describes the \emph{weight} of each flow from a transition to a plac
 
 \subsection{Activities as Petri Nets}\label{ssec:activities-as-petri-nets}
 
-Formal verification requires models to be specified using \emph{mathematical} precision. In the paper called "Verifying SysML activity diagrams using formal transformation to Petri nets"\cite{https://doi.org/10.1002/sys.21524} by Edward Huang, Leon F. McGinnis and Steven W. Mitchell they propose a way to \emph{partially} map SysML activity diagrams to Petri nets. In the following, I will summarise their work.
+Formal verification requires models to be specified using \emph{mathematical} precision. The paper called "Verifying SysML activity diagrams using formal transformation to Petri nets"\cite{https://doi.org/10.1002/sys.21524} by Edward Huang, Leon F. McGinnis and Steven W. Mitchell proposes a way to \emph{partially} map SysML activity diagrams to Petri nets. In the following, I will summarise their work.
 
 \subsubsection{Constrained Sub-set of SysML}\label{ssec:sysml_assumptions}
 
 Since SysML Activity Diagrams do not have exact execution semantics\cite{euml}, the PN mapping can only be done for a limited subset of the modeling elements: \emph{actions}, \emph{initial nodes}, \emph{final nodes}, \emph{join nodes}, \emph{fork nodes}, \emph{merge nodes}, \emph{decision nodes}, \emph{pins} and \emph{object/control flows}, which have precise execution semantics as defined in the Foundational Subset for Executable UML Models.\cite{fuml}
 
-The paper also assumes some other constrains:
+The paper also assumes the following constrains:
 
 \begin{enumerate}
 	\item The value of tokens is not considered.
 	\item Control flows with multiple tokens at a time are not considered.
+	\item Optional object/control flows are not considered, ie, multiplicity lower bounds are strictly positive.
 \end{enumerate}
 
-These constraints allow the mapping between activities and Petri nets, however, the constructed PN will not be semantically equivalent. This fact will be addressed in \autoref{ch:activiy_verification}.
+These constraints allow the mapping between activities and Petri nets, however, the constructed PN will not be semantically equivalent - data cannot flow between nodes. This fact will be addressed in \autoref{ch:activiy_verification}.
 
 \subsubsection{Mapping Rules}
 
-Activity elements can be grouped into two sets: \emph{load-and-send} (LAS) and \emph{immediate-repeat} (IR)
+Activity elements can be grouped into two sets: \emph{load-and-send} (LAS) and \emph{immediate-repeat} (IR).
 
-LAS nodes are fired when all their inputs have tokens. When an LAS node fires, the number of tokens associated with the input arcs/pin is consumed and the number of tokens associated with an output arc/pin is added. Examples of LAS nodes in Petri nets are transitions. In SysML activity diagrams, the execution semantics of fork nodes, join nodes, and basic actions are also LAS because these nodes are fired when all their input nodes have at least one token.
+LAS nodes are fired when all their inputs have tokens. When an LAS node fires, the number of tokens associated with the input arcs/pin is consumed and the number of tokens associated with an output arc/pin is added. In SysML activity diagrams, the execution semantics of fork nodes, join nodes, and basic actions are also LAS because these nodes are fired when all their input nodes have at least one token. As a result, these nodes can be mapped to \emph{transitions} in the resulting Petri net.
 
-In contrast, as soon as an IR node receives a token from any input, it immediately adds a token to its output nodes. Places in PN are an example of IR nodes. For UML/SysML activity diagrams, activity final nodes, merge nodes, decision nodes and pins are IR nodes because they are fired immediately when any token is received.
+In contrast, as soon as an IR node receives a token from any input, it immediately adds a token to its output nodes. For UML/SysML activity diagrams, activity final nodes, merge nodes, decision nodes and pins are IR nodes because they are fired immediately when any token is received. As a result, these nodes can be mapped to \emph{places} in the resulting Petri net.
 
 Given the set of assumptions in \autoref{ssec:sysml_assumptions}, control flows and object flows in an activity diagram can be mapped to arcs in a Petri net.
 
-IR és LAS jobb kidolgozása, matek behozása, valamint az algoritmus kb leírása
+Thus, we have defined how to map the constrained set of Activity Diagram elements to Petri net elements.
 
 \subsubsection{Example Mapping}
 

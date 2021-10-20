@@ -1,0 +1,119 @@
+%----------------------------------------------------------------------------
+\clearpage\section{XSTS Language}\label{sec:xsts_language}
+%----------------------------------------------------------------------------
+
+In this appendix I introduce the exact language constructs for the XSTS language 
+
+\subsection{Types}
+
+XSTS contains two default variable types, logical variables (\emph{boolean}) and mathematical integers (\emph{integer}). Types defined this way make up the domains \(D_{v1}, D_{v2}, \dots, D_{vn}\) introduced in \autoref{def:xsts}. XSTS also allows the user to define \emph{custom types}, similarly to enum types in common programming languages.
+
+A custom type can be declared the following way:
+
+\begin{Verbatim}
+	type <name> : { <literal_1>, . . . , <literal_n> }
+\end{Verbatim}
+
+Where \(D_{name} = \{ literal_1, \dots, literal_n \}\).
+
+\subsection{Variables}
+
+Variables can be declared the following way, where \verb|<value>| denotes the value that will be assigned to the variable in the initialization vector:
+
+\begin{Verbatim}
+	var <name> : <type> = <value>
+\end{Verbatim}
+
+Where \(v_{name}\) will be in domain \(D_{type}\).
+
+If the user wishes to declare a variable without an initial value, this is possible as well:
+
+\begin{Verbatim}
+	var <name> : <type>
+\end{Verbatim}
+
+A variable can be tagged as a control variable with the keyword \verb|ctrl|:
+
+\begin{Verbatim}
+	ctrl var <name> : <type>
+\end{Verbatim}
+
+In which case the variable \(v\) will also be added to \(V_C\) (the set of control variables).
+
+\subsubsection{Basic operations}
+
+Operations make up the set \(Ops\) introduced in \autoref{def:xsts}. These operations, and their compositions define the behaviour of the XSTS model.
+
+\paragraph{Assume}
+
+An assumption operation can only be executed, if and only if its \emph{expression} evaluates to \emph{true}. This fact means, that if a composite operation contains a \emph{falsy} assumption, the whole composite operation will not fire.
+
+A simple assumption operation can be stated like the following:
+
+\begin{Verbatim}
+	assume <expr>
+\end{Verbatim}
+
+\paragraph{Assignment}
+
+Assignments have the following syntax, where \verb|<varname>| is the name of a variable and
+\verb|<expr>| is an expression of the same type:
+
+\begin{Verbatim}
+	<varname> := <expr>
+\end{Verbatim}
+
+An assignment operation overwrites the variables value upon execution.
+
+\paragraph{Havoc}
+
+Havocs give the XSTS models randomness, by randomly \emph{assigning} a value.
+
+The syntax of havocs is the following, where \verb|<varname>| is the name of a variable:
+
+\begin{Verbatim}
+	havoc <varname>
+\end{Verbatim}
+
+\subsection{Composite operations}
+
+Composite operations give way to building up more complicated transition trees, by providing nesting the already introduced simple operations.
+
+\paragraph{Choice}
+
+Non-deterministic choices work by randomly executing one and only one of its composed operations.
+
+Non-deterministic choices have the following syntax, where \verb|<operation>| are arbitrary basic or composite operations:
+
+\begin{Verbatim}
+	choice { <operation> } or { <operation> }
+\end{Verbatim}
+
+\paragraph{Sequence}
+
+Sequences execute all composed operations one-by-one from top to bottom.
+
+Sequences have the following syntax:
+
+\begin{Verbatim}
+	<operation>
+	<operation>
+	<operation>
+\end{Verbatim}
+
+\subsection{Transitions}
+
+Each transition is a single operation (basic or composite). We distinguish between three sets of transitions, \emph{Tran}, \emph{Init} and \emph{Env} - associating to the three different operation sets introduced in \autoref{def:xsts}. Transitions are described with the following syntax, where \verb|<transition-set>| is either \verb|tran|, \verb|env| or \verb|init|:
+
+\begin{Verbatim}
+	<transition-set> {
+		<operation>
+	} or {
+		<operation>
+	} or
+	...
+	or {
+		<operation>
+	}
+	
+\end{Verbatim}

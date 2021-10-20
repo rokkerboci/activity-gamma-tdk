@@ -1,0 +1,142 @@
+%----------------------------------------------------------------------------
+\clearpage\section{Formal Definition}
+%----------------------------------------------------------------------------
+
+In order to offer mathematical precision, formal verification methods require formally defined models with clear semantics. In this section I present the formal definition of the novel GAL formalism.
+
+\begin{definition}[Gamma Activity Language]
+	A Gamma Activity is a tuple of \(GA = (N, P, F, G, D, F_{Action})\), where:
+	
+	\begin{itemize}
+		\item \(N = N_\mathit{Initial} \bigcup N_\mathit{Final} \bigcup N_\mathit{Pseudo} \bigcup N_\mathit{Decision} \bigcup N_\mathit{Merge} \bigcup N_\mathit{Action} \) is a set of \emph{Nodes}, where \(N_\mathit{Initial}\) contains the \emph{Initial} nodes, \(N_\mathit{Final}\) contains the \emph{Final} nodes, \(N_\mathit{Pseudo}\) contains the \emph{Pseudo} nodes, \(N_\mathit{Decision}\) contains the \emph{Decision} nodes, \(N_\mathit{Merge}\) contains the \emph{Merge} nodes and \(N_\mathit{Action}\) contains the \emph{Action} nodes;
+		\item \( P \subseteq P_\mathit{In} \bigcup P_\mathit{Out} \) is a set of two types of pins, where \(P_\mathit{In} : N_\mathit{Action} \rightarrow \{ p_1, \dots, p_n \} \) and \(P_\mathit{Out} : N_\mathit{Action} \rightarrow \{ p_1, \dots, p_n \} \) are the set of \emph{InputPins} and \emph{OutputPins}, respectively, with domains \(\{ d_1, \dots, d_n \} \subseteq D \);
+		\item \( F \subseteq F_C \bigcup F_D \), where \(F_C = \{ F_{C1}, \dots, F_{Cn} \} \) and \(F_D = \{ F_{D1}, \dots, F_{Dn} \} \) are the control and data flows, respectively. Let us denote the input/output flows of node \(n\) as \( \delta(n) \) and \( \Delta(n) \), and the source/target pins of flow \(f\) as \(\phi(f)\) and \(\Phi(f)\). For any given node \(n\), \( \delta(n) \neq \Delta(n) \) and for any given action node \(n_a\) \( \Phi(f) \in P_\mathit{In}(n_a) \forall f \in F_D \bigcap \delta(n_a) \) and \( \phi(f) \in P_\mathit{Out}(n_a) \forall f \in F_D \bigcap \Delta(n_a) \) shall always hold. This means, that a flow cannot be input and output to the same node at the same time, and for a given action node, all input/output flows shall be associated with an input/output token, respectively;
+		\item \(G : F \rightarrow \{ \mathit{True}, \mathit{False} \} \) is a function determining whether a given flow is enabled;
+		\item \(D = \{ D_{1}, D_{2}, \dots, D_{n} \} \) is a set of value domains;
+		\item \(F_{Action} : N \rightarrow D \) is a function running the contained action, and returning it's result values.
+	\end{itemize}
+	
+Informally, Gamma Activities are composed of \emph{nodes} (\emph{Initial/Final}, \emph{Decision/Merge}, \emph{Action} and \emph{Pseudo}) and flows (\emph{Control} and \emph{Data}) in between them. A given action can also have any number of \emph{Pins} with a domain, for which, there must be one and only one \emph{data} flow connected to the node. An action node also has a special \(F_{Action}\), which implements its specific behaviour, and returns the values of its output pins.
+
+For the most part, these elements have a similar behaviour as their SysML counter parts; however, there is a crucial difference regarding how a flow transmits a token. \autoref{fig:activity-data-flow1} shows a simple data flow between two nodes, connected via their pins. When this flow is fired, the data inside the pins are transferred instantly, without any pseudo-state in between. 
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=60mm, keepaspectratio]{activity-data-flow1}
+	\caption{An example SysML data flow}
+	\label{fig:activity-data-flow1}
+\end{figure}
+
+Contrarily, in Gamma Activity Language, the equivalent data flow does indeed contain the given node, creating an intermediate state, where the token is in neither of the nodes. This would look like a \emph{Central Buffer} in SysML (\autoref{fig:activity-data-flow2}). The reason for this is simplicity; by creating this intermediate state (and others), it is easier to state the set of transitions necessary to formally define the semantics of the language.
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=70mm, keepaspectratio]{activity-data-flow2}
+	\caption{An example SysML data flow with central buffer}
+	\label{fig:activity-data-flow2}
+\end{figure}
+	
+\end{definition}
+
+\begin{definition}[Gamma Activity State]
+	The state of a GA is defined the following:
+	
+	\begin{itemize}
+		\item \(S_N : N \rightarrow \{ \mathit{Idle}, \mathit{Running}, \mathit{Done} \} \) is a function returning the \emph{state} of a node;
+		\item \(S_F : F \rightarrow \{ \mathit{Empty}, \mathit{Full} \} \) is a function returning the \emph{state} of a flow;
+		\item \(V_N : N \rightarrow D \) is a function returning the current \emph{value} contained in a node;
+		\item \(\mathit{PV}_N : N \times P \rightarrow D \) is a function returning the current \emph{value} contained in a node's pin;
+		\item \(V_F : F \rightarrow D \) is a function returning the current \emph{value} contained in a flow.
+	\end{itemize}
+	
+\end{definition}
+
+Informally, the state of Gamma Activities are determined by the nodes' \emph{state} (\emph{Idle}, \emph{Running}, \emph{Done}) and their (or their pins') values, the flows' \emph{state} (\emph{Empty}, \emph{Full}) and their values. For example, given an action node \(n\) and one of it's pins \(p_1\), \(\mathit{PV}_N(n, p)\) would give us the exact value that pin contains in this instance. This gives us the power - contrary to the Activity-PN mapping introduced in \autoref{ssec:activities-as-petri-nets} - to formally define the values contained in tokens and nodes.
+
+\begin{definition}[State Transition Functions] 
+	The behaviour of the system is described by three functions (\(F_{In}\), \(F_{Run}\) and \(F_{In}\)). At any one time, a node \(n \in N\) is selected, and an \emph{enabled} function is executed non-deterministically. These functions define the state-transitions for our system:
+
+\begin{equation}
+	F_{In} : N \rightarrow
+	\begin{cases}
+		\begin{aligned}[b]
+			&\text{select } f_s f_s \in \delta(n) \wedge S_F(f) = \mathit{Full} \\
+			&V_N^\prime(n) = V_F(f_s) \\
+			&S_F^\prime(f_s) = \mathit{Empty} \\
+			&S_N^\prime(n) = \mathit{Running},
+		\end{aligned} & \text{if } n \in N_\mathit{Merge} \\[8pt]
+		\begin{aligned}[b]
+			&\mathit{PV}_N^\prime(n, \Phi(f)) = V_F(f) : \forall f \in \delta(n) \bigcap F_D \\
+			&S_F^\prime(f) = \mathit{Empty} : \forall f \in \delta(n) \\
+			&S_N^\prime(n) = \mathit{Running},
+		\end{aligned} & \text{if } n \in N_\mathit{Action} \\[8pt]
+		\begin{aligned}[b]
+			&V_N^\prime(n) = V_F(f) : f \in \delta(n) \bigcap F_D \\
+			&S_F^\prime(f) = \mathit{Empty} : \forall f \in \delta(n) \\
+			&S_N^\prime(n) = \mathit{Running},
+		\end{aligned} & \text{otherwise}
+	\end{cases}
+\end{equation}
+
+In words, the function \(F_{In}\) takes the tokens from the input flows, and puts it in the given node, thus starting it's execution. The rule how it selects when is enabled, and which flows to empty is determined by the node's type:
+
+\begin{itemize}
+	\item if it is a \emph{Merge} node, then it must only forward one, and only one token,
+	\item if it is an \emph{Action} node, then it must forward all tokens, along with their values into the associated pins,
+	\item otherwise, it must forward all tokens.
+\end{itemize}
+
+This way we can ensure the behaviours of the simple 'LAS' nodes, as well as the 'IR' nodes.
+
+\begin{equation}
+	F_{Run} : N \rightarrow
+	\begin{cases}
+		\begin{aligned}[b]
+			&V_N^\prime(n) = F_{Action}(n, V_N(n)) \\
+			&S_N^\prime(n) = \mathit{Done},
+		\end{aligned} & \text{if } n \in N_{Action} \\[8pt]
+		S_N^\prime(n) = \mathit{Done}, & \text{otherwise}
+	\end{cases}
+\end{equation}
+
+In words, the function \(F_{Run}\) stochastically sets the given node's state to \emph{Done}. If the given state is of type \emph{Action}, then it must have a deeper semantic associated with it, thus the associated \(F_{Action}\) function must also be called, which implements it's specific behaviour (more detail below).
+
+\begin{equation}
+	F_{Out} : N \rightarrow
+	\begin{cases}
+		\begin{aligned}[b]
+			&\text{select } f_s \in \Delta(n) \wedge S_F(f_s) = \mathit{Empty} \wedge G(f_s) = \mathit{True} \\
+			&V_F^\prime(f_s) = V_N(n) \\
+			&S_F^\prime(f_s) = \mathit{Full} \\
+			&S_N^\prime(n) = \mathit{Idle},
+		\end{aligned} & \text{if } n \in N_\mathit{Decision} \\[8pt]
+		\begin{aligned}[b]
+			&V_F^\prime(f) = \mathit{PV}_N(n, \phi(f)) : \forall f \in \Delta(n) \bigcap F_D \\
+			&S_F^\prime(f) = \mathit{Full} : \forall f \in \Delta(n) \\
+			&S_N^\prime(n) = \mathit{Idle},
+		\end{aligned} & \text{if } n \in N_\mathit{Action} \\[8pt]
+		\begin{aligned}[b]
+			&S_F^\prime(f) = \mathit{Full} : \forall f \in \Delta(n) \\
+			&S_N^\prime(n) = \mathit{Idle},
+		\end{aligned} & \text{otherwise}
+	\end{cases}
+\end{equation}
+
+The function \(F_{Our}\) takes the token from node, and puts it in its output flows, thus ending it's execution. The rule how it selects when is enabled, and which flows to fill is determined by the node's type:
+
+\begin{itemize}
+\item if it is a \emph{Decision} node, then it must only forward the token on one of its \emph{enabled} flows,
+\item if it is an \emph{Action} node, then it must forward all tokens, along with their values from the associated pins,
+\item otherwise, it must forward all tokens.
+\end{itemize}
+
+\end{definition}
+
+\autoref{fig:activity-state-function} depicts these three functions, and how they change the state of a given node.
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=120mm, keepaspectratio]{activity-state-function}
+	\caption{An illustration of activity node state and change functions}
+	\label{fig:activity-state-function}
+\end{figure}
