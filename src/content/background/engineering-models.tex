@@ -2,27 +2,27 @@
 \section{Model-based Systems Engineering}\label{sec:mbse}
 %----------------------------------------------------------------------------
 
-The INCOSE SE Vision 2020\cite{incose-systems-engineering-2020} defines Model-based systems engineering (MBSE) as:
+The INCOSE SE Vision 2020 \cite{incose-systems-engineering-2020} defines Model-based systems engineering (MBSE) as:
 
 \blockquote{the formalized application of modeling to support system requirements, design, analysis, verification and validation activities beginning in the conceptual design phase and continuing throughout development and later life cycle phases. MBSE is part of a long-term trend toward model-centric approaches adopted by other engineering disciplines, including mechanical, electrical and software. In particular, MBSE is expected to replace the document-centric approach that has been practiced by systems engineers in the past and to influence the future practice of systems engineering by being fully integrated into the definition of systems engineering processes.}
 
-Applying MBSE is expected to provide significant benefits over the document centric approach by enhancing productivity and quality, reducing risk, and providing improved communications among the system development team.\cite{omgwiki}
+Applying MBSE is expected to provide significant benefits over the document centric approach by enhancing productivity and quality, reducing risk, and providing improved communications among the system development team \cite{omgwiki}.
 
 In MBSE, one of the most important concepts is the term "model" itself. Literature gives various definitions for models:
 
 \begin{enumerate}
 	\item A physical, mathematical, or otherwise logical representation of a system, entity, phenomenon, or process.\cite{DoD_modeling_and_simulation}\label{item:dod}
-	\item A representation of one or more concepts that may be realized in the physical world.\cite{sysml_practical_guide}
-	\item A simplified representation of a system at some particular point in time or space intended to promote understanding of the real system.\cite{modsim}
-	\item An abstraction of a system, aimed at understanding, communicating, explaining, or designing aspects of interest of that system.\cite{object-process-methodology}
-	\item A selective representation of some system whose form and content are chosen based on a specific set of concerns. The model is related to the system by an explicit or implicit mapping.\cite{ORMSC/2010-09-06}
+	\item A representation of one or more concepts that may be realized in the physical world \cite{sysml_practical_guide}.
+	\item A simplified representation of a system at some particular point in time or space intended to promote understanding of the real system \cite{modsim}.
+	\item An abstraction of a system, aimed at understanding, communicating, explaining, or designing aspects of interest of that system \cite{object-process-methodology}.
+	\item A selective representation of some system whose form and content are chosen based on a specific set of concerns. The model is related to the system by an explicit or implicit mapping \cite{ORMSC/2010-09-06}.
 \end{enumerate}
 
-As one can see, choosing a definition is very much dependent upon how we wish to use our "model"; in this work I will use the number \ref{item:dod} definition.
+As one can see, choosing a definition is very much dependent upon how we wish to use our "model"; in this work I will use the \ref{item:dod}st definition.
 
 \subsection{Systems Modeling Language}\label{ssec:sysml}
 
-Systems Modeling Language (OMG SysML)\cite{omg_sysml} is a general-purpose modeling language that supports the specification, design, analysis, and verification of systems that may include harware and equipment, software, data, personnel, procedures, and facilities. SysML is a graphical modeling language with a semantic foundation for representing requirements, behaviour, structure, and properties of the system and its components.\cite{sysml_practical_guide}
+Systems Modeling Language (OMG SysML \cite{omg_sysml}) is a general-purpose modeling language that supports the specification, design, analysis, and verification of systems that may include harware and equipment, software, data, personnel, procedures, and facilities. SysML is a graphical modeling language with a semantic foundation for representing requirements, behaviour, structure, and properties of the system and its components \cite{sysml_practical_guide}.
 
 This work focuses only on the \emph{behavioural} modeling tools SysML provides. In the following section, I present two of the most used concepts; State Machines and Activity Diagrams.
 
@@ -31,24 +31,27 @@ This work focuses only on the \emph{behavioural} modeling tools SysML provides. 
 Reactive systems are all around us in our daily lives; in smart phones, avionics systems or event our calculators. Frequently, reactive systems appear in areas, where safety-critical operation is crucial, as even the slightest
 misbehaviour can have catastrophic consequences. This makes the verification of these systems a must during their design process.
 
-The defining characteristic of reactive systems is their event-driven nature, which means that they continuously receive external stimuli (events), based on which they change their internal state and possibly react with some output\cite{10.1007/978-3-642-82453-1_17}. Reactive systems can be verified using model checking techniques (see \autoref{sec:formal_verification}). Statecharts\cite{HAREL1987231} are a popular and intuitive language to capture the behaviour of reactive systems \cite{10.1145/3417990.3421407, 10.1007/978-3-319-11653-2_10}, and are at the same time formal and rigorous. 
+The defining characteristic of reactive systems is their event-driven nature, which means that they continuously receive external stimuli (events), based on which they change their internal state and possibly react with some output\cite{10.1007/978-3-642-82453-1_17}. Reactive systems can be verified using model checking techniques (see \autoref{sec:formal_verification}). Statecharts \cite{HAREL1987231} are a popular and intuitive language to capture the behaviour of reactive systems \cite{10.1145/3417990.3421407, 10.1007/978-3-319-11653-2_10}, and are at the same time formal and rigorous. 
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=110mm, keepaspectratio]{figures/sysml_state_machine.png}\hspace{1cm}
-	\caption{A SysML State Machine.}
+	\includesvg[inkscapelatex=false, width=130mm, keepaspectratio]{traffic-light-ctrl-sm}
+	\caption{SysML State Machine describing the behaviour of a traffic light controller.}
 	\label{fig:sysml_state_machine}
 \end{figure}
 
-SysML state machines (see \ref{fig:sysml_state_machine}) extend the concept of statecharts with hierarchical state-refinement, orthogonal regions, action-effect behaviour and state machine composition (explained in more detail in \autoref{ssec:composite-systems}). These advanced constructs make state machines easy to use for engineers, but lead to the formal verification process being challenging. This challenge can be overcome using a transformation tool, such as Gamma, of which I will be talking in \autoref{sec:gamma}.
+SysML state machines extend the concept of statecharts with hierarchical state-refinement, orthogonal regions, action-effect behaviour and state machine composition. These advanced constructs make state machines easy to use for engineers, but lead to the formal verification process being challenging. This challenge can be overcome using a transformation tool, such as Gamma, of which I will be talking in \autoref{sec:gamma}.
+
+\autoref{fig:sysml_state_machine} shows a state machine modeling the behaviour of a traffic light controller.
+\todo{explain controller behaviour in words}
 
 \subsubsection{Activity Diagram}\label{ssec:sysml_activity}
 
-As stated above, reactive systems are used frequently in the industry, however, they cannot describe the complicated semantics of distributed systems with concurrent, parallel behaviour, where the \emph{interesting} thing is what the system \emph{does} step-by-step. SysML activity diagrams are a primary representation for modeling process based behaviour\cite{omg_sysml} for distributed, concurrent systems. \autoref{fig:sysml_activity_artifacts} shows the set of interesting artifacts used in this work. In the following, I will introduce the different artifacts and show an example of a SysML activity diagram.
+As stated above, reactive systems are used frequently in the industry, however, they cannot describe the complicated semantics of distributed systems with concurrent, parallel behaviour, where the \emph{interesting} thing is what the system \emph{does} step-by-step. SysML activity diagrams are a primary representation for modeling process based behaviour \cite{omg_sysml} for distributed, concurrent systems. \autoref{fig:sysml_activity_artifacts} shows the set of interesting artifacts used in this work. In the following, I will introduce the different artifacts and show an example of a SysML activity diagram.
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=100mm, keepaspectratio]{figures/sysml_activity_artifacts.png}\hspace{1cm}
+	\includesvg[inkscapelatex=false, width=110mm, keepaspectratio]{sysml-activity-artifacts}
 	\caption{Artifacts of SysML activity diagrams.}
 	\label{fig:sysml_activity_artifacts}
 \end{figure}
@@ -62,7 +65,14 @@ Simple \textbf{actions} represent a single step of behaviour that converts a set
 
 The detailed specification for SysML Activity Diagrams can be found in the OMG specification\cite{omg_sysml}.
 
-\textit{Activity example description, and figure. This example will be used for all activity examples.}
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=130mm, keepaspectratio]{activity-running-example}
+	\caption{The activity of editing, compiling and linking two files.}
+	\label{fig:activity-running-example}
+\end{figure}
+
+\autoref{fig:activity-running-example} shows an example activity diagram, modeling the process of editing, compiling and linking two files. First, the files have to be read, after which they are \emph{transported} to the compiler module. We want to compile the two different files at the same time, thus we split the control flow using a \emph{fork} node. Once the files are compiled, we link both of them - since linking requires both files, it is preceded by a \emph{join} node. Finally, if the resulting code contains errors, we \emph{edit} them and start over, otherwise we are done.
 
 \iffalse
 \subsubsection{Differences and Combination}

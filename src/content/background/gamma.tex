@@ -2,9 +2,7 @@
 \section{The Gamma Statechart Composition Framework}\label{sec:gamma}
 %----------------------------------------------------------------------------
 
-The Gamma Statechart Composition Framework is an integrated
-tool to support the design, verification and validation as well as
-code generation for component-based reactive systems. The behaviour of each component is captured by a statechart, while assembling the system from components is driven by a domain-specific composition language. Gamma supports formal verification by mapping composite statecharts to a back-end model checker. Execution traces obtained as witnesses during verification are back-annotated as test cases to replay an error trace or to validate external code generators.\cite{molnar2018gamma}. 
+The Gamma Statechart Composition Framework is an integrated tool to support the design, verification and validation as well as code generation for component-based reactive systems. The behaviour of each component is captured by a statechart, while assembling the system from components is driven by a domain-specific composition language. Gamma supports formal verification by mapping composite statecharts to a back-end model checker. Execution traces obtained as witnesses during verification are back-annotated as test cases to replay an error trace or to validate external code generators \cite{molnar2018gamma}. 
 
 \begin{figure}[!ht]
 	\centering
@@ -13,7 +11,8 @@ code generation for component-based reactive systems. The behaviour of each comp
 	\label{fig:gamma-overview}
 \end{figure}
 
-The workflow of Gamma builds on a model transformation chain depicted in \autoref{fig:gamma-overview}, which illustrates the input and output models of these model transformations as well as the languages in which they are defined, and the relations between them. The modeling languages are as follows.
+The workflow of Gamma builds on a model transformation chain depicted in \autoref{fig:gamma-overview}, which illustrates the input and output models of these model transformations as well as the languages in which they are defined, and the relations between them. The modeling languages are as follows.
+
 
 \begin{itemize}
 	\item The \textbf{Gamma Statechart Language (GSL)} is a UML/SysML-based statechart language supporting different semantic variants of statecharts.
@@ -24,4 +23,59 @@ The workflow of Gamma builds on a model transformation chain depicted in \autore
 \end{itemize}
 
 Optionally, statechart models defined in supported modeling tools (front-ends) can be imported into Gamma (Step 0), which can be integrated according to well-defined execution and interaction semantics (Step 1-2). The resulting composite model is processed and transformed into the input formalisms of integrated model checker back-ends (Step 3). The model checker back-ends provide witnesses (diagnostic traces) based on specified properties, which are back-annotated, resulting in abstract traces (Step 4).
-Finally, the abstract traces are mapped into concrete (executable) traces tailored to the targeted execution environment (Step 5). Please note, that this is a summary of the workflow; for more detailed descriptions, see the Appendix and \cite{mixed_statecharts_2020}.
+Finally, the abstract traces are mapped into concrete (executable) traces tailored to the targeted execution environment (Step 5). Please note, that this is a summary of the workflow; for more detailed descriptions, see \cite{mixed_statecharts_2020}.
+
+\subsection{Example Statechart}
+
+Here you can see the Gamma Statechart representation of the State Machine introduced in \autoref{fig:sysml_state_machine}.
+
+\begin{lstlisting}
+package TrafficLightCtrl
+import "Interfaces"
+statechart TrafficLightCtrl [
+	port Control : requires Control
+	port PoliceInterrupt : requires PoliceInterrupt
+	port LightCommands : provides LightCommands
+] {
+	timeout BlinkingYellowTimeout3
+	timeout BlackTimeout4
+	transition from Yellow to Red when Control.toggle
+	transition from Normal to Interrupted when PoliceInterrupt.police
+	transition from Entry2 to Red
+	transition from Entry1 to BlinkingYellow
+	transition from Entry0 to Normal
+	transition from Interrupted to Normal when PoliceInterrupt.police
+	transition from BlinkingYellow to Black when timeout BlinkingYellowTimeout3
+	transition from Black to BlinkingYellow when timeout BlackTimeout4
+	transition from Green to Yellow when Control.toggle
+	transition from Red to Green when Control.toggle
+	region main_region {
+		state Normal {
+			region normal {
+				shallow history Entry2
+				state Green {
+					entry / raise LightCommands.displayGreen;
+				}
+				state Red {
+					entry / raise LightCommands.displayRed;
+				}
+				state Yellow {
+					entry / raise LightCommands.displayYellow;
+				}
+			}
+		}
+		state Interrupted {
+			region interrupted {
+				initial Entry1
+				state Black {
+					entry / set BlackTimeout4 := 500 ms; raise LightCommands.displayNone;
+				}
+				state BlinkingYellow {
+					entry / set BlinkingYellowTimeout3 := 500 ms; raise LightCommands.displayYellow;
+				}
+			}
+		}
+		initial Entry0
+	}
+}
+\end{lstlisting}

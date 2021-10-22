@@ -2,32 +2,51 @@
 \clearpage\section{Domain-specific Language}
 %----------------------------------------------------------------------------
 
-Like the Gamma Statechart Language, the Gamma Activity Language is intended to be a first-class citizen in the Gamma Framework, thus it must have a domain-specific language to represent in a textual way. This implementation draws highly from the SysMLv2\cite{omg_sysml_v2} language design, while also fitting into the already existing language family of Gamma (\autoref{sec:gamma}).
+Like the Gamma Statechart Language, the Gamma Activity Language is intended to be a first-class citizen in the Gamma Framework, thus it must have a domain-specific language to represent in a textual way. This implementation draws highly from the SysMLv2 \cite{omg_sysml_v2} language design, while also fitting into the already existing language family of Gamma (\autoref{sec:gamma}).
 
 \subsection{Meta-model}
 
 Due to the complexity of the final meta-model of the language, I have split it into multiple parts for easier understanding.
 
-\subsubsection*{Root Structure}\label{ssec:root_structure}
+\subsubsection{Pins}\label{ssec:pins}
 
-Every model has to have a root element structure; Activity Language is not any different. The meta-model described in this section can be seen in \autoref{fig:declaration}.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
 
 \begin{figure}[!ht]
 	\centering
-	\includesvg[inkscapelatex=false, width=120mm, keepaspectratio]{declaration}
-	\caption{The root structure of the language}
-	\label{fig:declaration}
+	\includesvg[inkscapelatex=false, width=60mm, keepaspectratio]{pins}
+	\caption{The Pins structure}
+	\label{fig:pins}
 \end{figure}
 
-\paragraph{Activity Declaration}\label{par:activity_declaration}
+\paragraph{Input Pin}
 
-All elements inside an activity are contained in a root \emph{ActivityDeclaration} element. It contains \emph{Pins} needed for value passing (see \autoref{ssec:pins}) and a \emph{Definition}. A declaration can be \emph{InlineActivityDeclaration}, which means they are declared in an other declaration, or \emph{NamedActivityDeclaration}, which is a standalone activity declaration. The difference will be clarified in \autoref{ssec:composing_activities}.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
 
-\paragraph{Definition}\label{par:definition}
+\paragraph{Output Pin}
 
-The definition \emph{defines} how the activity is described; using activity nodes, or by the Gamma Activity Language\footnote{Gamma Activity Language is a lightweight programming language-like construct for writing simple algorithms}. \emph{ActionDefinition} contains a single \emph{Block}\footnote{A \emph{Block} contains multiple \emph{Actions} which are executed one after the other}, which is executed as-is when the activity is executed\footnote{This fact means, that if one used Action to define an activity, that activity is executed atomically; it will not be interlaced with other XSTS transitions. See \autoref{ch:activiy_verification}.}. \emph{ActivityDefinition} contains \emph{ActivityNodes} (\autoref{ssec:activity_nodes}) and \emph{Flows} (\autoref{ssec:flows}).
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
 
-\subsubsection*{Activity Nodes}\label{ssec:activity_nodes}
+\subsubsection{Flows}\label{ssec:flows}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=90mm, keepaspectratio]{flows}
+	\caption{The Flows structure}
+	\label{fig:flows}
+\end{figure}
+
+\paragraph{Control Flow}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\paragraph{Data Flow}\label{par:data_flow}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+
+\subsubsection{Activity Nodes}\label{ssec:activity_nodes}
 
 In the following, I will talk about the different kinds of \emph{ActivityNodes} and their special meanings. All nodes are considered \emph{LAS} nodes by default. The meta-model described in this section can be seen in \autoref{fig:activity_nodes}.
 
@@ -70,7 +89,26 @@ When an activities \emph{FinalNode} gets a token the containing activity is cons
 
 \emph{MergeNodes} 
 
-\subsubsection*{Composing Activities}
+\subsubsection{Root Structure}\label{ssec:root_structure}
+
+Every model has to have a root element structure; Activity Language is not any different. The meta-model described in this section can be seen in \autoref{fig:declaration}.
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=120mm, keepaspectratio]{declaration}
+	\caption{The root structure of the language}
+	\label{fig:declaration}
+\end{figure}
+
+\paragraph{Activity Declaration}\label{par:activity_declaration}
+
+All elements inside an activity are contained in a root \emph{ActivityDeclaration} element. It contains \emph{Pins} needed for value passing (see \autoref{ssec:pins}) and a \emph{Definition}. A declaration can be \emph{InlineActivityDeclaration}, which means they are declared in an other declaration, or \emph{NamedActivityDeclaration}, which is a standalone activity declaration. The difference will be clarified in \autoref{ssec:composing_activities}.
+
+\paragraph{Definition}\label{par:definition}
+
+The definition \emph{defines} how the activity is described; using activity nodes, or by the Gamma Activity Language\footnote{Gamma Activity Language is a lightweight programming language-like construct for writing simple algorithms}. \emph{ActionDefinition} contains a single \emph{Block}\footnote{A \emph{Block} contains multiple \emph{Actions} which are executed one after the other}, which is executed as-is when the activity is executed\footnote{This fact means, that if one used Action to define an activity, that activity is executed atomically; it will not be interlaced with other XSTS transitions. See \autoref{ch:activiy_verification}.}. \emph{ActivityDefinition} contains \emph{ActivityNodes} (\autoref{ssec:activity_nodes}) and \emph{Flows} (\autoref{ssec:flows}).
+
+\subsubsection{Composing Activities}
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
 
@@ -81,45 +119,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget
 	\label{fig:composite_activity}
 \end{figure}
 
-\subsubsection*{Flows}\label{ssec:flows}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
-
-\paragraph{Control Flow}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
-
-\paragraph{Data Flow}\label{par:data_flow}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
-
-\begin{figure}[!ht]
-	\centering
-	\includesvg[inkscapelatex=false, width=90mm, keepaspectratio]{flows}
-	\caption{The Flows structure}
-	\label{fig:flows}
-\end{figure}
-
-\subsubsection*{Pins}\label{ssec:pins}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
-
-\paragraph{Input Pin}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
-
-\paragraph{Output Pin}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
-
-\begin{figure}[!ht]
-	\centering
-	\includesvg[inkscapelatex=false, width=60mm, keepaspectratio]{pins}
-	\caption{The Pins structure}
-	\label{fig:pins}
-\end{figure}
-
-\subsubsection*{Data Source-Target Reference}
+\subsubsection{Data Source-Target Reference}
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
 
@@ -130,7 +130,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget
 	\label{fig:data_source_target_reference}
 \end{figure}
 
-\subsubsection*{Pin Reference}
+\subsubsection{Pin Reference}
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
 
@@ -141,23 +141,65 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget
 	\label{fig:pin_reference}
 \end{figure}
 
-\subsubsection*{Gamma Extension}
+\subsubsection{Gamma Extension}
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
 
-\subsection{Xtext Language}
+\subsection{Concrete Syntax}
 
 ide még jöhet később xtext kód
 
 In order to make it easier to test both the XSTS and SysML transformations, I created an \textbf{Xtext} domain-specific language. Easy readability and writing was not one of the main priorities, because the end goal is to have a higher-level systems modelling language as a source. As a result, many many constructs are inherently repetitive to write.
 
-\subsubsection*{Example}
+\todo{Gamma extension metamodel részlet, leírni, hogy mivel és miért kellett kiegészíteni}
 
-The following is a basic example of an adder activity.
-It 'reads' two numbers, adds them, and then 'logs' the result.
+\subsubsection{Example}
 
-diagram, opaque action
+In this section, you can see the Gamma Activity Language representation of the compilation activity (\autoref{fig:activity-running-example})
 
-Ehelyett egyébként lehetne a running example, amit még az egész elején definiálunk
-
-\lstinputlisting{code/language/add-example.gcd}
+\begin{lstlisting}
+	activity CompilationProcess {
+		var errors : boolean := false
+		
+		initial Initial
+		
+		merge Merge
+		
+		fork Fork
+		
+		action Read1 : activity(
+			out p : integer
+		)
+		action Compile1 : activity(
+			in p : integer
+		)
+		
+		action Read2 : activity(
+			out p : integer
+		)
+		action Compile2 : activity(
+			in p : integer
+		)
+		
+		join Join
+		
+		decision Decision
+		
+		action Edit
+		
+		final Final
+		
+		control flow from Initial to Merge 
+		control flow from Merge to Fork 
+		control flow from Fork to Read1 
+		data flow from Read1.p to Compile1.p
+		control flow from Fork to Read2 
+		data flow from Read2.p to Compile2.p
+		control flow from Compile1 to Join 
+		control flow from Compile2 to Join 
+		control flow from Join to Decision 
+		control flow from Decision to Edit [errors]
+		control flow from Edit to Merge [!errors]
+		control flow from Decision to Final
+	}	
+\end{lstlisting}
