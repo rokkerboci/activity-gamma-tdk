@@ -1,5 +1,3 @@
-package hu.mit.bme.example
-
 activity Adder(
 	in x : integer,
 	in y : integer,

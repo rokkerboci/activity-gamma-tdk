@@ -112,3 +112,12 @@ tabsize=4
 
 \def\lstsmallmath{\leavevmode\ifmmode \scriptstyle \else  \fi}
 \def\lstsmallmathend{\leavevmode\ifmmode  \else  \fi}
+
+\usepackage{mdframed}
+\mdfdefinestyle{quote}{%
+	linecolor=gray,
+	rightline=false, topline=false, bottomline=false,
+	outerlinewidth=5pt,
+	innerleftmargin=1em,
+	backgroundcolor=white
+}

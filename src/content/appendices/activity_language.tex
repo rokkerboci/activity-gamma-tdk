@@ -101,6 +101,25 @@ activity Example {
 }
 \end{lstlisting}
 
+A composite activity can be easily created using inline activity definition:
+
+\begin{lstlisting}[language=activity]
+activity Example {
+	initial Init1
+	final Final1
+	
+	action InlineActivityExample : activity {
+		initial Init2
+		final Final2
+		
+		control flow from Init2 to Final2
+	}
+
+	control flow from Init1 to InlineActivityExample
+	control flow from InlineActivityExample to Final1
+}
+\end{lstlisting}
+
 \subsubsection{Example}
 
 A simple example activity can be seen in \autoref{lst:gamma-activity-adder}. This example shows two read actions, that return a random value, which are added together and logged to the console. The addition is defined using a \emph{NamedActivitDeclaraionReference}.

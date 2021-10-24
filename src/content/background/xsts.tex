@@ -2,7 +2,7 @@
 \section{Extended Symbolic Transition System}\label{sec:xsts}
 %----------------------------------------------------------------------------
 
-The high-level nature of engineering models means they are easy-to-use for engineers, but leads to difficulties during the formal verification process. SysML state machines and acitivty diagrams for example contain high-level  constructs that make the modeling workflow more intuitive and enable the modeling of significantly more complex systems, however they are difficult to process using formal methods that are defined on low-level mathematical formalism. In this section, I introduce the XSTS \cite{xsts} language, which is a low-level modeling formalism designed to bridge the aforementioned gap between engineering models and formal methods.
+The high-level nature of engineering models means they are easy-to-use for engineers, but leads to difficulties during the formal verification process. SysML state machines and acitivty diagrams for example contain high-level modeling constructs that make the modeling workflow more intuitive and enable the modeling of complex systems, however they are difficult to process using formal methods that are defined on low-level mathematical formalism. In this section, I introduce the Extended Symbolic Transition System \cite{xsts} language, which is a low-level modeling formalism designed to bridge the abstraction gap between engineering models and formal methods.
 
 \subsection{Formal definition}
 
@@ -21,23 +21,37 @@ The high-level nature of engineering models means they are easy-to-use for engin
 	\end{itemize}
 \end{definition}\label{def:xsts}
 
-In any state of the system a single operation is selected from the sets introduced above (\(Tr\), \(In\) and \(En\)). The set from where the operation can be selected depends on the current state: In the initial state - which is described by the initialization vector \(IV\) - only operations from the \(In\) set can be executed. Operations from the \(In\) set can only fire in the initial state and nowhere else. After that, \(En\) and \(Tr\) are selected in an alternating manner.
+In any state of the system, a single operation is selected from the sets introduced above (\(Tr\), \(In\) and \(En\)). The set from where the operation can be selected depends on the current state: In the initial state - which is described by the initialization vector \(IV\) - only operations from the \(In\) set can be executed. Operations from the \(In\) set can only fire in the initial state and nowhere else. After that, \(En\) and \(Tr\) are selected in an alternating manner.
 
 Operations \(op \in Ops\) describe the transitions between states of the system, where \(Ops\) is the set of all possible transitions. All operations are atomic in the sense that they are either executed in their entirety or none at all. XSTS defines the following operations:
 
-\paragraph{Basic operations}
+\paragraph{Basic operations} 
 
-Basic operations contain no inner (nested) operations. \emph{Assignments} assign a given value \(v\) from domain \(D_n\) to variable \(V_n\). \emph{Havocs} behave likewise, except the value is not predetermined; giving a way to assign random value to a variable. Lastly, \emph{assumptions} check a condition, and can only be executed if their condition evaluates to \emph{true}.
+Basic operations contain no inner (nested) operations.
+
+\begin{itemize}
+	\item \emph{Assignments} assign a given value \(v\) from domain \(D_n\) to variable \(V_n\).
+	\item \emph{Havocs} behave likewise, except the value is not predetermined; giving a way to assign random value to a variable.
+	\item Lastly, \emph{assume} operations check a condition, and can only be executed if their condition evaluates to \emph{true}.
+\end{itemize}
 
 \paragraph{Composite operations}
 
-Composite operations contain other operations, and can be used to describe complex control stuctures. Note that while these are composite operations, their execution is still atomic; meaning that an \emph{assume} operation prevents its containing operations from firing. \emph{Sequences} are essentially multiple operations executed after each other, while \emph{parallels} execute all operations at the same time. And lastly, \emph{choices} model non-deterministic choices between multiple operations; one and only one branch of the choice operation is selected for execution, but that selected operation can still only be executed atomically - e.g., a single failing assume operation can prevent execution.
+Composite operations contain other operations, and can be used to describe complex control stuctures. 
 
-\subsection{Simple example}
+\begin{itemize}
+	\item \emph{Sequences} are essentially multiple operations executed one after the other.
+	\item \emph{Parallels} are like sequences, however they execute all operations at the same time.
+	\item And lastly, \emph{choices} model non-deterministic choices between multiple operations; one and only one branch of the choice operation is selected for execution.
+\end{itemize}
 
-\autoref{lst:gamma-xsts} is an example XSTS model defined in the language. For a more exact presentation please see \autoref{sec:xsts_language} in the Appendix.
+Note that while these are composite operations, their execution is still atomic; i.e., a potential false evaluation of a containing assume operation prevents the execution of all operations in that particular branch. E.g., if a sequence's 2nd operation is an assume operation, which cannot execute, then the whole sequence operation will be prevented from execution.
 
-\begin{lstlisting}[float,language=xsts, caption={Gamma XSTS Language representing Traffic Controller statechart.}, label={lst:gamma-xsts}]
+\subsection{Traffic Light Controller Example}
+
+\autoref{lst:gamma-xsts} is the textual representation of the traffic light controller statechart (\autoref{fig:sysml_state_machine}) transformed to XSTS\footnote{The transformation was done using Gamma.}. For a more exact presentation please see \autoref{sec:xsts_language}.
+
+\begin{lstlisting}[float,language=xsts, caption={Gamma XSTS Language representing the traffic light controller statechart.}, label={lst:gamma-xsts}]
 type ActivityNodeState : { __Idle__, __Running__, __Done__ }
 // ...
 type Operating_Controller : { __Inactive__, Priority, Init, PriorityPrepares, Secondary, SecondaryPrepares }

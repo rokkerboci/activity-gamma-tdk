@@ -2,12 +2,12 @@
 \section{The Gamma Statechart Composition Framework}\label{sec:gamma}
 %----------------------------------------------------------------------------
 
-The Gamma Statechart Composition Framework\footnote{https://inf.mit.bme.hu/en/gamma} \cite{mixed_statecharts_2020} is an integrated tool to support the design, verification and validation as well as code generation for component-based reactive systems. The behaviour of each component is captured by a statechart, while assembling the system from components is driven by a domain-specific composition language. Gamma supports formal verification by mapping composite statecharts to a back-end model checker. Execution traces obtained as witnesses during verification are back-annotated as test cases to replay an error trace or to validate external code generators \cite{molnar2018gamma}. 
+The Gamma Statechart Composition Framework\footnote{https://inf.mit.bme.hu/en/gamma} \cite{mixed_statecharts_2020} is an integrated tool to support the design, verification and validation as well as code generation for component-based reactive systems. The behaviour of each component is captured by a statechart, while assembling the system from components is driven by a domain-specific composition language\footnote{The composition language be the \emph{ibd} model in SysML}. Gamma supports formal verification by mapping composite statecharts to a back-end model checker. Execution traces obtained as witnesses during verification are back-annotated as test cases to replay an error trace or to validate external code generators~\cite{molnar2018gamma}. 
 
 \begin{figure}[!ht]
 	\centering
 	\includesvg[inkscapelatex=false, width=120mm, keepaspectratio]{gamma-functionality-overview}
-	\caption{Overview model transformation chains and modeling languages of the Gamma framework \cite{mixed_statecharts_2020}. The parts relevant to this work have been marked with red outline.}
+	\caption{The overview of model transformation chains and modeling languages of the Gamma framework \cite{mixed_statecharts_2020}. The parts relevant to this work have been marked with red outline.}
 	\label{fig:gamma-overview}
 \end{figure}
 
@@ -17,12 +17,12 @@ The workflow of Gamma builds on a model transformation chain depicted in \autore
 	\item The \textbf{Gamma Statechart Language (GSL)} is a UML/SysML-based statechart language supporting different semantic variants of statecharts.
 	\item The \textbf{Gamma Composition Language (GCL)} is a composition language for the formal hierarchical composition of state-based 	components according to multiple execution and interaction semantics.
 	\item The \textbf{Gamma Genmodel Language (GGL)} is a configuration language for configuring model transformations.
-	\item The \textbf{Gamma Property Language (GPL)} is a property language supporting the definition properties and thus, the formal specification of requirements regarding (composite)	component behavior.
+	\item The \textbf{Gamma Property Language (GPL)} is a property language supporting the definition (CTL*) properties and thus, the formal specification of requirements regarding (composite)	component behavior.
 	\item The \textbf{Gamma Trace Language (GTL)} is a high-level specification language for  execution traces of (composite) components.
 \end{itemize}
 
-Optionally, statechart models defined in supported modeling tools (front-ends) can be imported into Gamma (Step 0), which can be integrated according to well-defined execution and interaction semantics (Step 1-2). The resulting composite model is processed and transformed into the input formalisms of integrated model checker back-ends (Step 3). The model checker back-ends provide witnesses (diagnostic traces) based on specified properties, which are back-annotated, resulting in abstract traces (Step 4).
-Finally, the abstract traces are mapped into concrete (executable) traces tailored to the targeted execution environment (Step 5). Please note, that this is a summary of the workflow; for more detailed descriptions, see \cite{mixed_statecharts_2020}.
+Optionally, statechart models defined in supported modeling tools (front-ends) can be imported into Gamma (Step 1), which can be integrated according to well-defined execution and interaction semantics (Step 2). The resulting composite model is processed and transformed into the input formalisms of integrated model checker back-ends (Step 3). The model checker back-ends provide witnesses (diagnostic traces) based on specified properties, which are back-annotated, resulting in abstract traces (Step 4).
+Finally, the abstract traces are mapped into concrete (executable) traces tailored to the targeted execution environment (Step 5). For a more detailed description, see \cite{mixed_statecharts_2020}.
 
 \subsection{Example Statechart}
 

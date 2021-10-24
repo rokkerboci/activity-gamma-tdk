@@ -48,7 +48,7 @@ In words: W describes the \emph{weight} of each flow from a transition to a plac
 
 \subsection{Activities as Petri Nets}\label{ssec:activities-as-petri-nets}
 
-Formal verification requires models to be specified using \emph{mathematical} precision, however SysML does not have precise semantics \cite{pssm-testing, pssm, euml}. Huang et al., in \cite{https://doi.org/10.1002/sys.21524} propose a way to \emph{partially} map SysML activity diagrams to Petri nets. In the following, I will summarise their work.
+Formal verification requires models to be specified using \emph{mathematical} precision, however SysML does not have precise semantics \cite{pssm-testing, pssm, euml}. Huang et al. in \cite{https://doi.org/10.1002/sys.21524} propose a way to \emph{partially} map SysML activity diagrams to Petri nets. In the following, I will summarise their work.
 
 \subsubsection{Constrained Subset of SysML}\label{ssec:sysml_assumptions}
 
@@ -65,6 +65,8 @@ The paper also assumes the following constrains:
 These constraints allow the mapping between activities and Petri nets, however, the constructed Petri net will not be semantically equivalent - data cannot flow between nodes. This fact is the motivation behind formalising a more-complete mapping (see \autoref{ch:gamma-activity-language}).
 
 \subsubsection{Mapping Rules}
+
+\todo{More description}
 
 Activity elements can be grouped into two sets: \emph{load-and-send} (LAS) and \emph{immediate-repeat} (IR).
 
@@ -87,4 +89,4 @@ Finally, after mapping the elements, the resulting Petri net may contain transit
 
 \autoref{fig:activity-pn-mapping} shows an example mapping from the activity \autoref{fig:activity-running-example}. The resulting elements are annotated with the names of their counter parts in the activity diagram.
 
-For more information, please refer to the Paper!
+For more information, please refer to \cite{https://doi.org/10.1002/sys.21524}!
