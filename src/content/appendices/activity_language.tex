@@ -6,97 +6,103 @@
 
 The following section gives high level introduction into the syntax of the Gamma Activity DSL.
 
-\subsubsection*{Pins}\label{sssec:pins}
+\subsubsection{Pins}\label{sssec:pins}
 
 Pins can be declared the following way, where \verb|<direction>| can be either \verb|in| or \verb|out|, and \verb|type| a valid Gamma Expression type.
 
-\begin{verbatim}
-	<direction> <name> : <type>
-\end{verbatim}
+\begin{lstlisting}[language=activity]
+<direction> <name> : <type>
+\end{lstlisting}
 
 For example: 
 
-\begin{verbatim}
-	in examplePin : integer
-\end{verbatim}
+\begin{lstlisting}[language=activity]
+in examplePin : integer
+\end{lstlisting}
 
 where the direction is \verb|in|, the name is \verb|examplePin| and the type is \verb|integer|.
 
 \subsubsection*{Nodes}\label{sssec:nodes}
 
-Nodes can be declared by stating the \verb|type| of the node and then it's name. The type determines the underlying meta element. See figure \ref{fig:semantic}
+Nodes can be declared by stating the \verb|type| of the node and then it's name. The type determines the underlying meta element.
 
 The available node types:
 
-\begin{verbatim}
-	initial InitialNode
-	decision DecisionNode
-	merge MergeNode
-	fork ForkNode
-	join JoinNode
-	final FinalNode
-	action ActionNode
-\end{verbatim}
+\begin{lstlisting}[language=activity]
+initial InitialNode
+decision DecisionNode
+merge MergeNode
+fork ForkNode
+join JoinNode
+final FinalNode
+action ActionNode
+\end{lstlisting}
 
-\subsubsection*{Flows}\label{sssec:flows}
+\subsubsection{Flows}\label{sssec:flows}
 
 The behaviour of the Activity can be described by stating \verb|data| or \verb|control| flows between two nodes. Flows may have \verb|guard|s on them, which limits when the flow can fire. Activities may only be from the current activity definition's children. Pins can be accessed using the \verb|.| accessor operator, the activity on the left hand side, and the pin's name on the right. The enclosing activity's name is \verb|self|.
 
 Flows can be declared the following way, where \verb|<kind>| is the kind of flow, \verb|<source>| and \verb|<target>| is the source/target node or pin, and \verb|<guard>| is a Gamma Expression returning boolean:
 
-\begin{verbatim}
-	<kind> flow from <source> to <target> [<guard>]
-	
-	control flow from activity1 to activity2
-	control flow from activity1 to activity2 [x == 10]
-	data flow from activity1.pin1 to activity2.pin2
-	data flow from self.pin to activity3.pin2
-\end{verbatim}
+\begin{lstlisting}[language=activity]
+<kind> flow from <source> to <target> [<guard>]
 
-\subsubsection*{Declarations}
+control flow from activity1 to activity2
+control flow from activity1 to activity2 [x == 10]
+data flow from activity1.pin1 to activity2.pin2
+data flow from self.pin to activity3.pin2
+\end{lstlisting}
+
+\subsubsection{Declarations}
 
 Activity declarations state the \emph{name} of the activity, as well as its \emph{pins} \ref{sssec:pins}. 
 
-\begin{lstlisting}
-	activity Example (
-	..pins..
-	) {
-		..body..
-	}
+\begin{lstlisting}[language=activity]
+activity Example (
+	//..pins..
+) {
+	//..body..
+}
 \end{lstlisting}
 
 You can also declare activities inline by using the \verb|:| operator:
 
-\begin{lstlisting}
-	activity Example {
-		action InlineActivityExample : activity
-	}
+\begin{lstlisting}[language=activity]
+activity Example {
+	action InlineActivityExample : activity
+}
 \end{lstlisting}
 
-\subsubsection*{Definitions}
+\subsubsection{Definitions}
 
 Activities also have definitions, which give them bodies. The body language can be either \verb|activity| or \verb|action| depending on the language metadata set. Using the \verb|action| language let's you use any Gamma Action expression, including timeout resetting, raising events through component ports, or simple arithmetic operations.
 
 An example activity defined by an action body:
 
-\begin{lstlisting}
-	activity Example (
+\begin{lstlisting}[language=activity]
+activity Example (
 	in x : integer,
 	out y : integer
-	) [language=action] {
-		self.y := self.x * 2;
-	}
+) [language=action] {
+	self.y := self.x * 2;
+}
 \end{lstlisting}
 
 Inline activities may also have pins and be defined using action language:
 
-\begin{lstlisting}
-	activity Example {
-		action InlineActivityExample : activity (
+\begin{lstlisting}[language=activity]
+activity Example {
+	action InlineActivityExample : activity (
 		in input : integer,
 		out output : integer
-		) [language=action] {
-			self.output := self.input;
-		}
+	) [language=action] {
+		self.output := self.input;
 	}
+}
 \end{lstlisting}
+
+\subsubsection{Example}
+
+A simple example activity can be seen in \autoref{lst:gamma-activity-adder}. This example shows two read actions, that return a random value, which are added together and logged to the console. The addition is defined using a \emph{NamedActivitDeclaraionReference}.
+
+\lstinputlisting[float,language=activity, caption={Basic adder example.}, label={lst:gamma-activity-adder}]{code/language/add-example.gcd}

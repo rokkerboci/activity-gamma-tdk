@@ -2,23 +2,22 @@
 \section{Language Design}
 %----------------------------------------------------------------------------
 
-During the design phase of the language SysML served as the basis when deciding what is should and should not contain. When deciding the scope of the language the following statement served as target: The language should be easy to transform into XSTS, while also following SysML activity semantics.
+Every language starts with defining exactly what we want our language to accomplish. With the Activity Language, this was the following: it should support as much features from SysML activity diagrams as possible, all the while being simple to implement and transform to low-level models. As you could see from the \autoref{ssec:activities-as-petri-nets}, SysML activity diagrams cannot be exactly transformed to a formal model; we have to constrain our language in order to offer formal semantics. However, as you will see, these constrains still allow us to write \emph{almost} all activities.
 
-To conform to the previous statements, the language should resemble SysML, however, should be as \emph{lightweight} as possible. For this reason, we determined a sub-set of the SysML activity feature set that the language will contain.
+\subsection{Constrains}
 
-\subsection{SysML Feature Sub-set}
+Compared to SysML activity diagrams, Activity Language has the following constrains:
 
-ez a rész csak jegyzet
+\begin{itemize}
+	\item No \emph{flow final} nodes.
+	\item No \emph{receive signal} nodes.
+	\item No \emph{interrupt} flows.
+	\item Flows may only contain \emph{one} token at a given time.
+	\item Activities can only be inside \emph{statecharts}, cannot describe a component's behaviour in itself
+\end{itemize}
 
-Initial/final node, action node, composite activity node, decision/merge node, fork/join node, pins, control/data flows.
+As you can see, most of these constrains can be substituted with other constructs, and just serve as \emph{shorthands}. The absence of \emph{flow final} nodes can be resolved by merging all flows into one single \emph{activity final} node. These steps could be done automatically using model transformation from SysML to Activity.
 
-Do behaviour: 
+\subsection{Improvement over Petri net mapping}
 
-call activity action on transitions is not supported, would have to be inlined and flattened, atomic functions, interlaced with line execution semantics (future work)
-
- - call activity context függő - hosszú (nem atomikus) dolgot nem lehet akárhol meghívni (transition, sima action, stb)
-- validáció: inline környezetben tilos várakozás és ciklus (vagy csak x mélységig)
-- sok köztes nem stabil állapot
-- nagy változás a trafóban
-
-ezért csak do activity van
+Compared to the Petri net mapping introduced in \autoref{ssec:activities-as-petri-nets}, the Activity Language supports guards, valued tokens, actions and composite activities.

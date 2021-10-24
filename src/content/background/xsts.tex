@@ -38,6 +38,50 @@ Composite operations contain other operations, and can be used to describe compl
 \autoref{lst:gamma-xsts} is an example XSTS model defined in the language. For a more exact presentation please see \autoref{sec:xsts_language} in the Appendix.
 
 \begin{lstlisting}[float,language=xsts, caption={Gamma XSTS Language representing Traffic Controller statechart.}, label={lst:gamma-xsts}]
-itt majd egy szép xsts példa lesz a running example-re (vagy valami hasonlóra). 
-Akár lehetne egy Gamma által generált statechart is.
+type ActivityNodeState : { __Idle__, __Running__, __Done__ }
+// ...
+type Operating_Controller : { __Inactive__, Priority, Init, PriorityPrepares, Secondary, SecondaryPrepares }
+var PoliceInterrupt_police_In_Controller : boolean = false
+// ...
+ctrl var main_region_Controller : Main_region_Controller = __Inactive__
+ctrl var operating_Controller : Operating_Controller = __Inactive__
+var SecondaryTimeout2_Controller : integer = 0
+
+trans {
+	// ...
+	choice {
+		assume (((main_region_Controller == Interrupted) && 
+		// ...
+		choice {
+			assume (operating_Controller == Priority);
+			SecondaryTimeout2_Controller := 0;
+			PriorityControl_toggle_Out_Controller := true;
+			SecondaryControl_toggle_Out_Controller := true;
+			// ...
+		}
+	} or {
+		// ...
+	}
+	PoliceInterrupt_police_In_Controller := false;
+}
+init {
+	SecondaryTimeout2_Controller := (2 * 1000);
+	main_region_Controller := __Inactive__;
+	// ...
+	PriorityPolice_police_Out_Controller := false;
+	choice {
+		assume (operating_Controller == __Inactive__);
+		operating_Controller := Init;
+	} or {
+		assume (!((operating_Controller == __Inactive__)));
+	}
+	// ...
+}
+env {
+	havoc PoliceInterrupt_police_In_Controller;
+	PriorityPolice_police_Out_Controller := false;
+	SecondaryControl_toggle_Out_Controller := false;
+	PriorityControl_toggle_Out_Controller := false;
+	SecondaryPolice_police_Out_Controller := false;
+}
 \end{lstlisting}

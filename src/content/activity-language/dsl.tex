@@ -148,18 +148,14 @@ Pin references are used to define a rigid pin-reference structure in the model. 
 
 \subsection{Concrete Syntax}
 
-ide még jöhet később xtext kód
-
-In order to make it easier to test both the XSTS and SysML transformations, I created an \textbf{Xtext} domain-specific language. Easy readability and writing was not one of the main priorities, because the end goal is to have a higher-level systems modelling language as a source. As a result, many many constructs are inherently repetitive to write. You can see an example in \autoref{lst:gamma-activity}.
+In order to make it easier to test and visualise activities, I created an Xtext domain-specific language. The SysMLv2 language served as the main inspiration for the language, however, much of the \emph{syntactic sugars} have been omitted for simplicities' sake. As a result, many constructs are inherently repetitive to write. You can see an example in \autoref{lst:gamma-activity}. For the exact language definition, please see \autoref{sec:gamma-activity-language-constructs}
 
 \begin{lstlisting}[float,language=activity, caption={Gamma Activity Language representation of the compilation activity.}, label={lst:gamma-activity}]
 activity CompilationProcess {
 	var errors : boolean := false
 	
 	initial Initial
-	
 	merge Merge
-	
 	fork Fork
 	
 	action Read1 : activity(
@@ -168,7 +164,6 @@ activity CompilationProcess {
 	action Compile1 : activity(
 		in p : integer
 	)
-	
 	action Read2 : activity(
 		out p : integer
 	)
@@ -177,22 +172,15 @@ activity CompilationProcess {
 	)
 	
 	join Join
-	
 	decision Decision
-	
 	action Edit
-	
 	final Final
 	
 	control flow from Initial to Merge 
-	control flow from Merge to Fork 
-	control flow from Fork to Read1 
+	// ...	
 	data flow from Read1.p to Compile1.p
 	control flow from Fork to Read2 
-	data flow from Read2.p to Compile2.p
-	control flow from Compile1 to Join 
-	control flow from Compile2 to Join 
-	control flow from Join to Decision 
+	// ...
 	control flow from Decision to Edit [errors]
 	control flow from Edit to Merge [!errors]
 	control flow from Decision to Final
