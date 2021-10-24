@@ -10,7 +10,7 @@ Due to the complexity of the final meta-model of the language, I have split it i
 
 \subsubsection{Pins}\label{ssec:pins}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+There are two kinds of pins, \emph{InputPins} and \emph{OutputPins}. All pins have a \emph{Type} associated with them from the Gamma grammar, which defines it's domain. \autoref{fig:pins} shows this section of the meta-model.
 
 \begin{figure}[!ht]
 	\centering
@@ -19,17 +19,9 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget
 	\label{fig:pins}
 \end{figure}
 
-\paragraph{Input Pin}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
-
-\paragraph{Output Pin}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
-
 \subsubsection{Flows}\label{ssec:flows}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+There are two kinds of flows, \emph{ControlFlows} and \emph{DataFlows}. All flows have a guard of type \emph{Expression}, which can be evaluated to a \emph{boolean} value. If this guard evaluates to \emph{True}, the flow is considered \emph{enabled}. \autoref{fig:flows} depicts the relation of flows in the meta-model.
 
 \begin{figure}[!ht]
 	\centering
@@ -40,15 +32,15 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget
 
 \paragraph{Control Flow}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+\emph{ControlFlows} have a reference to their source and target nodes.
 
 \paragraph{Data Flow}\label{par:data_flow}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+\emph{DataFlows} contain a \emph{DataSourceReference} and a \emph{DataTargetReference}. The reason for the reference, is because said reference can either be a \emph{Pin}, or a \emph{DataNode}. A data token may contain data (or value) of any kind, but that token can only travel to and from data \emph{sources} and \emph{targets}. This will be explained in more detail below.
 
 \subsubsection{Activity Nodes}\label{ssec:activity_nodes}
 
-In the following, I will talk about the different kinds of \emph{ActivityNodes} and their special meanings. All nodes are considered \emph{LAS} nodes by default. The meta-model described in this section can be seen in \autoref{fig:activity_nodes}.
+In the following, I will talk about the different kinds of \emph{ActivityNodes} and their special meanings. The meta-model described in this section can be seen in \autoref{fig:activity_nodes}.
 
 \begin{figure}[!ht]
 	\centering
@@ -57,21 +49,25 @@ In the following, I will talk about the different kinds of \emph{ActivityNodes} 
 	\label{fig:activity_nodes}
 \end{figure}
 
+\paragraph{Action Node}
+
+\emph{ActionNodes} represent a specific action the activity may execute. This action can be defined in multiple ways, see \autoref{ssec:composing-activities} for more detail.
+
 \paragraph{Pseudo Activity Node}
 
 \emph{PseudoActivityNodes} are nodes, that do not represent a specific action, however are needed to convey specific meanings, e.g., the initial active node, or a decision between flows.
 
 \paragraph{Initial Node}
 
-\emph{InitialNodes} have one token in them when the containing activity is started. They shall only have (one or more) outgoing flows, and no input flows. 
+\emph{InitialNodes} represent the entry-point to the activity.
 
 \paragraph{Final Node}
 
-When an activities \emph{FinalNode} gets a token the containing activity is considered \emph{Done}; after which the activity does not process any more tokens.
+A special node representing the final node for the activity.
 
 \paragraph{Data Node}
 
-\emph{DataNodes} encapsulate the meaning of \emph{data} inside activities. A token may contain data (or value) of any kind, but that token can only travel to and from data \emph{sources} and \emph{targets}. More about this in \autoref{par:data_flow}.
+\emph{DataNodes} encapsulate the meaning of \emph{data} inside activities.
 
 \paragraph{Fork Node}
 
@@ -83,11 +79,11 @@ When an activities \emph{FinalNode} gets a token the containing activity is cons
 
 \paragraph{Decision Node}
 
-\emph{DecisionNodes} create branches across multiple output flows. An input flows token is removed, and sent out to one, and only one of its output flows - depending on which of the output flows are \emph{enabled} (see \autoref{ssec:flows}).
+\emph{DecisionNodes} create branches across multiple output flows. An input flow's token is removed, and sent out to a single output flow - depending on which of the output flows are \emph{enabled} (see \autoref{ssec:flows}).
 
 \paragraph{Merge Node}
 
-\emph{MergeNodes} 
+\emph{MergeNodes} forward all incoming tokens as soon as they arrive, one by one. They are used to \emph{merge} different flow paths (created using \emph{decisions}).
 
 \subsubsection{Root Structure}\label{ssec:root_structure}
 
@@ -108,98 +104,97 @@ All elements inside an activity are contained in a root \emph{ActivityDeclaratio
 
 The definition \emph{defines} how the activity is described; using activity nodes, or by the Gamma Activity Language\footnote{Gamma Activity Language is a lightweight programming language-like construct for writing simple algorithms}. \emph{ActionDefinition} contains a single \emph{Block}\footnote{A \emph{Block} contains multiple \emph{Actions} which are executed one after the other}, which is executed as-is when the activity is executed\footnote{This fact means, that if one used Action to define an activity, that activity is executed atomically; it will not be interlaced with other XSTS transitions. See \autoref{ch:activiy_verification}.}. \emph{ActivityDefinition} contains \emph{ActivityNodes} (\autoref{ssec:activity_nodes}) and \emph{Flows} (\autoref{ssec:flows}).
 
-\subsubsection{Composing Activities}
+\subsubsection{Composing Activities}\label{ssec:composing-activities}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+When one defines an \emph{ActionNode}, it may or may not add an \emph{ActivityDeclarationReference}. If the node does not have any, it is considered a \emph{simple} node, without any implementation. If it does contain an \emph{ActivityDeclarationReference}, then when this node is executed, the underlying \emph{ActivityDeclaration} is executed as well. This gives us the power to pre-declare specific activities, or inline declare them in the language; and use any definition defined above (\autoref{ssec:root_structure}). \autoref{fig:composite_activity} shows this part of the meta-model.
 
 \begin{figure}[!ht]
 	\centering
-	\includesvg[inkscapelatex=false, width=90mm, keepaspectratio]{composite-activity}
-	\caption{The }
+	\includesvg[inkscapelatex=false, width=80mm, keepaspectratio]{composite-activity}
+	\caption{The action node containment hierarchy.}
 	\label{fig:composite_activity}
 \end{figure}
 
 \subsubsection{Data Source-Target Reference}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+In order to correctly set a data flow's data source and data target, we have to keep in mind where we are referencing the pins. A given \emph{InputPin} can be considered a \emph{DataTarget} from outside of the associated \emph{Activity}, however, it is a \emph{DataSource} from inside the \emph{Defintion}. \emph{DataNodes} can be considered both data sources and data targets. See \autoref{fig:data_source_target_reference} for the meta-model.
 
 \begin{figure}[!ht]
 	\centering
 	\includesvg[inkscapelatex=false, width=110mm, keepaspectratio]{data-source-target}
-	\caption{The Data node reference structure}
+	\caption{The Data Source-Target reference structure}
 	\label{fig:data_source_target_reference}
+\end{figure}
+
+\paragraph{Example of inside-input/outside-output pin} \autoref{fig:data_source_target_reference_example} shows an example of the aforementioned effect. From the perspective of the flow \(P_1 \rightarrow P_2\) the pin \(P_1\) is a \emph{DataSource} and the pin \(P_2\) is a \emph{DataTarget}. However, from the perspective of the flow \(P_2 \rightarrow P_3\), the pin \(P_2\) is a \emph{DataSource} - because the latter flow is inside the composite activity.
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=70mm, keepaspectratio]{data-source-target-example}
+	\caption{The Data node reference structure}
+	\label{fig:data_source_target_reference_example}
 \end{figure}
 
 \subsubsection{Pin Reference}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
+Pin references are used to define a rigid pin-reference structure in the model. \emph{InputPinReferences} have a reference to a specific \emph{InputPin}, \emph{OutputPinReferences} have a reference to a specific \emph{OutputPin}. \emph{InsidePinReferences} and \emph{OutsidePinReferences} are used to tell the direction the reference sees the given pin; inside reference sees it from the inside, outside reference sees it from the outside. The \emph{OutsidePinReference} must also have a reference to the specific \emph{ActionNode} the pin is associated with\footnote{Note, that the inside pin reference does not have a node reference, because it is implicitly the containing activity}. See \autoref{fig:data_source_target_reference} for the meta-model.
 
 \begin{figure}[!ht]
 	\centering
 	\includesvg[inkscapelatex=false, width=110mm, keepaspectratio]{pin-reference}
-	\caption{The Data node reference structure}
+	\caption{The Pin reference structure}
 	\label{fig:pin_reference}
 \end{figure}
-
-\subsubsection{Gamma Extension}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula turpis eget enim maximus, vel rutrum dui ullamcorper. Nulla enim ex, dapibus non aliquam vitae, molestie quis magna. Maecenas mattis turpis non ex feugiat, vitae pulvinar nisl vulputate.
 
 \subsection{Concrete Syntax}
 
 ide még jöhet később xtext kód
 
-In order to make it easier to test both the XSTS and SysML transformations, I created an \textbf{Xtext} domain-specific language. Easy readability and writing was not one of the main priorities, because the end goal is to have a higher-level systems modelling language as a source. As a result, many many constructs are inherently repetitive to write.
+In order to make it easier to test both the XSTS and SysML transformations, I created an \textbf{Xtext} domain-specific language. Easy readability and writing was not one of the main priorities, because the end goal is to have a higher-level systems modelling language as a source. As a result, many many constructs are inherently repetitive to write. You can see an example in \autoref{lst:gamma-activity}.
 
-\todo{Gamma extension metamodel részlet, leírni, hogy mivel és miért kellett kiegészíteni}
-
-\subsubsection{Example}
-
-In this section, you can see the Gamma Activity Language representation of the compilation activity (\autoref{fig:activity-running-example})
-
-\begin{lstlisting}
-	activity CompilationProcess {
-		var errors : boolean := false
-		
-		initial Initial
-		
-		merge Merge
-		
-		fork Fork
-		
-		action Read1 : activity(
-			out p : integer
-		)
-		action Compile1 : activity(
-			in p : integer
-		)
-		
-		action Read2 : activity(
-			out p : integer
-		)
-		action Compile2 : activity(
-			in p : integer
-		)
-		
-		join Join
-		
-		decision Decision
-		
-		action Edit
-		
-		final Final
-		
-		control flow from Initial to Merge 
-		control flow from Merge to Fork 
-		control flow from Fork to Read1 
-		data flow from Read1.p to Compile1.p
-		control flow from Fork to Read2 
-		data flow from Read2.p to Compile2.p
-		control flow from Compile1 to Join 
-		control flow from Compile2 to Join 
-		control flow from Join to Decision 
-		control flow from Decision to Edit [errors]
-		control flow from Edit to Merge [!errors]
-		control flow from Decision to Final
-	}	
+\begin{lstlisting}[float,language=activity, caption={Gamma Activity Language representation of the compilation activity.}, label={lst:gamma-activity}]
+activity CompilationProcess {
+	var errors : boolean := false
+	
+	initial Initial
+	
+	merge Merge
+	
+	fork Fork
+	
+	action Read1 : activity(
+		out p : integer
+	)
+	action Compile1 : activity(
+		in p : integer
+	)
+	
+	action Read2 : activity(
+		out p : integer
+	)
+	action Compile2 : activity(
+		in p : integer
+	)
+	
+	join Join
+	
+	decision Decision
+	
+	action Edit
+	
+	final Final
+	
+	control flow from Initial to Merge 
+	control flow from Merge to Fork 
+	control flow from Fork to Read1 
+	data flow from Read1.p to Compile1.p
+	control flow from Fork to Read2 
+	data flow from Read2.p to Compile2.p
+	control flow from Compile1 to Join 
+	control flow from Compile2 to Join 
+	control flow from Join to Decision 
+	control flow from Decision to Edit [errors]
+	control flow from Edit to Merge [!errors]
+	control flow from Decision to Final
+}	
 \end{lstlisting}

@@ -2,13 +2,15 @@
 \section{Formal Verification}\label{sec:formal_verification}
 %----------------------------------------------------------------------------
 
-In order to raise the reliability of system analysis, a system analysis technique is required that can have the precision of paper-and-pencil based mathematical proofs, and thus does not rely upon computer-arithmetic, and utilizes the computers for bookkeeping, to be able to handle complex systems without having to worry about human-errors. Formal verification methods, which are primarily based on theoretical computer science fundamentals like logic calculi, automata theory and strongly type systems, fulfil these requirements. The main principle behind formal analysis of a system is to construct a computer based mathematical model of the given system and formally verify, within a computer, that this model meets rigorous specifications of intended behaviour. Due to the mathematical nature of the analysis, 100\% accuracy can be guaranteed \cite{https://doi:10.4018/978-1-4666-5888-2.ch705}.
+\blockcquote{https://doi:10.4018/978-1-4666-5888-2.ch705}{
+	In order to raise the reliability of system analysis, a system analysis technique is required that can have the precision of paper-and-pencil based mathematical proofs, and thus does not rely upon computer-arithmetic, and utilizes the computers for bookkeeping, to be able to handle complex systems without having to worry about human-errors. Formal verification methods, which are primarily based on theoretical computer science fundamentals like logic calculi, automata theory and strongly type systems, fulfil these requirements. The main principle behind formal analysis of a system is to construct a computer based mathematical model of the given system and formally verify, within a computer, that this model meets rigorous specifications of intended behaviour. Due to the mathematical nature of the analysis, 100\% accuracy can be guaranteed.
+}
 
 \subsection{Model Checking}
 
-\emph{Model Checking} is a formal verification method to verify properties of finite systems, i.e., to decide whether a given formal model \(M\) satisfies a given requirement \(\gamma\) or not. The name comes from formal logic, where a logical formula may have zero or more models, which define the interpretation of the symbols used in the formula and the base set such that the formula is true. In this sense, the question is whether the formal model is indeed a model of the formal requirement: \(M \not\models \gamma\)?
+\emph{Model checking} is a formal verification method to verify properties of finite systems, i.e., to decide whether a given formal model \(M\) satisfies a given requirement \(\gamma\) or not. The name comes from formal logic, where a logical formula may have zero or more models, which define the interpretation of the symbols used in the formula and the base set such that the formula is true. In this sense, the question is whether the formal model is indeed a model of the formal requirement: \(M \not\models \gamma\)?
 
-Model Checker algorithms (see \autoref{fig:model_checking}), such as UPPAAL\footnote{https://uppaal.org/} \cite{uppaal} or Theta\footnote{https://inf.mit.bme.hu/en/theta} \cite{theta} can answer this question, and can even return a \emph{proof} (i.e., a part of the model) that \(M\) indeed does satisfy said requirement\footnote{These proofs usually come in the form of an execution trace}.
+Model checker algorithms (see \autoref{fig:model_checking}), such as the ones used in UPPAAL\footnote{https://uppaal.org/} \cite{uppaal} or Theta\footnote{https://inf.mit.bme.hu/en/theta} \cite{theta} can answer this question, and can even return a \emph{proof} (i.e., a part of the model) that \(M\) indeed does satisfy said requirement\footnote{These proofs usually come in the form of an execution trace}.
 
 \begin{figure}[!ht]
 	\centering
@@ -17,7 +19,7 @@ Model Checker algorithms (see \autoref{fig:model_checking}), such as UPPAAL\foot
 	\label{fig:model_checking}
 \end{figure}
 
-\subsection{Petri Net}\label{ssec:petri-net}
+\subsection{Petri Nets}\label{ssec:petri-net}
 
 \begin{figure}[!ht]
 	\centering
@@ -40,27 +42,27 @@ Petri nets are a widely used formalism to model concurrent, asynchronous systems
 	\end{itemize}
 \end{definition}
 
-The state of a Petri net is defined by the current marking \( M : P \rightarrow \mathbb{N} \). The behaviour of the systems is described as follows. A transition \( t \) is enabled if \( \forall p \in P : M(p) \in W(p, t) \). Any enabled transition \(t\) may fire non-deterministically, creating the new marking \( M' \) of the Petri as follows: \( \forall p \in P : M'(p) = M(p) - W^-(p, t) + W^+(t, p) \).
+The state of a Petri net is defined by the current marking \( M : P \rightarrow \mathbb{N} \). The behaviour of the systems is described as follows. A transition \( t \) is enabled if \( \forall p \in P : M(p) \in W(p, t) \). Any enabled transition \(t\) may fire nondeterministically, creating the new marking \( M' \) of the Petri as follows: \( \forall p \in P : M'(p) = M(p) - W^-(p, t) + W^+(t, p) \).
 
 In words: W describes the \emph{weight} of each flow from a transition to a place, or from a place to a transition. Firing a transition \(t\) in a marking \(M\) consumes \(W^-(p_i, t)\) tokens from each of its input places \(p_i\), and produces \(W(t, p_o)\) tokens in each of its output places \(p_o\). One such transition \(t\) is \emph{enabled} (it may \emph{fire}) in \(M\) if there are enough tokens in its input places for the consumptions to be possible, i.e., if and only if \( \forall p : M(p) \ge W(s, t)\).
 
 \subsection{Activities as Petri Nets}\label{ssec:activities-as-petri-nets}
 
-Formal verification requires models to be specified using \emph{mathematical} precision, however SysML does not have precise semantics \cite{pssm-testing, pssm, euml}. The paper called "Verifying SysML activity diagrams using formal transformation to Petri nets" \cite{https://doi.org/10.1002/sys.21524} by Edward Huang, Leon F. McGinnis and Steven W. Mitchell proposes a way to \emph{partially} map SysML activity diagrams to Petri nets. In the following, I will summarise their work.
+Formal verification requires models to be specified using \emph{mathematical} precision, however SysML does not have precise semantics \cite{pssm-testing, pssm, euml}. Huang et al., in \cite{https://doi.org/10.1002/sys.21524} propose a way to \emph{partially} map SysML activity diagrams to Petri nets. In the following, I will summarise their work.
 
-\subsubsection{Constrained Sub-set of SysML}\label{ssec:sysml_assumptions}
+\subsubsection{Constrained Subset of SysML}\label{ssec:sysml_assumptions}
 
-Since SysML Activity Diagrams do not have exact execution semantics, the PN mapping can only be done for a limited subset of the modeling elements: \emph{actions}, \emph{initial nodes}, \emph{final nodes}, \emph{join nodes}, \emph{fork nodes}, \emph{merge nodes}, \emph{decision nodes}, \emph{pins} and \emph{object/control flows}, which have precise execution semantics as defined in the Foundational Subset for Executable UML Models \cite{fuml}.
+Since SysML Activity Diagrams do not have precise execution semantics, the Petri net mapping can only be done for a limited subset of the modeling elements: \emph{actions}, \emph{initial nodes}, \emph{final nodes}, \emph{join nodes}, \emph{fork nodes}, \emph{merge nodes}, \emph{decision nodes}, \emph{pins} and \emph{object/control flows}, which have precise execution semantics as defined in the Foundational Subset for Executable UML Models \cite{fuml}.
 
 The paper also assumes the following constrains:
 
 \begin{enumerate}
 	\item The value of tokens is not considered.
 	\item Control flows with multiple tokens at a time are not considered.
-	\item Optional object/control flows are not considered, ie, multiplicity lower bounds are strictly positive.
+	\item Optional object/control flows are not considered, i.e., multiplicity lower bounds are strictly positive.
 \end{enumerate}
 
-These constraints allow the mapping between activities and Petri nets, however, the constructed PN will not be semantically equivalent - data cannot flow between nodes. This fact is the motivation behind formalising a more-complete mapping (see \autoref{ch:gamma-activity-language}).
+These constraints allow the mapping between activities and Petri nets, however, the constructed Petri net will not be semantically equivalent - data cannot flow between nodes. This fact is the motivation behind formalising a more-complete mapping (see \autoref{ch:gamma-activity-language}).
 
 \subsubsection{Mapping Rules}
 

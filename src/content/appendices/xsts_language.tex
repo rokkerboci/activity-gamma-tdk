@@ -10,9 +10,9 @@ XSTS contains two default variable types, logical variables (\emph{boolean}) and
 
 A custom type can be declared the following way:
 
-\begin{Verbatim}
+\begin{lstlisting}
 	type <name> : { <literal_1>, . . . , <literal_n> }
-\end{Verbatim}
+\end{lstlisting}
 
 Where \(D_{name} = \{ literal_1, \dots, literal_n \}\).
 
@@ -20,23 +20,23 @@ Where \(D_{name} = \{ literal_1, \dots, literal_n \}\).
 
 Variables can be declared the following way, where \verb|<value>| denotes the value that will be assigned to the variable in the initialization vector:
 
-\begin{Verbatim}
+\begin{lstlisting}
 	var <name> : <type> = <value>
-\end{Verbatim}
+\end{lstlisting}
 
 Where \(v_{name}\) will be in domain \(D_{type}\).
 
 If the user wishes to declare a variable without an initial value, this is possible as well:
 
-\begin{Verbatim}
+\begin{lstlisting}
 	var <name> : <type>
-\end{Verbatim}
+\end{lstlisting}
 
 A variable can be tagged as a control variable with the keyword \verb|ctrl|:
 
-\begin{Verbatim}
+\begin{lstlisting}
 	ctrl var <name> : <type>
-\end{Verbatim}
+\end{lstlisting}
 
 In which case the variable \(v\) will also be added to \(V_C\) (the set of control variables).
 
@@ -50,18 +50,18 @@ An assumption operation can only be executed, if and only if its \emph{expressio
 
 A simple assumption operation can be stated like the following:
 
-\begin{Verbatim}
+\begin{lstlisting}
 	assume <expr>
-\end{Verbatim}
+\end{lstlisting}
 
 \paragraph{Assignment}
 
 Assignments have the following syntax, where \verb|<varname>| is the name of a variable and
 \verb|<expr>| is an expression of the same type:
 
-\begin{Verbatim}
+\begin{lstlisting}
 	<varname> := <expr>
-\end{Verbatim}
+\end{lstlisting}
 
 An assignment operation overwrites the variables value upon execution.
 
@@ -71,9 +71,9 @@ Havocs give the XSTS models randomness, by randomly \emph{assigning} a value.
 
 The syntax of havocs is the following, where \verb|<varname>| is the name of a variable:
 
-\begin{Verbatim}
+\begin{lstlisting}
 	havoc <varname>
-\end{Verbatim}
+\end{lstlisting}
 
 \subsection{Composite operations}
 
@@ -85,9 +85,9 @@ Non-deterministic choices work by randomly executing one and only one of its com
 
 Non-deterministic choices have the following syntax, where \verb|<operation>| are arbitrary basic or composite operations:
 
-\begin{Verbatim}
+\begin{lstlisting}
 	choice { <operation> } or { <operation> }
-\end{Verbatim}
+\end{lstlisting}
 
 \paragraph{Sequence}
 
@@ -95,17 +95,17 @@ Sequences execute all composed operations one-by-one from top to bottom.
 
 Sequences have the following syntax:
 
-\begin{Verbatim}
+\begin{lstlisting}
 	<operation>
 	<operation>
 	<operation>
-\end{Verbatim}
+\end{lstlisting}
 
 \subsection{Transitions}
 
 Each transition is a single operation (basic or composite). We distinguish between three sets of transitions, \emph{Tran}, \emph{Init} and \emph{Env} - associating to the three different operation sets introduced in \autoref{def:xsts}. Transitions are described with the following syntax, where \verb|<transition-set>| is either \verb|tran|, \verb|env| or \verb|init|:
 
-\begin{Verbatim}
+\begin{lstlisting}
 	<transition-set> {
 		<operation>
 	} or {
@@ -116,4 +116,4 @@ Each transition is a single operation (basic or composite). We distinguish betwe
 		<operation>
 	}
 	
-\end{Verbatim}
+\end{lstlisting}

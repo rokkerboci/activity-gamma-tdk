@@ -2,7 +2,7 @@
 \section{Extended Symbolic Transition System}\label{sec:xsts}
 %----------------------------------------------------------------------------
 
-The high-level nature of engineering models means they are easy-to-use for engineers, but leads to difficulties during the formal verification process. SysML state machines and acitivty diagrams for example contain high-level  constructs that make the modeling workflow more intuitive and enable the modeling of significantly more complex systems, however they are difficult to process using formal methods that are defined on low-level mathematical formalism and verified using SMT solvers. In this section, I introduce the XSTS \cite{xsts} language, which is a low-level modeling formalism designed to bridge the aforementioned gap between engineering models and formal methods.
+The high-level nature of engineering models means they are easy-to-use for engineers, but leads to difficulties during the formal verification process. SysML state machines and acitivty diagrams for example contain high-level  constructs that make the modeling workflow more intuitive and enable the modeling of significantly more complex systems, however they are difficult to process using formal methods that are defined on low-level mathematical formalism. In this section, I introduce the XSTS \cite{xsts} language, which is a low-level modeling formalism designed to bridge the aforementioned gap between engineering models and formal methods.
 
 \subsection{Formal definition}
 
@@ -35,11 +35,9 @@ Composite operations contain other operations, and can be used to describe compl
 
 \subsection{Simple example}
 
-Below is an example XSTS model defined in the language. For a more exact presentation please see \autoref{sec:xsts_language} in the Appendix.
+\autoref{lst:gamma-xsts} is an example XSTS model defined in the language. For a more exact presentation please see \autoref{sec:xsts_language} in the Appendix.
 
-\begin{Verbatim}
-	itt majd egy szép xsts példa lesz a running example-re (vagy valami hasonlóra). 
-	Akár lehetne egy Gamma által generált statechart is.
-\end{Verbatim}
-
-\todo{Statechart model xsts változata legyen}
+\begin{lstlisting}[float,language=xsts, caption={Gamma XSTS Language representing Traffic Controller statechart.}, label={lst:gamma-xsts}]
+itt majd egy szép xsts példa lesz a running example-re (vagy valami hasonlóra). 
+Akár lehetne egy Gamma által generált statechart is.
+\end{lstlisting}

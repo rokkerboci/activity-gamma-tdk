@@ -2,17 +2,16 @@
 \section{The Gamma Statechart Composition Framework}\label{sec:gamma}
 %----------------------------------------------------------------------------
 
-The Gamma Statechart Composition Framework is an integrated tool to support the design, verification and validation as well as code generation for component-based reactive systems. The behaviour of each component is captured by a statechart, while assembling the system from components is driven by a domain-specific composition language. Gamma supports formal verification by mapping composite statecharts to a back-end model checker. Execution traces obtained as witnesses during verification are back-annotated as test cases to replay an error trace or to validate external code generators \cite{molnar2018gamma}. 
+The Gamma Statechart Composition Framework\footnote{https://inf.mit.bme.hu/en/gamma} \cite{mixed_statecharts_2020} is an integrated tool to support the design, verification and validation as well as code generation for component-based reactive systems. The behaviour of each component is captured by a statechart, while assembling the system from components is driven by a domain-specific composition language. Gamma supports formal verification by mapping composite statecharts to a back-end model checker. Execution traces obtained as witnesses during verification are back-annotated as test cases to replay an error trace or to validate external code generators \cite{molnar2018gamma}. 
 
 \begin{figure}[!ht]
 	\centering
 	\includesvg[inkscapelatex=false, width=120mm, keepaspectratio]{gamma-functionality-overview}
-	\caption{Overview model transformation chains and modeling languages of the Gamma framework. The parts relevant to this work have been marked with red outline.}
+	\caption{Overview model transformation chains and modeling languages of the Gamma framework \cite{mixed_statecharts_2020}. The parts relevant to this work have been marked with red outline.}
 	\label{fig:gamma-overview}
 \end{figure}
 
 The workflow of Gamma builds on a model transformation chain depicted in \autoref{fig:gamma-overview}, which illustrates the input and output models of these model transformations as well as the languages in which they are defined, and the relations between them. The modeling languages are as follows.
-
 
 \begin{itemize}
 	\item The \textbf{Gamma Statechart Language (GSL)} is a UML/SysML-based statechart language supporting different semantic variants of statecharts.
@@ -27,9 +26,9 @@ Finally, the abstract traces are mapped into concrete (executable) traces tailor
 
 \subsection{Example Statechart}
 
-Here you can see the Gamma Statechart representation of the State Machine introduced in \autoref{fig:sysml_state_machine}.
+\autoref{lst:gamma-statechart} shows the Gamma Statechart representation of the State Machine introduced in \autoref{fig:sysml_state_machine}. \todo{more description}
 
-\begin{lstlisting}
+\begin{lstlisting}[float,language=statechart, caption={The traffic light controller state machine in the Gamma textual representation.}, label={lst:gamma-statechart}]
 package TrafficLightCtrl
 import "Interfaces"
 statechart TrafficLightCtrl [

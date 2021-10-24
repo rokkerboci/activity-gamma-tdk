@@ -33,7 +33,6 @@
 \usepackage{setspace} % For setting line spacing
 
 \usepackage[unicode]{hyperref} % For hyperlinks in the generated document.
-\usepackage{xcolor}
 \usepackage{listings} % For source code snippets.
 
 \usepackage[amsmath,thmmarks]{ntheorem} % Theorem-like environments.
@@ -66,8 +65,50 @@
 \usepackage[numbers]{natbib}
 \usepackage{xspace}
 \usepackage{svg}
-\usepackage{fancyvrb}
 \usepackage{csquotes}
 \usepackage{todonotes}
+\usepackage{subcaption}
+\usepackage{xcolor}
 
-\fvset{tabsize=4}
+\lstdefinelanguage{Xtext}{
+	morekeywords={grammar, with, hidden, generate, as, import, returns, current, terminal, enum},
+	keywordstyle=[2]{\textbf},
+	morecomment=[l]{//}, 
+	morecomment=[s]{/*}{*/}, 
+	morestring=[b]",
+	tabsize=4
+}
+
+\lstdefinelanguage{activity}{
+morekeywords={action, activity, and, assert, boolean, branch, break, case, choice, const, constraint, control, data, decimal, decision, default, div, else, elseif, enum, exists, false, final, flow, for, forall, fork, from, function, if, imply, in, inf, initial, integer, join, lambda, language, merge, mod, not, or, out, procedure, range, rational, record, return, select, self, switch, to, true, type, var, void, xor},
+keywordstyle=[2]{\textbf},
+morecomment=[l]{//}, 
+morecomment=[s]{/*}{*/}, 
+morestring=[b]",
+tabsize=4
+}
+
+\lstdefinelanguage{statechart}{
+morekeywords={+>, , ->, -o)-, :, ::, :=, ;, <, <+, <-, <=, =, ==, >, >=, ?, @, @AdaptiveContractStatechart, @GuardEvaluation, @OrthogonalRegionSchedule, @Phase, @PhaseStatechart, @RegionSchedule, @ScenarioAllowedWaitAnnotation, @ScenarioContractStatechart, @StatechartContract, @TransitionPriority, [, ], \^, action, activity, adapter, and, any, assert, async, beginning-of-step, bind, boolean, bottom-up, branch, break, call, capacity, cascade, case, channel, choice, clock, component, const, constraint, control, cycle, data, decimal, decision, deep, default, discard, div, do, else, elseif, entry, enum, event, execute, exists, exit, extends, false, final, flow, for, forall, fork, from, full step, function, history, if, imply, import, in, in-state, incoming, inf, initial, inout, integer, interface, invariant, join, lambda, language, merge, mod, ms, no history, not, of, off, oldest, on-the-fly, or, order-based, out, package, permissive, persistent, port, priority, procedure, provides, queue, raise, random, range, rate, rational, record, region, requires, reset, retrieve-count, return, run, s, scheduled-async, select, self, sequential, set, shallow, state, statechart, strict, switch, sync, tie, timeout, to, top-down, transient, transition, true, type, value-based, var, void, when, xor, || },
+keywordstyle=[2]{\textbf},
+morecomment=[l]{//}, 
+morecomment=[s]{/*}{*/}, 
+morestring=[b]",
+tabsize=4
+}
+
+\lstdefinelanguage{xsts}{
+morekeywords={type, var, ctrl, trans, init, env, choice, or, assume, havoc, parallel},
+keywordstyle=[2]{\textbf},
+morecomment=[l]{//}, 
+morecomment=[s]{/*}{*/}, 
+morestring=[b]",
+tabsize=4
+}
+
+\definecolor{sh_comment}{rgb}{0.25, 0.43, 0.31 } %adjusted, in Eclipse: {0.25, 0.42, 0.30 } = #3F6A4D
+\definecolor{sh_keyword}{rgb}{0.52, 0.11, 0.36}  % #5F1441
+\definecolor{sh_string}{rgb}{0.06, 0.09, 0.85} % #101AF9
+
+\def\lstsmallmath{\leavevmode\ifmmode \scriptstyle \else  \fi}
+\def\lstsmallmathend{\leavevmode\ifmmode  \else  \fi}
