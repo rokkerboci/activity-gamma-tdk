@@ -91,7 +91,7 @@ Every model has to have a root element structure; Activity Language is not any d
 
 \begin{figure}[!ht]
 	\centering
-	\includesvg[inkscapelatex=false, width=120mm, keepaspectratio]{declaration}
+	\includesvg[inkscapelatex=false, width=100mm, keepaspectratio]{declaration}
 	\caption{The root structure of the language}
 	\label{fig:declaration}
 \end{figure}
@@ -121,7 +121,7 @@ In order to correctly set a data flow's data source and data target, we have to 
 
 \begin{figure}[!ht]
 	\centering
-	\includesvg[inkscapelatex=false, width=110mm, keepaspectratio]{data-source-target}
+	\includesvg[inkscapelatex=false, width=100mm, keepaspectratio]{data-source-target}
 	\caption{The Data Source-Target reference structure}
 	\label{fig:data_source_target_reference}
 \end{figure}
@@ -130,18 +130,18 @@ In order to correctly set a data flow's data source and data target, we have to 
 
 \begin{figure}[!ht]
 	\centering
-	\includesvg[inkscapelatex=false, width=70mm, keepaspectratio]{data-source-target-example}
+	\includesvg[inkscapelatex=false, width=60mm, keepaspectratio]{data-source-target-example}
 	\caption{The Data node reference structure}
 	\label{fig:data_source_target_reference_example}
 \end{figure}
 
 \subsubsection{Pin Reference}
 
-Pin references are used to define a rigid pin-reference structure in the model. \emph{InputPinReferences} have a reference to a specific \emph{InputPin}, \emph{OutputPinReferences} have a reference to a specific \emph{OutputPin}. \emph{InsidePinReferences} and \emph{OutsidePinReferences} are used to tell the direction the reference sees the given pin; inside reference sees it from the inside, outside reference sees it from the outside. The \emph{OutsidePinReference} must also have a reference to the specific \emph{ActionNode} the pin is associated with\footnote{Note, that the inside pin reference does not have a node reference, because it is implicitly the containing activity}. See \autoref{fig:data_source_target_reference} for the meta-model.
+Pin references are used to define a rigid pin-reference structure in the model. \emph{InputPinReferences} have a reference to a specific \emph{InputPin}, \emph{OutputPinReferences} have a reference to a specific \emph{OutputPin}. \emph{InsidePinReferences} and \emph{OutsidePinReferences} are used to tell the direction the reference sees the given pin; inside reference sees it from the inside, outside reference sees it from the outside. The \emph{OutsidePinReference} must also have a reference to the specific \emph{ActionNode} the pin is associated with\footnote{Note, that the inside pin reference does not have a node reference, because it is implicitly the containing activity}. See \autoref{fig:pin_reference} for the meta-model.
 
 \begin{figure}[!ht]
 	\centering
-	\includesvg[inkscapelatex=false, width=110mm, keepaspectratio]{pin-reference}
+	\includesvg[inkscapelatex=false, width=100mm, keepaspectratio]{pin-reference}
 	\caption{The Pin reference structure}
 	\label{fig:pin_reference}
 \end{figure}

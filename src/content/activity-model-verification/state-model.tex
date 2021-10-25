@@ -1,39 +1,49 @@
 %----------------------------------------------------------------------------
-\section{Activities as State-based Models}
+\section{Activities as State-based Models}\label{sec:activities-as-state-based-models}
 %----------------------------------------------------------------------------
 
+Because Gamma transforms its models to XSTS in order to run formal verification on them, to integrate activity language, it must also be transformed to XSTS. Luckily, the structure and behaviour of the activity formalism makes this transformation easy.
 
+\subsection{Structure Transformation}
 
-\subsubsection{Gamma Extension}
+The state of the activities (\autoref{def:activity-state}) are defined by the nodes' \emph{states} and \emph{values}, it's pins' \emph{values} and the flows' \emph{states} and \emph{values}. All of these can be represented using \emph{variables} in the XSTS formalism. Because XSTS variables and types must have unique names, the name of the variables must be derived from their containers. In the following I will show the transformation algorithm using the XSTS's textual representation for easier understanding.
 
-\begin{figure}[!ht]
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includesvg[inkscapelatex=false, width=70mm, keepaspectratio]{gamma-activity-extension}
-		\caption{activity}
-		\label{fig:gamma-activity-extension}
-	\end{subfigure}%
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includesvg[inkscapelatex=false, width=70mm, keepaspectratio]{gamma-statechart-extension}
-		\caption{statechart}
-		\label{fig:gamma-statechart-extension}
-	\end{subfigure}
-	\begin{subfigure}{\textwidth}
-		\centering
-		\includesvg[inkscapelatex=false, width=70mm, keepaspectratio]{gamma-lowlevel-extension}
-		\caption{lowlevel}
-		\label{fig:gamma-lowlevel-extension}
-	\end{subfigure}
-	\caption{extension}
-	\label{fig:gamma-extension}
-\end{figure}
+The transformations steps are:
 
-\begin{figure}[!ht]
-	\centering
-	\includesvg[inkscapelatex=false, width=120mm, keepaspectratio]{gamma-functionality-activity-overview}
-	\caption{Overview of my modification to the Gamma framework. Added parts are outlined with green, while edited parts are outlined with orange.}
-	\label{fig:gamma-activity-overview}
-\end{figure}
+\paragraph{Step One} 
 
-formalizmus trafózása statechart mellett xsts-re. a végeredmény miért ekvivalens
+In order to create variables for the \emph{state} of the nodes and flows, we must declare a \emph{NodeState} and \emph{FlowState} type.
+
+\begin{lstlisting}[language=xsts]
+type NodeState : { __Idle__, __Running__, __Done__ }
+type FlowState : { __Empty__, __Full__ }
+\end{lstlisting}
+
+\paragraph{Step Two} 
+
+Now that we have the types needed, we can create the mappings of the nodes and flows. Flows are mapped to a variable of type \emph{FlowState}. If it is a \emph{DataFlow}, an additional \emph{value} variable has to be added, which will have a type of the connected pin\footnote{The connected pin can be determined by traversing the chain of flows in a direction, until we reach a pin}.
+
+\begin{lstlisting}[language=xsts]
+var activity_flow : FlowState = __Empty__
+var activity_flow_value : integer = 0
+\end{lstlisting}
+
+Nodes are mapped to a variable of type \emph{NodeState}. After which, according to its exact type, additional variables are added; if it is a \emph{DataNode}, a single \emph{value} variable will be added with the type of the connected \emph{DataNode}. Otherwise, if it is an \emph{ActionNode}, then all of its pins will be mapped to a variable - each with their own types.
+
+\begin{lstlisting}[language=xsts]
+var activity_node : NodeState = __Idle__
+var activity_node_pin1 : integer = 0
+var activity_node_pin2 : integer = 0
+var activity_decision_node : NodeState = __Idle__
+var activity_decision_value : boolean = false
+\end{lstlisting}
+
+\paragraph{Step Three} 
+
+Now that we have mapped the state of the activity, we must map the state-transition functions. This 
+
+\begin{lstlisting}[language=xsts]
+assume ((activity_flow == __Empty__) && (activity_node == __Done__));
+activity_flow := __Full__;
+activity_node := __Idle__;
+\end{lstlisting}

@@ -1,5 +1,5 @@
 %----------------------------------------------------------------------------
-\clearpage\section{Formal Definition}
+\clearpage\section{Formal Definition}\label{sec:activity-formal-definition}
 %----------------------------------------------------------------------------
 
 \newcommand{\inflows}[1]{\ensuremath{\delta(#1)}}
@@ -43,7 +43,7 @@ Contrarily, in Gamma Activity Language, the equivalent data flow does indeed con
 	\label{fig:activity-data-flow2}
 \end{figure}
 	
-\end{definition}
+\end{definition}\label{def:activity-structure}
 
 \begin{definition}[Gamma Activity State]
 	The state of a GA is defined the following:
@@ -56,7 +56,7 @@ Contrarily, in Gamma Activity Language, the equivalent data flow does indeed con
 		\item \(V_F : F \rightarrow D \) is a function returning the current \emph{value} contained in a flow.
 	\end{itemize}
 	
-\end{definition}
+\end{definition}\label{def:activity-state}
 
 Informally, the state of Gamma Activities are determined by the nodes' \emph{state} (\emph{Idle}, \emph{Running}, \emph{Done}) and their (or their pins') values, the flows' \emph{state} (\emph{Empty}, \emph{Full}) and their values. For example, given an action node \(n\) and one of it's pins \(p_1\), \(\mathit{PV}_N(n, p)\) would give us the exact value that pin contains in this instance. This gives us the power - contrary to the Activity-PN mapping introduced in \autoref{ssec:activities-as-petri-nets} - to formally define the values contained in tokens and nodes.
 
@@ -137,7 +137,7 @@ The function \(F_{Our}\) takes the token from node, and puts it in its output fl
 \item otherwise, it must forward all tokens.
 \end{itemize}
 
-\end{definition}
+\end{definition}\label{def:activity-state-change}
 
 \autoref{fig:activity-state-function} depicts these three functions, and how they change the state of a given node.
 

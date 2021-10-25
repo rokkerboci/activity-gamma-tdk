@@ -2,32 +2,7 @@
 \chapter{Integrating Activity Language Into Gamma}\label{ch:activiy_verification}
 %----------------------------------------------------------------------------
 
-We defined the language, however many unanswared questions
-how to transform side by side
-to to verify
-what semantics
-etc
-
-In the real world, SysML models often contain state machines that call activity diagrams using a state's \emph{do behaviour}, because often times this makes the design process easier. However, models containing \emph{do activity} cannot be verified directly; the activities have to be pre-processed and transformed into something else, like javascript or state machines \cite{10.1145/3417990.3421407}
-
-how to integrate into gamma, action, do action, etc, transition
-gamma használja az xsts-t -> xsts-re kell trafózni
-
-
-ez a rész csak jegyzet
-
-Initial/final node, action node, composite activity node, decision/merge node, fork/join node, pins, control/data flows.
-
-Do behaviour: 
-
-call activity action on transitions is not supported, would have to be inlined and flattened, atomic functions, interlaced with line execution semantics (future work)
-
-- call activity context függő - hosszú (nem atomikus) dolgot nem lehet akárhol meghívni (transition, sima action, stb)
-- validáció: inline környezetben tilos várakozás és ciklus (vagy csak x mélységig)
-- sok köztes nem stabil állapot
-- nagy változás a trafóban
-
-ezért csak do activity van
+In the previous chapter, I have introduced the Gamma Activity Language - it's formalism and textual representation. However, in order to use it for model verification, it has to be integrated into the Gamma transformation pipeline (see \autoref{fig:gamma-overview}). For this integration, I start by defining \emph{how} it integrates with Gamma in \autoref{sec:activities-alongside-statecharts}, after which I show transformation algorithm in \autoref{sec:activities-as-state-based-models}. Finally, I talk a bit about the implementation details in \autoref{sec:implementation-regards}. 
 
 \input{content/activity-model-verification/activities-alongside-statecharts}
 \input{content/activity-model-verification/state-model}

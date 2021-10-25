@@ -1,6 +1,57 @@
 %----------------------------------------------------------------------------
-\section{Activities Alongside Statecharts}
+\section{Activities Alongside Statecharts}\label{sec:activities-alongside-statecharts}
 %----------------------------------------------------------------------------
+
+In the real world, SysML models often contain state machines that call activity diagrams using a state's \emph{do behaviour}, as often times this makes the design process easier. However, Gamma does not support statecharts containing \emph{do activity} actions. Thus, first I extend the Gamma meta-model to support calling activities from states.
+
+\subsubsection{Gamma Extensions}
+
+First, I extended Gamma \emph{States} to include \emph{do} actions as well among \emph{entry} and \emph{exit} actions (see \autoref{fig:gamma-statechart-extension}). In order to enable calling activities from statecharts, I added the \emph{CallActivityAction}, which has a reference to an activity declaration (see \autoref{fig:gamma-statechart-extension}). These changes can be seen visually in \autoref{fig:gamma-activity-overview}. Added parts are outlined with green, while edited parts are outlined with orange.
+
+\begin{figure}[!ht]
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includesvg[inkscapelatex=false, width=60mm, keepaspectratio]{gamma-activity-extension}
+		\caption{Call activity action}
+		\label{fig:gamma-activity-extension}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includesvg[inkscapelatex=false, width=40mm, keepaspectratio]{gamma-statechart-extension}
+		\caption{State modification}
+		\label{fig:gamma-statechart-extension}
+	\end{subfigure}
+	\caption{Extensions to the Gamma meta-model}
+	\label{fig:gamma-extension}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=120mm, keepaspectratio]{gamma-functionality-activity-overview}
+	\caption{Overview of my modification to the Gamma framework.}
+	\label{fig:gamma-activity-overview}
+\end{figure}
+
+\subsection{Challenges of Calling Activities}
+
+how to integrate into gamma, action, do action, etc, transition
+gamma használja az xsts-t -> xsts-re kell trafózni
+
+
+ez a rész csak jegyzet
+
+Initial/final node, action node, composite activity node, decision/merge node, fork/join node, pins, control/data flows.
+
+Do behaviour: 
+
+call activity action on transitions is not supported, would have to be inlined and flattened, atomic functions, interlaced with line execution semantics (future work)
+
+- call activity context függő - hosszú (nem atomikus) dolgot nem lehet akárhol meghívni (transition, sima action, stb)
+- validáció: inline környezetben tilos várakozás és ciklus (vagy csak x mélységig)
+- sok köztes nem stabil állapot
+- nagy változás a trafóban
+
+ezért csak do activity van
 
 fentebb leírtam, hogyan lehet leképezni proces modelleket, de így csak magukban futhatnak. Itt most leírom, hogy milyen nehézségeket okozhat, amikor egymás mellett futtatjuk őket:
 
