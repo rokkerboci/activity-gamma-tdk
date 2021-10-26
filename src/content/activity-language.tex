@@ -4,7 +4,7 @@
 
 The high-level nature of SysML activities means they are easy to use for modeling complicated behaviours of distributed system, but their complexity encumbers formal verification. As discussed above in \autoref{ssec:activities-as-petri-nets}, we can define a semantic-preserving mapping between activities and Petri nets (which have a formal semantics), however, that mapping is not complete, as it disregards the data contained in tokens.
 
-The Gamma Statechart Composition Framework (\autoref{sec:gamma}) implements a model transformation pipeline (see \autoref{fig:gamma-overview}) for the formal verification of collaborating statecharts, however, it does not include activity diagrams. For this reason, I propose the \emph{Gamma Activity Language} (\autoref{ch:gamma-activity-language}), and integrate it (\autoref{ch:activiy_verification}) into the transformation pipeline.
+The Gamma Statechart Composition Framework (\autoref{sec:gamma}) implements a model transformation pipeline (see \autoref{fig:gamma-overview}) for the formal verification of collaborating statecharts, however, it does not include activity diagrams. For this reason, I propose the Gamma Activity Language (GATL) (\autoref{ch:gamma-activity-language}), and integrate it (\autoref{ch:activiy_verification}) into the transformation pipeline.
 
 \input{content/activity-language/design-decisions}
 \input{content/activity-language/formal-definition}

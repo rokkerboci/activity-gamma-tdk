@@ -2,11 +2,11 @@
 \clearpage\section{Gamma Activity Language}\label{sec:gamma-activity-language-constructs}
 %----------------------------------------------------------------------------
 
-\subsection{Language elements}
+\subsection*{Language elements}
 
 The following section gives high level introduction into the syntax of the Gamma Activity DSL.
 
-\subsubsection{Pins}\label{sssec:pins}
+\subsubsection*{Pins}\label{sssec:pins}
 
 Pins can be declared the following way, where \verb|<direction>| can be either \verb|in| or \verb|out|, and \verb|type| a valid Gamma Expression type.
 
@@ -38,7 +38,7 @@ final FinalNode
 action ActionNode
 \end{lstlisting}
 
-\subsubsection{Flows}\label{sssec:flows}
+\subsubsection*{Flows}\label{sssec:flows}
 
 The behaviour of the Activity can be described by stating \verb|data| or \verb|control| flows between two nodes. Flows may have \verb|guard|s on them, which limits when the flow can fire. Activities may only be from the current activity definition's children. Pins can be accessed using the \verb|.| accessor operator, the activity on the left hand side, and the pin's name on the right. The enclosing activity's name is \verb|self|.
 
@@ -53,7 +53,7 @@ data flow from activity1.pin1 to activity2.pin2
 data flow from self.pin to activity3.pin2
 \end{lstlisting}
 
-\subsubsection{Declarations}
+\subsubsection*{Declarations}
 
 Activity declarations state the \emph{name} of the activity, as well as its \emph{pins} \ref{sssec:pins}. 
 
@@ -73,7 +73,7 @@ activity Example {
 }
 \end{lstlisting}
 
-\subsubsection{Definitions}
+\subsubsection*{Definitions}
 
 Activities also have definitions, which give them bodies. The body language can be either \verb|activity| or \verb|action| depending on the language metadata set. Using the \verb|action| language let's you use any Gamma Action expression, including timeout resetting, raising events through component ports, or simple arithmetic operations.
 
@@ -120,7 +120,7 @@ activity Example {
 }
 \end{lstlisting}
 
-\subsubsection{Example}
+\subsubsection*{Example}
 
 A simple example activity can be seen in \autoref{lst:gamma-activity-adder}. This example shows two read actions, that return a random value, which are added together and logged to the console. The addition is defined using a \emph{NamedActivitDeclaraionReference}.
 

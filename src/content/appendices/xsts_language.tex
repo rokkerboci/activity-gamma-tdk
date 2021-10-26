@@ -4,7 +4,7 @@
 
 In this appendix I introduce the exact language constructs for the XSTS language 
 
-\subsection{Types}
+\subsection*{Types}
 
 XSTS contains two default variable types, logical variables (\emph{boolean}) and mathematical integers (\emph{integer}). XSTS also allows the user to define \emph{custom types}, similarly to enum types in common programming languages.
 
@@ -16,7 +16,7 @@ type <name> : { <literal_1>, . . . , <literal_n> }
 type Color : { RED, GREEN, BLUE }
 \end{lstlisting}
 
-\subsection{Variables}
+\subsection*{Variables}
 
 Variables can be declared the following way, where \verb|<value>| denotes the value that will be assigned to the variable in the initialization vector:
 
@@ -48,7 +48,7 @@ ctrl var b : boolean = false
 var c : Color = RED
 \end{lstlisting}
 
-\subsubsection{Operations}
+\subsubsection*{Operations}
 
 The behaviour of XSTS can be described using basic and composite operations. Basic operations include assignments, assumptions and havocs. In the following, you can see an example for each, where \verb*|<expr>| is an expression returning a value, and \verb*|<varname>| is the name of a variable.
 
@@ -87,7 +87,7 @@ parallel {
 }
 \end{lstlisting}
 
-\subsubsection{Transitions}
+\subsubsection*{Transitions}
 
 Each transition is a single operation (basic or composite). We distinguish between three
 sets of transitions, \emph{Tran}, \emph{Init} and \emph{Env}. Transitions are described with the following syntax, where \verb|<transition-set>| is either \verb|tran|, \verb|env| or \verb|init|:

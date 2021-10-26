@@ -2,6 +2,8 @@
 \section{Formal Verification}\label{sec:formal_verification}
 %----------------------------------------------------------------------------
 
+\todo{Lecserélni egy másik bevezetéssel, mert kicsit nem egyértelmű}
+
 \blockcquote{https://doi:10.4018/978-1-4666-5888-2.ch705}{
 	In order to raise the reliability of system analysis, a system analysis technique is required that can have the precision of paper-and-pencil based mathematical proofs, and thus does not rely upon computer-arithmetic, and utilizes the computers for bookkeeping, to be able to handle complex systems without having to worry about human-errors. Formal verification methods, which are primarily based on theoretical computer science fundamentals like logic calculi, automata theory and strongly type systems, fulfil these requirements. The main principle behind formal analysis of a system is to construct a computer based mathematical model of the given system and formally verify, within a computer, that this model meets rigorous specifications of intended behaviour. Due to the mathematical nature of the analysis, 100\% accuracy can be guaranteed.
 }
@@ -50,7 +52,7 @@ In words: W describes the \emph{weight} of each flow from a transition to a plac
 
 Formal verification requires models to be specified using \emph{mathematical} precision, however UML/SysML does not have precise semantics \cite{pssm-testing, pssm, euml}. Huang et al. in \cite{https://doi.org/10.1002/sys.21524} propose a way to \emph{partially} map SysML activity diagrams to Petri nets. In the following, I will summarise their work.
 
-\subsubsection{Constrained Subset of SysML}\label{ssec:sysml_assumptions}
+\subsubsection*{Constrained Subset of SysML}\label{ssec:sysml_assumptions}
 
 Since UML/SysML Activity Diagrams do not have precise execution semantics, the Petri net mapping can only be done for a limited subset of the modeling elements: \emph{actions}, \emph{initial nodes}, \emph{final nodes}, \emph{join nodes}, \emph{fork nodes}, \emph{merge nodes}, \emph{decision nodes}, \emph{pins} and \emph{object/control flows}, which have precise execution semantics as defined in the Foundational Subset for Executable UML Models \cite{fuml}.
 
@@ -64,7 +66,7 @@ The paper also assumes the following constrains:
 
 These constraints allow the mapping between activities and Petri nets, however, the constructed Petri net will not be semantically equivalent - data cannot flow between nodes. This fact is the motivation behind formalising a more-complete mapping (see \autoref{ch:gamma-activity-language}).
 
-\subsubsection{Mapping Rules}
+\subsubsection*{Mapping Rules}
 
 Activity elements can be grouped into two sets: \emph{load-and-send} (LAS) and \emph{immediate-repeat} (IR).
 
@@ -76,7 +78,7 @@ Given the set of assumptions in \autoref{ssec:sysml_assumptions}, control flows 
 
 Finally, after mapping the elements, the resulting Petri net may contain transition-transition and place-place arcs, which are not valid; as the final step, these arcs must be split in two by inserting a transition or a place in the middle, making the model conform to the formalism.
 
-\subsubsection{Example Mapping}
+\subsubsection*{Example Mapping}
 
 \begin{figure}[!ht]
 	\centering
