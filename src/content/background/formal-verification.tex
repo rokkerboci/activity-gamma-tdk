@@ -28,7 +28,7 @@ Model checker algorithms (see \autoref{fig:model_checking}), such as the ones us
 	\label{fig:petri_net}
 \end{figure}
 
-Petri nets are a widely used formalism to model concurrent, asynchronous systems \cite{24143}. The formal definition of a Petri net (including inhibitor arcs) is as follows (see \autoref{fig:petri_net} for an illustration of the notations).
+Petri nets are a widely used formalism to model concurrent, asynchronous systems \cite{24143}. The formal definition of a Petri net \cite{REISIG19911} is as follows (see \autoref{fig:petri_net} for an illustration of the notations).
 
 \begin{definition}[Petri net]
 	
@@ -48,11 +48,11 @@ In words: W describes the \emph{weight} of each flow from a transition to a plac
 
 \subsection{Activities as Petri Nets}\label{ssec:activities-as-petri-nets}
 
-Formal verification requires models to be specified using \emph{mathematical} precision, however SysML does not have precise semantics \cite{pssm-testing, pssm, euml}. Huang et al. in \cite{https://doi.org/10.1002/sys.21524} propose a way to \emph{partially} map SysML activity diagrams to Petri nets. In the following, I will summarise their work.
+Formal verification requires models to be specified using \emph{mathematical} precision, however UML/SysML does not have precise semantics \cite{pssm-testing, pssm, euml}. Huang et al. in \cite{https://doi.org/10.1002/sys.21524} propose a way to \emph{partially} map SysML activity diagrams to Petri nets. In the following, I will summarise their work.
 
 \subsubsection{Constrained Subset of SysML}\label{ssec:sysml_assumptions}
 
-Since SysML Activity Diagrams do not have precise execution semantics, the Petri net mapping can only be done for a limited subset of the modeling elements: \emph{actions}, \emph{initial nodes}, \emph{final nodes}, \emph{join nodes}, \emph{fork nodes}, \emph{merge nodes}, \emph{decision nodes}, \emph{pins} and \emph{object/control flows}, which have precise execution semantics as defined in the Foundational Subset for Executable UML Models \cite{fuml}.
+Since UML/SysML Activity Diagrams do not have precise execution semantics, the Petri net mapping can only be done for a limited subset of the modeling elements: \emph{actions}, \emph{initial nodes}, \emph{final nodes}, \emph{join nodes}, \emph{fork nodes}, \emph{merge nodes}, \emph{decision nodes}, \emph{pins} and \emph{object/control flows}, which have precise execution semantics as defined in the Foundational Subset for Executable UML Models \cite{fuml}.
 
 The paper also assumes the following constrains:
 

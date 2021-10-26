@@ -1,5 +1,5 @@
 %----------------------------------------------------------------------------
-\clearpage\section{Formal Definition}\label{sec:activity-formal-definition}
+\section{Formal Definition}\label{sec:activity-formal-definition}
 %----------------------------------------------------------------------------
 
 \newcommand{\inflows}[1]{\delta(#1)}
@@ -15,7 +15,7 @@ In order to offer mathematical precision, formal verification methods require fo
 	A Gamma Activity is a tuple of \(\mathit{GA} = (N, P, F, G, D_\mathit{GA}, F_{Action})\), where:
 	
 	\begin{itemize}
-		\item \(N = N_\mathit{IR} \bigcup N_\mathit{LAS} \) is a set of \emph{Nodes}, where \(N_\mathit{IR}\) contains the \emph{immediate-repeat} nodes and \(N_\mathit{LAS}\) contains the \emph{load-and-sand} nodes (see \autoref{ssec:activities-as-petri-nets}). \(F_\mathit{Action} \in N_\mathit{LAS} \) is a special set of nodes, which are the \emph{Action} nodes;
+		\item \(N = N_\mathit{IR} \bigcup N_\mathit{LAS} \) is a set of \emph{Nodes}, where \(N_\mathit{IR}\) contains the \emph{immediate-repeat} nodes and \(N_\mathit{LAS}\) contains the \emph{load-and-sand} nodes (see \autoref{ssec:activities-as-petri-nets}). \(N_\mathit{Action} \in N_\mathit{LAS} \) is a special set of nodes, which are the \emph{Action} nodes;
 		\item \( P \subseteq P_\mathit{In} \bigcup P_\mathit{Out} \) is a set of two types of pins, where \(P_\mathit{In} : N_\mathit{Action} \rightarrow \{ p_1, \dots, p_n \} \) and \(P_\mathit{Out} : N_\mathit{Action} \rightarrow \{ p_1, \dots, p_n \} \) are the set of \emph{InputPins} and \emph{OutputPins}, respectively, with domains \(\{ d_1, \dots, d_n \} \subseteq D_\mathit{GA} \);
 		\item \( F \subseteq F_C \bigcup F_D \), where \(F_C = \{ f_{C_1}, \dots, f_{C_n} \} \) and \(F_D = \{ f_{D_1}, \dots, f_{D_n} \} \) are the control and data flows, respectively. Let us denote the input/output flows of node \(n\) as \( \inflows{n} \) and \( \outflows{n} \), and the source/target pins of flow \(f\) as \( \sourcepin{f} \) and \(\targetpin{f}\). For any given node \(n\), \( \inflows{n} \neq \outflows{n} \) and for any given action node \(n_a\) \( \targetpin{f} \in P_\mathit{In}(n_a) \forall f \in F_D \bigcap \inflows{n_a} \) and \( \sourcepin{f} \in P_\mathit{Out}(n_a) \forall f \in F_D \bigcap \outflows{n_a} \) shall always hold. This means, that a flow cannot be input and output to the same node at the same time, and for a given action node, all input/output flows shall be associated with an input/output token, respectively;
 		\item \(G : F \rightarrow \{ \mathit{True}, \mathit{False} \} \) is a function determining whether a given flow is enabled;
@@ -23,7 +23,7 @@ In order to offer mathematical precision, formal verification methods require fo
 		\item \(F_{Action} \subseteq d_{1} \times d_{2} \times \dots \times d_{n} \) is a function mapping an \emph{action} nodes input pin values to it's output pin values.
 	\end{itemize}
 	
-Informally, Gamma Activities are composed of \emph{nodes} and flows in between them. A given  \emph{Action} node may have any number of \emph{Pins} with domain \(d \in D\), for which, there must be one and only one flow connected to the node. An action node also has a special \(F_{Action}\), which returns the values of its output pins.
+Informally, Gamma Activities are composed of \emph{nodes} and flows in between them. A given  \emph{Action} node may have any number of \emph{Pins} with domain \(d \in D\), for which, there must be one and only one flow connected to the node. Nodes \(n \in N_\mathit{Action}\) may also contain internal activities denoted \(\mathit{GA}_\mathit{n}\).
 
 \(N_\mathit{IR}\) contains the nodes \emph{decision/merge}, while \(N_\mathit{LAS}\) contains the nodes \emph{fork/join}, \emph{initial/final} and \emph{action} nodes. For the most part, these elements have a similar behaviour as their SysML counter parts; however, there is a crucial difference regarding how a flow transmits a token. \autoref{fig:activity-data-flow1} shows a simple data flow between two nodes, connected via their pins. When this flow is fired, the data inside the pins are transferred instantly, without any intermediate state in between. 
 
@@ -53,7 +53,7 @@ The behaviour of the Gamma Activity Language is defined using the XSTS (\autoref
 	\( \mathit{XSTS_{GA}} = (D, V, V_C, \mathit{IV}, \mathit{Tr}, \mathit{In}, \mathit{En}) \), where:
 	
 	\begin{itemize}
-		\item \( D = D_\mathit{GA} \bigcup d_\mathit{NodeState} \bigcup d_\mathit{FlowState} \), where \(D_\mathit{GA}\) is the domain in \emph{GA}, \(d_\mathit{NodeState} = \{ \mathit{Idle}, \mathit{Running}, \mathit{Done} \} \) and \(d_\mathit{FlowState} = \{ \mathit{Empty}, \mathit{Full} \} \);
+		\item \( D = D_\mathit{GA} \bigcup d_\mathit{NodeState} \bigcup d_\mathit{FlowState} \), where \(D_\mathit{GA}\) is the domain in \emph{GA}, \(d_\mathit{NodeState} = \{ \mathit{Idle}, \mathit{Running}, \mathit{Done} \} \) and \(d_\mathit{FlowState} = \{ \mathit{Empty}, \mathit{Full} \} \) are the node and flow state domains representing their internal state. Node state \emph{Idle} means a node is ready for a token, \emph{Running} means it is currently executing and \emph{Done} means it is done (but still contains a token). Flow states \emph{Empty} and \emph{Full} represent whether the flow contains a token;
 		\item \( V = V_\mathit{NS} \bigcup V_\mathit{FS} \bigcup V_\mathit{NV} \bigcup V_\mathit{FV} \bigcup V_\mathit{PV} \), where \(V_\mathit{NS} = \{ v_1, v_2, \dots, v_n \} \) is the variable representing the \emph{state} of the nodes with domain \(d_\mathit{NodeState}\), \(V_\mathit{FS} = \{ v_1, v_2, \dots, v_n \} \) is the variable representing the \emph{state} of the flows with domain \(d_\mathit{FlowState}\) and \( V_\mathit{NV} \), \( V_\mathit{FV} \), \( V_\mathit{PV} \) are the variables representing the values contained inside \emph{flows}, \emph{nodes} and \emph{pins} respectively;
 		\item \( IV \) sets all variables to their default value;
 		\item \( V_C = V_\mathit{NS} \bigcup V_\mathit{FS} \) are the \emph{control variables}\footnote{We don't have to set the value variables as control variables, because they only change when the given flow's or node's state variable changes.};
@@ -77,6 +77,8 @@ We also define the following helper functions:
 
 Informally, the state of Gamma Activities are determined by the nodes' \emph{state} (\emph{Idle}, \emph{Running}, \emph{Done}), the nodes' and their pins' values, the flows' \emph{state} (\emph{Empty}, \emph{Full}) and their values. For example, given an action node \(n\) and one of it's pins \(p_1\), \(\mathit{PV}_N(n, p)\) would give us the exact value that pin contains in this instance. This gives us the power - contrary to the Activity-PN mapping introduced in \autoref{ssec:activities-as-petri-nets} - to formally define the values contained in tokens.
 
+This definition gives us the structure to define the exact behaviour of a Gamma Activity. In the following, I incrementally build up the parts of transition \(T\), and then propose an algorithm constructing the XSTS. 
+
 Let us define a shorthand function for finding a nodes input variable associated with a given flow:
 
 \begin{equation*}
@@ -97,14 +99,14 @@ And a shorthand function for finding a nodes output variable associated with a g
 	\end{cases}
 \end{equation*}
 
-These notation will help us easily transfer the data to and from the node value variables - by hiding the difference between the pin variables and the node variables.
+These notations will help us easily transfer the data to and from the node value variables - by hiding the difference between the pin variables and the node variables.
 
 \newcommand{\enabled}{\mathit{En}}
 
-In the following I define the operations used to construct the transitions in the transition set \(T\). 
+Next, I define various functions that return operations, which will be used to construct the transition \(T\). In the following, I will notate \emph{sequences} as operations after one another, \emph{choices} as \(\mathit{choice}(p)\), \emph{parallels} as \(\mathit{parallel}(p)\), where \(p\) is a set of operations, \emph{assumptions} as \(\mathit{assume}(v = value)\), where \(v\) is a varible, and \(v = value\) is an expression returning a boolean, and lastly, \emph{assignments} as \(\mathit{assign}(v, value)\).
 
 \begin{definition}[Flow Transition Operations]	
-	Let us denote the source/target node of flow \(f\) as \( \sourcenode{f} \) and \( \targetnode{f} \) respectively. Let us also construct the operation of  \(O_\mathit{FlowIn}(f)\) is the \emph{sequential} operation of taking a token from a flow to a node, which is defined the following:
+	Let us denote the source/target node of flow \(f\) as \( \sourcenode{f} \) and \( \targetnode{f} \) respectively. \(O_\mathit{FlowIn}(f)\) is a function returning a \emph{sequential} operation, which takes a token from a flow to a node:
 	
 	\begin{align*}
 		&\mathit{assume}(S_F(f) = \mathit{Full}) \\
@@ -114,7 +116,7 @@ In the following I define the operations used to construct the transitions in th
 		&\mathit{assign}(S_N(V_{N_\mathit{In}}(\targetnode{f}, f)), V_F(f)) \\
 	\end{align*}
 
-	Informally, this operation checks that the node is \emph{Idle} and the flow is \emph{Full}, in which case it transfers the token by changing their states. Let \(O_\mathit{FlowOut}(f)\) be the \emph{sequential} operation of taking a token from a node to a flow:
+	Informally, the returned operation checks that the node is in \emph{Idle} state and the flow is in \emph{Full} state. After which, it transfers the token by changing their states. Let \(O_\mathit{FlowOut}(f)\) be the function returning a \emph{sequential} operation, which takes a token from a node to a flow:
 	
 	\begin{align*}
 		&\mathit{assume}(G(f) = \mathit{true}) \\
@@ -125,30 +127,30 @@ In the following I define the operations used to construct the transitions in th
 		&\mathit{assign}(V_F(f), S_N(V_{N_\mathit{Out}}(\sourcenode{f}, f))) \\
 	\end{align*}
 
-	Informally, this operation checks that the node is \emph{Done} and the flow is \emph{Empty} and \emph{enabled}, in which case it transfers the token by changing their states.
+	The returned operation checks that the node is \emph{Done} and the flow is \emph{Empty} and \emph{enabled}, in which case it transfers the token by changing their states. Note, that both of the operations transfer the value of the node to the flow, or the value of the flow to the node using the previously defined helper notations.
 \end{definition}
 
 \begin{definition}[Node Token In/Out Operations]
-	Given the different behaviours of \emph{IR} and \emph{LAS} nodes, we must construct different operations for their in and out transitions. \(O_\mathit{IRNodeIn}(n)\) is the \emph{choice} operation representing the \enquote{token intake} of an \emph{IR} node:
+	Given the different behaviours of \emph{IR} and \emph{LAS} nodes, we must construct different operations for their in and out transitions. \(O_\mathit{IRNodeIn}(n)\) is the function returning a \emph{choice} operation that represents the \enquote{token intake} of an \emph{IR} node:
 	
 	\begin{equation*}
 		O_\mathit{IRNodeIn}(n) = \mathit{choice}\left(\bigcup_{f \in \inflows{n}} O_\mathit{FlowIn}(f)\right)
 	\end{equation*}
 	
-	And \(O_\mathit{IRNodeOut}(n)\) is the \emph{choice} operation representing the \enquote{token output} of an \emph{IR} node:
+	And \(O_\mathit{IRNodeOut}(n)\) is the function returning a \emph{choice} operation that represents the \enquote{token output} of an \emph{IR} node:
 
 	\begin{equation*}
 		O_\mathit{IRNodeOut}(n) = \mathit{choice}\left(\bigcup_{f \in \outflows{n}} O_\mathit{FlowOut}(f)\right)
 	\end{equation*}
 
-	On a similar note, the \emph{LAS} node \enquote{token intake} and \enquote{token output} operations are the following:
+	On a similar note, the functions constructing the \emph{LAS} node \enquote{token intake} and \enquote{token output} operations are the following:
 	
 	\begin{align*}
 		O_\mathit{LASNodeIn}(n) &= \mathit{parallel}\left(\bigcup_{f \in \inflows{n}} O_\mathit{FlowIn}(f)\right)\\
 		O_\mathit{LASNodeOut}(n) &= \mathit{parallel}\left(\bigcup_{f \in \outflows{n}} O_\mathit{FlowOut}(f)\right)
 	\end{align*}
 
-	For simplicities sake, I define the following operations to use one notation for all of the node operations:
+	For simplicities sake, I define the following functions to merge all the node in/out operations:
 
 	\begin{align*}
 		O_\mathit{LASNodeIO}(n) &= \mathit{choice}(O_\mathit{LASNodeIn}(n) \bigcup O_\mathit{LASNodeOut}(n))\\
@@ -160,29 +162,86 @@ In the following I define the operations used to construct the transitions in th
 		\end{cases}
 	\end{align*}
 
-	In which case, \(O_\mathit{NodeIO}(n)\) returns an operation transferring the tokens in and out of the specified node.
+	In which case, \(O_\mathit{NodeIO}(n)\) returns an operation transferring the tokens in and out of the specified node. 
 
 \end{definition}
 
 Informally, these operations realise the semantics of the \emph{LAS} and \emph{IR} nodes, by either putting the \emph{flow in} and \emph{flow out} operations inside a \emph{parallel} or a \emph{choice}, respectively\footnote{Parallel operations execute \emph{all} contained operations at the same time, while choices chose one at random.}.
 
-\begin{definition}[Node Transition Operations]
-	Node transition operations take the given node from \emph{Running} state to \emph{Done} state, while also executing the underlying operation. Let us define the \(O_\mathit{NodeTransition}(n)\) node transition \emph{sequential} operation function as:
+\begin{definition}[Node Run Operations]
+	Node transition operations take the given node from \emph{Running} state to \emph{Done} state, while also executing the underlying operation. Generally, \(O_\mathit{NodeRun}(n)\) function is defined as:
 	
 	\begin{align*}
 		&\mathit{assume}(S_N(n), \mathit{Running}) \\
 		&\mathit{assign}(S_N(n), \mathit{Done}) \\
 	\end{align*}
+
+	However, some nodes have special behaviours. If the node is an \emph{Action} node, it can contain either a \emph{Gamma Action} expression, or a composite \emph{Activity} (see \autoref{sec:activity-grammar} for more information).
+
+	\begin{itemize}
+		\item If the node is an \emph{Action} node, the contained \emph{Gamma Action} expression is mapped to an operation \(O_\mathit{Action}(n)\), and added to \( O_\mathit{NodeRun}(n) \). Let us call this function \(O_\mathit{NodeRun}^\prime(n)\)
+		\item If the node is an \emph{Action} node, the contained activity first has to be started, and the state of the node can only change when the contained activity is done. Let us call this function as \(O_\mathit{NodeRun}^{\prime\prime}(n)\).
+	\end{itemize}
+
+	\(O_\mathit{Run}^\prime(n)\) function is defined as:
+	
+	\begin{align*}
+		&\mathit{assume}(S_N(n), \mathit{Running}) \\
+		&O_\mathit{Action}(n) \\
+		&\mathit{assign}(S_N(n), \mathit{Done}) \\
+	\end{align*}
+
+	Let \(\mathit{initial}\) and \(\mathit{final}\) be the sets of \emph{initial} and \emph{final} nodes in \(\mathit{GA}_\mathit{n}\). \(O_\mathit{NodeRun}^{\prime\prime}(n)\) function is defined as:
+	
+	\begin{align*}
+		&\mathit{assume}(S_N(n), \mathit{Running}) \\
+		&\mathit{choice}\left(
+			\bigcup_{n_\mathit{In} \in \mathit{initial}} \left(\mathit{assume}(S_N(n_\mathit{In}) = \mathit{Idle}) \bigcup \mathit{assign}(S_N(n_\mathit{In}), \mathit{Running})
+		\right)\right)\\
+		&\mathit{choice}\left(
+			\bigcup_{n_\mathit{Fin} \in \mathit{final}} \mathit{assume}(S_N(n_\mathit{Fin}) = \mathit{Done}) \bigcup \mathit{assign}(S_N(n), \mathit{Done})
+		\right)
+	\end{align*}
+
+	Informally, the returned operation checks if the node is in state \emph{Running}, and then chooses: it either sets the contained activity's initial nodes \emph{Running}, if they are currently \emph{Idle}, or sets the node's state \emph{Done} if the contained activity's final nodes are \emph{Done}. Thus, the node is only considered \emph{Done}, when the contained activity is also done.
+
 \end{definition}
 
+\begin{figure}[!ht]
+\centering
+\begin{subfigure}[b]{\textwidth}
+	\centering
+	\includesvg[inkscapelatex=false, width=80mm, keepaspectratio]{activity-state-function}
+	\caption{\(O_\mathit{Node}\) operations for a \emph{LAS} node}
+	\label{fig:activity-state-function-las}
+\end{subfigure}\\
+\vspace{10mm}
+\begin{subfigure}[b]{\textwidth}
+	\centering
+	\includesvg[inkscapelatex=false, width=80mm, keepaspectratio]{activity-state-function-ir}
+	\caption{\(O_\mathit{Node}\) operations for an \emph{IR} node}
+	\label{fig:activity-state-function-ir}
+\end{subfigure}\\
+\vspace{10mm}
+\begin{subfigure}[b]{\textwidth}
+	\centering
+	\includesvg[inkscapelatex=false, width=60mm, keepaspectratio]{activity-state-function-composite}
+	\caption{\(O_\mathit{NodeRun}\) operations for a \emph{composite} action node}
+	\label{fig:activity-state-function-composite}
+\end{subfigure}\\
+\caption{An illustration of the state change operations}
+\label{fig:activity-state-functions}
+\end{figure}
+
 \begin{definition}[Composite Node Operation]
-	Putting all of the work together, we can define a function returning an operation for each node, that implements the behaviour we desire:
+	Putting all of the work together, we can define a function returning the operation representing all behaviour of a given node:
 	
 	\begin{equation*}
-		O_\mathit{Node}(n) = \mathit{choice}(O_\mathit{NodeIO}(n) \bigcup O_\mathit{NodeTransition}(n))
+		O_\mathit{Node}(n) = \mathit{choice}(O_\mathit{NodeIO}(n) \bigcup O_\mathit{NodeRun}(n))
 	\end{equation*}
 \end{definition}
 
+Informally, this is a choice operation, that either moves the tokens in/out, or executes the internal action of the node. The various operations defined in the previous sections can be seen in \autoref{fig:activity-state-functions}. 
 
 \iffalse
 
@@ -280,16 +339,8 @@ The function \(F_{Our}\) takes the token from node, and puts it in its output fl
 
 \fi
 
-\begin{figure}[!ht]
-	\centering
-	\includesvg[inkscapelatex=false, width=110mm, keepaspectratio]{activity-state-function}
-	\caption{An illustration of activity node state and change functions}
-	\label{fig:activity-state-function}
-\end{figure}
+As the final step, we construct the transition \(T\), by applying the \(O_\mathit{Node}(n)\) function on each node:
 
-\begin{figure}[!ht]
-	\centering
-	\includesvg[inkscapelatex=false, width=110mm, keepaspectratio]{activity-state-function-ir}
-	\caption{An illustration of activity node state and change functions}
-	\label{fig:activity-state-function-ir}
-\end{figure}
+\begin{equation*}
+	T = \bigcup_{n \in N} O_\mathit{Node}(n)
+\end{equation*}
