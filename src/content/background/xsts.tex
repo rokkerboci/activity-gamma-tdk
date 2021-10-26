@@ -8,29 +8,29 @@ The high-level nature of engineering models means they are easy-to-use for engin
 
 \begin{definition}[Extended symbolic transition system]
 	
-	An \emph{Extended symbolic transition system} is a tuple \( XSTS = (D, V, V_C, IV, Tr, In, En) \), where:
+	An \emph{Extended symbolic transition system} is a tuple \( \mathit{XSTS} = (D, V, V_C, \mathit{IV}, \mathit{Tr}, \mathit{In}, \mathit{En}) \), where:
 	
 	\begin{itemize}
-		\item \(D = \{ D_{v_1}, D_{v_2}, \dots, D_{v_n} \} \) is a set of value domains;
-		\item \(V = \{ v_1, v_2, \dots, v_n \} \) is a set of variables with domains \(D_{v_1}, D_{v_2}, \dots, D_{v_n}\);
+		\item \(D = \{ d_{v_1}, d_{v_2}, \dots, d_{v_n} \} \) is a set of value domains;
+		\item \(V = \{ v_1, v_2, \dots, v_n \} \) is a set of variables with domains \(d_{v_1}, d_{v_2}, \dots, d_{v_n}\);
 		\item \(V_C \subseteq V\) is a set of variables marked as \emph{control variables};
-		\item \(IV \in D_{v_1} \times D_{v_2} \times \dots \times D_{v_n}\) is the \emph{initial value function} used to describe the initial state. The initial value function \(IV\) assigns an initial value \(IV(v) \in D_v\) to variables \(v \in V\) of their domain \(D_v\);
-		\item \(Tr \subseteq Ops\) is a set of operations, representing the \emph{internal transition relation}; it describes the internal behaviour of the system;
-		\item \(In \subseteq Ops\) is a set of operations, representing the \emph{initialisation transition relation}; it is used to describe more complex initialisation, and is executed once and only once, at the very beginning;
-		\item \(En \subseteq Ops\) is a set of operations, representing the \emph{environmental transition relation}; it is used to model the system's interactions with its environment.
+		\item \(\mathit{IV} \in d_{v_1} \times d_{v_2} \times \dots \times d_{v_n}\) is the \emph{initial value function} used to describe the initial state. The initial value function \(\mathit{IV}\) assigns an initial value \(\mathit{IV}(v) \in d_v\) to variables \(v \in V\) of their domain \(d_v\);
+		\item \(\mathit{Tr} \subseteq \mathit{Ops}\) is a set of operations, representing the \emph{internal transition relation}; it describes the internal behaviour of the system;
+		\item \(\mathit{In} \subseteq \mathit{Ops}\) is a set of operations, representing the \emph{initialisation transition relation}; it is used to describe more complex initialisation, and is executed once and only once, at the very beginning;
+		\item \(\mathit{En} \subseteq \mathit{Ops}\) is a set of operations, representing the \emph{environmental transition relation}; it is used to model the system's interactions with its environment.
 	\end{itemize}
 \end{definition}\label{def:xsts}
 
-In any state of the system, a single operation is selected from the sets introduced above (\(Tr\), \(In\) and \(En\)). The set from where the operation can be selected depends on the current state: In the initial state - which is described by the initialization vector \(IV\) - only operations from the \(In\) set can be executed. Operations from the \(In\) set can only fire in the initial state and nowhere else. After that, \(En\) and \(Tr\) are selected in an alternating manner.
+In any state of the system, a single operation is selected from the sets introduced above (\(\mathit{Tr}\), \(\mathit{In}\) and \(\mathit{En}\)). The set from where the operation can be selected depends on the current state: In the initial state - which is described by the initialization vector \(\mathit{IV}\) - only operations from the \(\mathit{In}\) set can be executed. Operations from the \(\mathit{In}\) set can only fire in the initial state and nowhere else. After that, \(\mathit{En}\) and \(\mathit{Tr}\) are selected in an alternating manner.
 
-Operations \(op \in Ops\) describe the transitions between states of the system, where \(Ops\) is the set of all possible transitions. All operations are atomic in the sense that they are either executed in their entirety or none at all. XSTS defines the following operations:
+Operations \(\mathit{op} \in \mathit{Ops}\) describe the transitions between states of the system, where \(\mathit{Ops}\) is the set of all possible transitions. All operations are atomic in the sense that they are either executed in their entirety or none at all. XSTS defines the following operations:
 
 \paragraph{Basic operations} 
 
 Basic operations contain no inner (nested) operations.
 
 \begin{itemize}
-	\item \emph{Assignments} assign a given value \(v\) from domain \(D_n\) to variable \(V_n\).
+	\item \emph{Assignments} assign a given value \(v\) from domain \(d_n\) to variable \(V_n\).
 	\item \emph{Havocs} behave likewise, except the value is not predetermined; giving a way to assign random value to a variable.
 	\item Lastly, \emph{assume} operations check a condition, and can only be executed if their condition evaluates to \emph{true}.
 \end{itemize}
@@ -64,7 +64,7 @@ var SecondaryTimeout2_Controller : integer = 0
 trans {
 	// ...
 	choice {
-		assume (((main_region_Controller == Interrupted) && 
+		assume (main_region_Controller == Interrupted); 
 		// ...
 		choice {
 			assume (operating_Controller == Priority);
@@ -79,7 +79,7 @@ trans {
 	PoliceInterrupt_police_In_Controller := false;
 }
 init {
-	SecondaryTimeout2_Controller := (2 * 1000);
+	SecondaryTimeout2_Controller := 2 * 1000;
 	main_region_Controller := __Inactive__;
 	// ...
 	PriorityPolice_police_Out_Controller := false;
@@ -87,7 +87,7 @@ init {
 		assume (operating_Controller == __Inactive__);
 		operating_Controller := Init;
 	} or {
-		assume (!((operating_Controller == __Inactive__)));
+		assume !(operating_Controller == __Inactive__);
 	}
 	// ...
 }

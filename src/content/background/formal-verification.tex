@@ -10,7 +10,7 @@
 
 \emph{Model checking} is a formal verification method to verify properties of finite systems, i.e., to decide whether a given formal model \(M\) satisfies a given requirement \(\gamma\) or not. The name comes from formal logic, where a logical formula may have zero or more models, which define the interpretation of the symbols used in the formula and the base set such that the formula is true. In this sense, the question is whether the formal model is indeed a model of the formal requirement: \(M \not\models \gamma\)?
 
-Model checker algorithms (see \autoref{fig:model_checking}), such as the ones used in UPPAAL\footnote{https://uppaal.org/} \cite{uppaal} or Theta\footnote{https://inf.mit.bme.hu/en/theta} \cite{theta} can answer this question, and can even return a \emph{proof} (i.e., a part of the model) that \(M\) indeed does satisfy said requirement\footnote{These proofs usually come in the form of an execution trace}.
+Model checker algorithms (see \autoref{fig:model_checking}), such as the ones used in UPPAAL\footnote{https://uppaal.org/} \cite{uppaal} or Theta\footnote{https://inf.mit.bme.hu/en/theta} \cite{theta} can answer this question, and can even return a \emph{proof} (i.e., a part of the model) that \(M\) indeed does satisfy said requirement\footnote{These proofs usually come in the form of an execution trace}. If the formal requirement does not hold for the model-requirement pair, the model checker only returns a \emph{no} state.
 
 \begin{figure}[!ht]
 	\centering
@@ -66,17 +66,15 @@ These constraints allow the mapping between activities and Petri nets, however, 
 
 \subsubsection{Mapping Rules}
 
-\todo{More description}
-
 Activity elements can be grouped into two sets: \emph{load-and-send} (LAS) and \emph{immediate-repeat} (IR).
 
-LAS nodes are fired when all their inputs have tokens. When an LAS node fires, the number of tokens associated with the input arcs/pin is consumed and the number of tokens associated with an output arc/pin is added. In SysML activity diagrams, the execution semantics of fork nodes, join nodes, and basic actions are also LAS because these nodes are fired when all their input nodes have at least one token. As a result, these nodes can be mapped to \emph{transitions} in the resulting Petri net.
+LAS nodes are fired when all their inputs have tokens. When an \emph{LAS} node fires, the number of tokens associated with the input flows/pin is consumed and the number of tokens associated with an output flows/pin is added. In SysML activity diagrams, the execution semantics of all nodes, except \emph{decision} and \emph{merge} nodes are LAS, because these nodes are fired when all their input nodes have at least one token. As a result, these nodes can be mapped to \emph{transitions} in the resulting Petri net.
 
-In contrast, as soon as an IR node receives a token from any input, it immediately adds a token to its output nodes. For UML/SysML activity diagrams, activity final nodes, merge nodes, decision nodes and pins are IR nodes because they are fired immediately when any token is received. As a result, these nodes can be mapped to \emph{places} in the resulting Petri net.
+In contrast, as soon as an \emph{IR} node receives a token from any input, it immediately adds a token to its output nodes. For SysML activity diagrams, merge nodes, decision nodes IR nodes, because they are fired immediately when any token is received. As a result, these nodes can be mapped to \emph{places} in the resulting Petri net.
 
 Given the set of assumptions in \autoref{ssec:sysml_assumptions}, control flows and object flows in an activity diagram can be mapped to arcs in a Petri net.
 
-Finally, after mapping the elements, the resulting Petri net may contain transition-transition and place-place arcs, which are not valid; as final step, these arcs have to be split in two by inserting a transition or a place in the middle, making the model conform to the formalism.
+Finally, after mapping the elements, the resulting Petri net may contain transition-transition and place-place arcs, which are not valid; as the final step, these arcs must be split in two by inserting a transition or a place in the middle, making the model conform to the formalism.
 
 \subsubsection{Example Mapping}
 
@@ -89,4 +87,4 @@ Finally, after mapping the elements, the resulting Petri net may contain transit
 
 \autoref{fig:activity-pn-mapping} shows an example mapping from the activity \autoref{fig:activity-running-example}. The resulting elements are annotated with the names of their counter parts in the activity diagram.
 
-For more information, please refer to \cite{https://doi.org/10.1002/sys.21524}!
+For more information, please refer to \cite{https://doi.org/10.1002/sys.21524}.

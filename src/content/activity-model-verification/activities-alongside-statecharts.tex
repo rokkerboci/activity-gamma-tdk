@@ -4,7 +4,7 @@
 
 In the real world, SysML models often contain state machines that call activity diagrams using a state's \emph{do behaviour}, as often times this makes the design process easier. However, Gamma does not support statecharts containing \emph{do activity} actions. Thus, first I extend the Gamma meta-model to support calling activities from states.
 
-\subsubsection{Gamma Extensions}
+\subsection{Gamma Extensions}
 
 First, I extended Gamma \emph{States} to include \emph{do} actions as well among \emph{entry} and \emph{exit} actions (see \autoref{fig:gamma-statechart-extension}). In order to enable calling activities from statecharts, I added the \emph{CallActivityAction}, which has a reference to an activity declaration (see \autoref{fig:gamma-statechart-extension}). These changes can be seen visually in \autoref{fig:gamma-activity-overview}. Added parts are outlined with green, while edited parts are outlined with orange.
 
