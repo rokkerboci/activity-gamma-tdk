@@ -153,8 +153,8 @@ Next, I define various functions that return operations, which will be used to c
 	For simplicities sake, I define the following functions to merge all the node in/out operations:
 
 	\begin{align*}
-		O_\mathit{LASNodeIO}(n) &= \mathit{choice}(O_\mathit{LASNodeIn}(n) \bigcup O_\mathit{LASNodeOut}(n))\\
-		O_\mathit{IRNodeIO}(n) &= \mathit{choice}(O_\mathit{IRNodeIn}(n) \bigcup O_\mathit{IRNodeOut}(n))\\
+		O_\mathit{LASNodeIO}(n) &= \mathit{choice}\left(O_\mathit{LASNodeIn}(n) \bigcup O_\mathit{LASNodeOut}(n)\right)\\
+		O_\mathit{IRNodeIO}(n) &= \mathit{choice}\left(O_\mathit{IRNodeIn}(n) \bigcup O_\mathit{IRNodeOut}(n)\right)\\
 		O_\mathit{NodeIO}(n) &= 
 		\begin{cases}
 			O_\mathit{IRNodeIO}(n) & \text{if } n \in N_{IR} \\
@@ -191,16 +191,23 @@ Informally, these operations realise the semantics of the \emph{LAS} and \emph{I
 		&\mathit{assign}(S_N(n), \mathit{Done}) \\
 	\end{align*}
 
-	Let \(\mathit{initial}\) and \(\mathit{final}\) be the sets of \emph{initial} and \emph{final} nodes in \(\mathit{GA}_\mathit{n}\). \(O_\mathit{NodeRun}^{\prime\prime}(n)\) function is defined as:
+	Let \(\mathit{In}(n)\) and \(\mathit{Fin}(n)\) be the sets of \emph{initial} and \emph{final} nodes in \(\mathit{GA}_\mathit{n}\). 
 	
 	\begin{align*}
-		&\mathit{assume}(S_N(n), \mathit{Running}) \\
-		&\mathit{choice}\left(
-			\bigcup_{n_\mathit{In} \in \mathit{initial}} \left(\mathit{assume}(S_N(n_\mathit{In}) = \mathit{Idle}) \bigcup \mathit{assign}(S_N(n_\mathit{In}), \mathit{Running})
+		O_\mathit{Start}(n) &= \mathit{sequence}\left(
+			\bigcup_{n_\mathit{In} \in \mathit{In}(n)} \left(\mathit{assume}(S_N(n_\mathit{In}) = \mathit{Idle}) \bigcup \mathit{assign}(S_N(n_\mathit{In}), \mathit{Running})
 		\right)\right)\\
-		&\mathit{choice}\left(
-			\bigcup_{n_\mathit{Fin} \in \mathit{final}} \mathit{assume}(S_N(n_\mathit{Fin}) = \mathit{Done}) \bigcup \mathit{assign}(S_N(n), \mathit{Done})
+		O_\mathit{Finish}(n) &= \mathit{sequence}\left(
+			\bigcup_{n_\mathit{Fin} \in \mathit{Fin}(n)} \mathit{assume}(S_N(n_\mathit{Fin}) = \mathit{Done}) \bigcup \mathit{assign}(S_N(n), \mathit{Done})
 		\right)
+	\end{align*}
+
+	\begin{equation*}
+		O_\mathit{ActivityRun}(n) = \mathit{choice}\left(O_\mathit{Start}(n) \bigcup O_\mathit{Finish}(n)\right)
+	\end{equation*}
+	
+	\begin{align*}
+		O_\mathit{NodeRun}^{\prime\prime}(n) &= \mathit{sequence}\left(\mathit{assume}(S_N(n), \mathit{Running}) \bigcup O_\mathit{ActivityRun}(n)\right)
 	\end{align*}
 
 	Informally, the returned operation checks if the node is in state \emph{Running}, and then chooses: it either sets the contained activity's initial nodes \emph{Running}, if they are currently \emph{Idle}, or sets the node's state \emph{Done} if the contained activity's final nodes are \emph{Done}. Thus, the node is only considered \emph{Done}, when the contained activity is also done.
@@ -237,7 +244,7 @@ Informally, these operations realise the semantics of the \emph{LAS} and \emph{I
 	Putting all of the work together, we can define a function returning the operation representing all behaviour of a given node:
 	
 	\begin{equation*}
-		O_\mathit{Node}(n) = \mathit{choice}(O_\mathit{NodeIO}(n) \bigcup O_\mathit{NodeRun}(n))
+		O_\mathit{Node}(n) = \mathit{choice}\left(O_\mathit{NodeIO}(n) \bigcup O_\mathit{NodeRun}(n)\right)
 	\end{equation*}
 \end{definition}
 
