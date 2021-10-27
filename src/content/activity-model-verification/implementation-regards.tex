@@ -1,5 +1,29 @@
 %----------------------------------------------------------------------------
-\section{Implementation Regards}\label{sec:implementation-regards}
+\section{Implementation Remarks}\label{sec:implementation-remarks}
 %----------------------------------------------------------------------------
 
-implementációs nehézségek, kérdések, stb (commitok, line change, projektek magas szinten)
+First, I extended Gamma \emph{States} to include \emph{do} actions as well among \emph{entry} and \emph{exit} actions (see \autoref{fig:gamma-statechart-extension}). In order to enable calling activities from statecharts, I added the \emph{CallActivityAction}, which has a reference to an activity declaration (see \autoref{fig:gamma-statechart-extension}). These changes are visualised in \autoref{fig:gamma-activity-overview}: added parts are outlined with green, while edited parts are outlined with orange.
+
+\begin{figure}[!ht]
+	\begin{subfigure}{.66\textwidth}
+		\centering
+		\includesvg[inkscapelatex=false, width=80mm, keepaspectratio]{gamma-activity-extension}
+		\caption{Call activity action}
+		\label{fig:gamma-activity-extension}
+	\end{subfigure}%
+	\begin{subfigure}{.33\textwidth}
+		\centering
+		\includesvg[inkscapelatex=false, width=50mm, keepaspectratio]{gamma-statechart-extension}
+		\caption{State modification}
+		\label{fig:gamma-statechart-extension}
+	\end{subfigure}
+	\caption{Extensions to the Gamma metamodel}
+	\label{fig:gamma-extension}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=120mm, keepaspectratio]{gamma-functionality-activity-overview}
+	\caption{Overview of my modification to the Gamma framework.}
+	\label{fig:gamma-activity-overview}
+\end{figure}

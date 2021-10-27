@@ -148,7 +148,7 @@ Pin references are used to define a rigid pin-reference structure in the model. 
 
 \subsection{Concrete Syntax}
 
-In order to make it easier to test and visualise activities, I created an Xtext domain-specific language. The SysMLv2 language served as the main inspiration for the language, however, much of the \emph{syntactic sugars} have been omitted for simplicities' sake. As a result, many constructs are inherently repetitive to write. You can see an example in \autoref{lst:gamma-activity}. For the exact language definition, please see \autoref{sec:gamma-activity-language-constructs}
+In order to make it easier to test and visualise activities, I defined a grammar for the metamodel in Xtext. The SysMLv2 language served as the main inspiration for the language, however, much of the \emph{syntactic sugars} have been omitted for simplicities' sake. You can see an example in \autoref{lst:gamma-activity}. For the exact language definition, please see \autoref{sec:gamma-activity-language-constructs}
 
 \begin{lstlisting}[float,language=activity, caption={Gamma Activity Language representation of the compilation activity.}, label={lst:gamma-activity}]
 activity CompilationProcess {
