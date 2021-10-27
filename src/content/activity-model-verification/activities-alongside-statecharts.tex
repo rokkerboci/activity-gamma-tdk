@@ -4,7 +4,7 @@
 
 In this section, I present the various questions that arose when I integrated GATL into Gamma statecharts, and present my solutions and reasoning for said problems.
 
-\subsection{Calling Activities}
+\subsection{Calling Activities}\label{ssec:calling-activities}
 
 In order to create the connection between statecharts and activities, the user needs an interface to do so. There are many ways to call activities from statecharts:
 
@@ -25,7 +25,23 @@ Semantically, the halting of the activity can happen in two ways:
 
 Another open question is what happens, when a state has a loop transition into itself? Is the activity stopped, asked to stop, or a whole new activity is created?
 
-For simplicities sake, I chose do behaviours with option two: check each time when the activity would do something, whether it is \emph{enabled} to run, or not. Additionally, when the containing state becomes active, the activity nodes are reset to \emph{Idle} state, and the initial nodes are started.
+For simplicities sake, I chose do behaviours with option two: check each time when the activity would do something, whether it is \emph{enabled} to run, or not. Additionally, when the containing state becomes active, the activity nodes are reset to \emph{Idle} state, and the initial nodes are started. Figure \autoref{fig:gamma-extension} shows the added elements to the Gamma metamodel.
+
+
+\begin{figure}[!ht]
+	\begin{subfigure}{.66\textwidth}
+		\centering
+		\includesvg[inkscapelatex=false, width=80mm, keepaspectratio]{gamma-activity-extension}
+		\caption{Call activity action}
+	\end{subfigure}%
+	\begin{subfigure}{.33\textwidth}
+		\centering
+		\includesvg[inkscapelatex=false, width=50mm, keepaspectratio]{gamma-statechart-extension}
+		\caption{Do action on states}
+	\end{subfigure}
+	\caption{Extensions to the Gamma metamodel}
+	\label{fig:gamma-extension}
+\end{figure}
 
 \subsection{Activities Defining Components}
 

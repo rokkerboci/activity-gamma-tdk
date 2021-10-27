@@ -2,7 +2,7 @@
 \section{Language Design}
 %----------------------------------------------------------------------------
 
-The purpose of the Gamma Activity Language is the following: it should support as many features from SysML activity diagrams as possible, while also being simple to implement and transform to low-level models. In order to make the transformation easier, the language only supports a constrained subset of the SysML feature set, however, this does not hinder it's expressiveness.
+The purpose of GATL is the following: it should support as many features from SysML activity diagrams as possible, while also being simple to implement and transform to low-level models. In order to make the transformation easier, the language only supports a constrained subset of the SysML feature set, however, this does not hinder it's expressiveness.
 
 \subsection{SysML Feature Subset}
 
@@ -16,13 +16,4 @@ Compared to SysML activity diagrams, GATL supports the following language constr
 	\item \emph{Action} nodes - which can contain inner activities (Call behaviour in SysML).
 	\item \emph{Pins} on action nodes.
 	\item \emph{Action} nodes - action nodes may contain specific internal actions\footnote{Written in the Gamma Action Language.}, that can calculate values, and send signals through specific ports.
-\end{itemize}
-
-\subsection{Constraints}\label{ssec:activity-constraints}
-
-\todo{describe constraints in more detail}
-
-\begin{itemize}
-	\item only do action, no call behaviour on transitions
-	\item activities cannot describe a component in themselves.
 \end{itemize}

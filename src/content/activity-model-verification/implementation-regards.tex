@@ -2,28 +2,17 @@
 \section{Implementation Remarks}\label{sec:implementation-remarks}
 %----------------------------------------------------------------------------
 
-First, I extended Gamma \emph{States} to include \emph{do} actions as well among \emph{entry} and \emph{exit} actions (see \autoref{fig:gamma-statechart-extension}). In order to enable calling activities from statecharts, I added the \emph{CallActivityAction}, which has a reference to an activity declaration (see \autoref{fig:gamma-statechart-extension}). These changes are visualised in \autoref{fig:gamma-activity-overview}: added parts are outlined with green, while edited parts are outlined with orange.
+In order to implement the language, I had to immerse myself in multiple technologies. Gamma is implemented as an Eclipse plugin\footnote{https://www.eclipse.org/downloads/}, and uses multiple frameworks: Ecore Modeling Foundation\footnote{https://www.eclipse.org/modeling/emf/} to create the metamodels, Xtext\footnote{https://www.eclipse.org/Xtext/} to define the language grammars, and Viatra\footnote{https://www.eclipse.org/viatra/} to transform the models.
 
-\begin{figure}[!ht]
-	\begin{subfigure}{.66\textwidth}
-		\centering
-		\includesvg[inkscapelatex=false, width=80mm, keepaspectratio]{gamma-activity-extension}
-		\caption{Call activity action}
-		\label{fig:gamma-activity-extension}
-	\end{subfigure}%
-	\begin{subfigure}{.33\textwidth}
-		\centering
-		\includesvg[inkscapelatex=false, width=50mm, keepaspectratio]{gamma-statechart-extension}
-		\caption{State modification}
-		\label{fig:gamma-statechart-extension}
-	\end{subfigure}
-	\caption{Extensions to the Gamma metamodel}
-	\label{fig:gamma-extension}
-\end{figure}
+During the implementation, I added a new \emph{model} project and a new \emph{language} project. I then had to extend the preexisting Gamma Statechart Language, and the transformation pipeline.
+
+The contributions include \(12,383\) line additions, \(2,184\) line deletions in \(38\) commits. There is currently an open pull request to the main GitHub repo\footnote{https://github.com/ftsrg/gamma}.
+
+These changes implemented are visualised in \autoref{fig:gamma-activity-overview}: added parts are outlined with green, while edited parts are outlined with orange.
 
 \begin{figure}[!ht]
 	\centering
 	\includesvg[inkscapelatex=false, width=120mm, keepaspectratio]{gamma-functionality-activity-overview}
-	\caption{Overview of my modification to the Gamma framework.}
+	\caption{Overview of my modification to the Gamma transformation pipeline.}
 	\label{fig:gamma-activity-overview}
 \end{figure}

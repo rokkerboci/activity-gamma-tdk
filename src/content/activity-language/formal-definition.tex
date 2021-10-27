@@ -9,10 +9,10 @@
 \newcommand{\sourcenode}[1]{\theta(#1)}
 \newcommand{\targetnode}[1]{\Theta(#1)}
 
-In order to offer mathematical precision, formal verification methods require formally defined models with clear semantics. In this section I present the formal definition of the novel GAL formalism.
+In order to offer mathematical precision, formal verification methods require formally defined models with clear semantics. In this section I present the formal definition of the novel GATL formalism.
 
 \begin{definition}[Gamma Activity Language]
-	A Gamma Activity is a tuple of \(\mathit{GA} = (N, P, F, G, D_\mathit{GA}, F_{Action})\), where:
+	A Gamma Activity is a tuple of \(\mathit{GATL} = (N, P, F, G, D_\mathit{GA}, F_{Action})\), where:
 	
 	\begin{itemize}
 		\item \(N = N_\mathit{IR} \bigcup N_\mathit{LAS} \) is a set of \emph{Nodes}, where \(N_\mathit{IR}\) contains the \emph{immediate-repeat} nodes and \(N_\mathit{LAS}\) contains the \emph{load-and-sand} nodes (see \autoref{ssec:activities-as-petri-nets}). \(N_\mathit{Action} \in N_\mathit{LAS} \) is a special set of nodes, which are the \emph{Action} nodes;
@@ -34,7 +34,7 @@ Informally, Gamma Activities are composed of \emph{nodes} and flows in between t
 	\label{fig:activity-data-flow1}
 \end{figure}
 
-Contrarily, in Gamma Activity Language, the equivalent data flow does indeed contain the given node, creating an intermediate state, where the token is in neither of the nodes. This would look like a \emph{Central Buffer} in SysML (\autoref{fig:activity-data-flow2}). The reason for this is simplicity; by creating this intermediate state (and others), it is easier to state the set of transitions necessary to formally define the semantics of the language.
+Contrarily, in Gamma Activities, the equivalent data flow does indeed contain the given node, creating an intermediate state, where the token is in neither of the nodes. This would look like a \emph{Central Buffer} in SysML (\autoref{fig:activity-data-flow2}). The reason for this is simplicity; by creating this intermediate state (and others), it is easier to state the set of transitions necessary to formally define the semantics of the language.
 
 \begin{figure}[!ht]
 	\centering
@@ -47,7 +47,7 @@ Contrarily, in Gamma Activity Language, the equivalent data flow does indeed con
 
 \subsection{Behaviour Formalism}
 
-The behaviour of the Gamma Activity Language is defined using the XSTS (\autoref{sec:xsts}) formalism:
+The behaviour of GATL is defined using the XSTS (\autoref{sec:xsts}) formalism:
 
 \begin{definition}[Gamma Activity Behaviour]
 	\( \mathit{XSTS_{GA}} = (D, V, V_C, \mathit{IV}, \mathit{Tr}, \mathit{In}, \mathit{En}) \), where:
@@ -179,7 +179,7 @@ Informally, these operations realise the semantics of the \emph{LAS} and \emph{I
 	However, some nodes have special behaviours. If the node is an \emph{Action} node, it can contain either a \emph{Gamma Action} expression, or a composite \emph{Activity} (see \autoref{sec:activity-grammar} for more information).
 
 	\begin{itemize}
-		\item If the node is an \emph{Action} node, the contained \emph{Gamma Action} expression is mapped to an operation \(O_\mathit{Action}(n)\), and added to \( O_\mathit{NodeRun}(n) \). Let us call this function \(O_\mathit{NodeRun}^\prime(n)\)
+		\item If the node is an \emph{Action} node, the contained \emph{Gamma action} is mapped to an operation \(O_\mathit{Action}(n)\), and added to \( O_\mathit{NodeRun}(n) \). Let us call this function \(O_\mathit{NodeRun}^\prime(n)\)
 		\item If the node is an \emph{Action} node, the contained activity first has to be started, and the state of the node can only change when the contained activity is done. Let us call this function as \(O_\mathit{NodeRun}^{\prime\prime}(n)\).
 	\end{itemize}
 

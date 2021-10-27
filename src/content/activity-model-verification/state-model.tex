@@ -2,3 +2,26 @@
 \section{Integration Semantics}\label{sec:integration-semantics}
 %----------------------------------------------------------------------------
 
+As presented in the transformation pipeline (\autoref{fig:gamma-overview}), Gamma transforms the \emph{statecharts} and \emph{components} into XSTS. In the following, I show how to merge XSTS created from \emph{components} with the called activities.
+
+The unified transformation is done in three steps. First, in \autoref{ssec:preprocess-components} we preprocess the composite model, by creating activity \emph{instances} and adding the initialisation action to the calling states.. Next, in \autoref{ssec:transform-components} we transform the components - using the Gamma transformation pipeline - and then transform the called - now unique - activities. The resulting XSTS models are merged, resulting in the final XSTS. This XSTS model then can be forwarded to the model checkers.
+
+\subsection{Preprocess Components}\label{ssec:preprocess-components}
+
+As the first step, we find all states that contain a \emph{call activity} do action - denoted as \( S \). For each \(s \in S\), we create an instantiation for the called activity: \( S_\mathit{Act}\), and add an initialisation action to the state's \emph{entry} actions. This step ensures, that two states calling the same activity won't have conflicting variables in the resulting XSTS, and the called activity is cleaned before it is started. \autoref{fig:gamma-lowlevel-extension} shows the extensions added to the Gamma metamodel.
+
+
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, width=70mm, keepaspectratio]{gamma-lowlevel-extension}
+	\caption{Activity instance extension for the Gamma metamodel}
+	\label{fig:gamma-lowlevel-extension}
+\end{figure}
+
+\subsection{Transform Components and Activities}\label{ssec:transform-components}
+
+As the next step, we transform the Gamma components, denoted as \( \mathit{XSTS_{Comp}} \), and the activity instances, denoted as \( \mathit{XSTS_{S_{Act}}} \). In order to prevent the activity from running when the state is not active, an additional \emph{assume} operation is added to the \(O_\mathit{Node}(n)\) function, checking whether the associated state is active or not. Finally, the resulting XSTS models are merged.
+
+\begin{equation*}
+	XSTS = \mathit{XSTS_{Comp}} \bigcup \left( \bigcup_{s \in S} \mathit{XSTS_{s_{Act}}} \right)
+\end{equation*}

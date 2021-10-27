@@ -102,7 +102,7 @@ All elements inside an activity are contained in a root \emph{ActivityDeclaratio
 
 \paragraph{Definition}\label{par:definition}
 
-Definitions define how the activity is described; using activity nodes, or by the Gamma Action Language\footnote{Gamma Action Language is a lightweight action language, created to describe actions on statechart transitions.}. \emph{ActionDefinition} contains a single \emph{Block}\footnote{A \emph{Block} contains multiple \emph{Actions} which are executed one after the other}, which is executed as is when the activity is executed\footnote{This means, that upon execution the given activity is executed atomically; it will not be interlaced with other XSTS transitions. See \autoref{ssec:activity-constraints}.}. \emph{ActivityDefinitions} contain \emph{ActivityNodes} (\autoref{ssec:activity_nodes}) and \emph{Flows} (\autoref{ssec:flows}), and are used to \emph{compose} activities (see \autoref{ssec:composing-activities}).
+Definitions define how the activity is described; using activity nodes, or by the Gamma Action Language. \emph{ActionDefinition} contains a single \emph{Block}\footnote{A \emph{Block} contains multiple \emph{Actions} which are executed one after the other}, which is executed as is when the activity is executed\footnote{This means, that upon execution the given activity is executed atomically; it will not be interlaced with other XSTS transitions. See \autoref{ssec:calling-activities}.}. \emph{ActivityDefinitions} contain \emph{ActivityNodes} (\autoref{ssec:activity_nodes}) and \emph{Flows} (\autoref{ssec:flows}), and are used to \emph{compose} activities (see \autoref{ssec:composing-activities}).
 
 \subsubsection*{Composing Activities}\label{ssec:composing-activities}
 
@@ -130,7 +130,7 @@ In order to correctly set a data flow's data source and data target, we have to 
 
 \begin{figure}[!ht]
 	\centering
-	\includesvg[inkscapelatex=false, width=60mm, keepaspectratio]{data-source-target-example}
+	\includesvg[inkscapelatex=false, width=90mm, keepaspectratio]{data-source-target-example}
 	\caption{The Data node reference structure}
 	\label{fig:data_source_target_reference_example}
 \end{figure}

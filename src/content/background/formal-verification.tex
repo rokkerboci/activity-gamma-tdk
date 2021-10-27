@@ -2,11 +2,7 @@
 \section{Formal Verification}\label{sec:formal_verification}
 %----------------------------------------------------------------------------
 
-\todo{Lecserélni egy másik bevezetéssel, mert kicsit nem egyértelmű}
-
-\blockcquote{https://doi:10.4018/978-1-4666-5888-2.ch705}{
-	In order to raise the reliability of system analysis, a system analysis technique is required that can have the precision of paper-and-pencil based mathematical proofs, and thus does not rely upon computer-arithmetic, and utilizes the computers for bookkeeping, to be able to handle complex systems without having to worry about human-errors. Formal verification methods, which are primarily based on theoretical computer science fundamentals like logic calculi, automata theory and strongly type systems, fulfil these requirements. The main principle behind formal analysis of a system is to construct a computer based mathematical model of the given system and formally verify, within a computer, that this model meets rigorous specifications of intended behaviour. Due to the mathematical nature of the analysis, 100\% accuracy can be guaranteed.
-}
+In order to raise the reliability of system models, various analysis techniques are used to verify their correctness. Among these techniques are \emph{unit tests}, \emph{module tests}, \emph{system tests} and \emph{acceptance tests}. However, no matter how many kinds of tests we use, the test cases are ultimately constructed by people - rendering them as error prone as the model. Formal verification tools are meant to extend these analysis techniques by not specifying a given \emph{sequence} of event, but rather specifying the undesirable state of the system. Formal verification methods are primarily based on theoretical computer science fundamentals like logic calculi, automata theory and strongly type systems. The main principle behind formal analysis of a system is to construct a computer based mathematical model of the given system and formally verify, within a computer, that this model meets rigorous specifications of the intended behaviour. Due to the mathematical nature of the analysis, 100\% accuracy can be guaranteed.
 
 \subsection{Model Checking}
 
