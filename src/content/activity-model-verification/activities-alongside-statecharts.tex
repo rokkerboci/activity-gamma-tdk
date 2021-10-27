@@ -53,7 +53,7 @@ Although this constrains us to only use statecharts directly, we can still utili
 
 \emph{TriggerNodes} extend the activity semantics, by adding an additional assumption operation inside the \(	O_\mathit{NodeRun}\) operation function, checking if the given event has been received. The following example shows a trigger node, that will be executed only when it has a token from the initial node, and the \emph{start} event is received from the \emph{Control} port.
 \vspace{6mm}
-\begin{lstlisting}[language=statechart]
+\begin{lstlisting}[language=statechart, linewidth=0.75\textwidth, xleftmargin=0.25\textwidth]
 statechart Statechart [
 	port connection : requires Control
 ] {

@@ -2,48 +2,147 @@
 \chapter{Evaluation}\label{ch:evaluation}
 %----------------------------------------------------------------------------
 
-spacecraft model bevezetése, leírása
-statechart elemek referálása, activity-k megírása kézzel (modell mehet apendix-be)
-mérések végzése és leírása
+In this chapter, I present three experiments created to showcase the usability and verifiability of the Gamma Activity Language. 
+
+\section{Compilation}
+
+The first experiment involves the running example introduced in \autoref{fig:activity-running-example}. The goal of this experiment is to evaluate a simple activity's formal verification.
+
+\subsection{Modeling}
+
+The GATL representation of the model has already been presented in \autoref{lst:gamma-activity}, however this some modifications have to be implemented in order to run the verification.
+
+\begin{itemize}
+	\item Activities have to be wrapped inside statecharts.
+	\item Activities can not be referenced from GPL, only statechart constructs.
+\end{itemize}
+
+For this reason, I wrapped the activity inside a statechart, and added an \emph{activityDone} variable, that turns true when before the activity reaches the final state. 
+
+\begin{lstlisting}[language=statechart, linewidth=0.75\textwidth, xleftmargin=0.25\textwidth]
+statechart CompilationWrapper {
+	var activityDone : boolean := false
+	region Main {
+		initial MainEntry
+		state Wrapper {
+			do / call CompilationProcess;
+		}
+	}
+	transition from MainEntry to Wrapper
+	activity CompilationProcess {
+		// ...
+		action Done : activity [language=action] {
+			activityDone := true;
+		}
+		final Final
+		// ...
+		control flow from Decision to Done [!errors]
+		control flow from Done to Final
+	}
+}
+\end{lstlisting}
+
+I then added the statechart to \emph{cascade} component, and defined the property I wished to check for.
+
+\begin{lstlisting}[language=statechart, linewidth=0.75\textwidth, xleftmargin=0.25\textwidth]
+cascade Compilation {
+	component CompilationWrapper : CompilationWrapper
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=statechart, linewidth=0.75\textwidth, xleftmargin=0.25\textwidth]
+component Compilation
+
+// Cam the variable activityDone ever be true?
+E F [ { variable CompilationWrapper.activityDone } ] 
+\end{lstlisting}
+
+Finally, I ran the verification using the \emph{Theta} model checker. The result shows, that the variable \emph{activityDone} can indeed become true. 
+
+\subsection{Results and Conclusion}
+
+The following trace shows the steps the model checker took, in order to reach the desired state. The first step shows the initial values of the system, and the following steps show how the values changed after the component was scheduled. As you can see, the second step is repeated \(17\) times before the variable became true - and these steps were the same. As there are no XSTS transition from the statechart, the only transitions that can be fired come from the activity. The token in the activity goes through 8 nodes, 8 flows to reach node \emph{Done}, after which one additional step is needed to execute its action: \( 8 + 8 + 1 = 17 \).
+
+\begin{lstlisting}[language=statechart, linewidth=0.75\textwidth, xleftmargin=0.25\textwidth]
+step {
+	act {
+		reset
+	}
+	assert {
+		CompilationWrapper.Wrapper
+		CompilationWrapper.activityDone = false
+	}
+}
+step {
+	act {
+		schedule component
+	}
+	assert {
+		CompilationWrapper.Wrapper
+		CompilationWrapper.activityDone = false
+	}
+}
+// 16 more
+step {
+	act {
+		schedule component
+	}
+	assert {
+		CompilationWrapper.Wrapper
+		CompilationWrapper.activityDone = true
+	}
+}
+\end{lstlisting}
+
+The reason for the repetition, is the lack of trace information provided by the activity; the XSTS transitions are executed as expected, however, the trace mechanism of Gamma can not display these changes.
+
+This case study proved, that the underlying XSTS formalism does indeed work as expected, however, there is still more work to be done, to let the user choose activity nodes as reachability properties, and to show activity variables in the resulting trace (see \autoref{ch:conclusion}).
+
+\section{Complicated System}
+
+\section{Space-mission}
+
+This section introduces an example model from the aerospace domain which we use as a case study to demonstrate the applicability of Gamma to describe SysML behavioral models. The example model was proposed by NASA in the context
+of the OpenMBEE\footnote{https://www.openmbee.org/} framework. The goal of OpenMBEE is to create a common model repository to facilitate tool integration, so the ability to handle models in the scope of this project can raise the relevance of any model analysis tool.
+
+The Gamma models used in this section are a modification of a previous case study~\cite{mixed_statecharts_2020}, in which the activities were mapped to statechart formalism. In this case study, I modified the models to use the GATL to represent the activities.
+
+\subsection{System Modeling}
+
+The SysML model describes how a satellite communicates with a ground station as well as the state of the battery of the satellite. The state-based behavior of the system can be seen in Figures \ref{fig:ground_station} and \ref{fig:spacecraft_modes}, while the more complex activities are depicted in Figures \ref{fig:recharge_batteries} and \ref{fig:transmit_data}
 
 \begin{figure}[!ht]
 	\centering
-	\includesvg[inkscapelatex=false, width=60mm, keepaspectratio]{consume_power}
-	\caption{}
-	\label{}
+	\includesvg[inkscapelatex=false, width=80mm, keepaspectratio]{ground_station}
+	\caption{The state machine describing the behaviour of the ground station component}
+	\label{fig:ground_station}
 \end{figure}
 
 \begin{figure}[!ht]
-\centering
-\includesvg[inkscapelatex=false, width=60mm, keepaspectratio]{ground_station}
-\caption{}
-\label{}
+	\centering
+	\includesvg[inkscapelatex=false, width=100mm, keepaspectratio]{spacecraft_modes}
+	\caption{The state machine describing the behaviour of the spacecraft component}
+	\label{fig:spacecraft_modes}
 \end{figure}
 
 \begin{figure}[!ht]
-\centering
-\includesvg[inkscapelatex=false, width=60mm, keepaspectratio]{ping_spacecraft}
-\caption{}
-\label{}
+	\centering
+	\includesvg[inkscapelatex=false, width=90mm, keepaspectratio]{recharge_batteries}
+	\caption{The activity diagram describing the battery recharge process of the spacecraft component}
+	\label{fig:recharge_batteries}
 \end{figure}
 
 \begin{figure}[!ht]
-\centering
-\includesvg[inkscapelatex=false, width=60mm, keepaspectratio]{recharge_batteries}
-\caption{}
-\label{}
+	\centering
+	\includesvg[inkscapelatex=false, width=110mm, keepaspectratio]{transmit_data}
+	\caption{The activity diagram describing the data transmission process of the spacecraft component}
+	\label{fig:transmit_data}
 \end{figure}
 
-\begin{figure}[!ht]
-\centering
-\includesvg[inkscapelatex=false, width=60mm, keepaspectratio]{spacecraft_modes}
-\caption{}
-\label{}
-\end{figure}
+The challenge of the mapping came from some of the not supported modeling elements used in the model. The SysML activities use \emph{duration constraints} to model how much time a given action takes to execute. The GATL language does not support such constraints, however, we can use \emph{timeouts} and \emph{trigger nodes} to insert waiting in before the given action can be executed. The other not supported, but used activity formalisms are interrupting edges, and internal signals. I used additional boolean variables to model the behaviour of these modeling formalisms. You can find the created Gamma models in \autoref{sec:spacecraft-model}
 
-\begin{figure}[!ht]
-\centering
-\includesvg[inkscapelatex=false, width=60mm, keepaspectratio]{transmit_data}
-\caption{}
-\label{}
-\end{figure}
+\subsection{Results and Conclusion}
+
+To check the conformance of the Gamma model with the original SysML model, I ran a set of verifications on the resulting model, and all traces were consistent with the behaviour described by the SysML.
+
+This case study showed, that real world SysML models can be mapped to the Gamma Activity Language, although, certain semantics (e.g., \emph{interrupting edge}) have to be mapped to different formalisms. Nevertheless, this case study provides proof of the usability of the language in industrial contexts.

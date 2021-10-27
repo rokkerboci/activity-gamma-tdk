@@ -2,36 +2,35 @@
 \section{Model-based Systems Engineering}\label{sec:mbse}
 %----------------------------------------------------------------------------
 
-The INCOSE SE Vision 2020 defines Model-based systems engineering (MBSE) as:
+The INCOSE SE Vision 2020 defines model-based systems engineering (MBSE) as:
 
-\blockquote{the formalized application of modeling to support system requirements, design, analysis, verification and validation activities beginning in the conceptual design phase and continuing throughout development and later life cycle phases. MBSE is part of a long-term trend toward model-centric approaches adopted by other engineering disciplines, including mechanical, electrical and software. In particular, MBSE is expected to replace the document-centric approach that has been practiced by systems engineers in the past and to influence the future practice of systems engineering by being fully integrated into the definition of systems engineering processes. \cite{incose-systems-engineering-2020}}
+\blockquote{``The formalized application of modeling to support system requirements, design, analysis, verification and validation activities beginning in the conceptual design phase and continuing throughout development and later life cycle phases. MBSE is part of a long-term trend toward model-centric approaches adopted by other engineering disciplines, including mechanical, electrical and software. In particular, MBSE is expected to replace the document-centric approach that has been practiced by systems engineers in the past and to influence the future practice of systems engineering by being fully integrated into the definition of systems engineering processes.'' ~\cite{incose-systems-engineering-2020}}
 
-Applying MBSE is expected to provide significant benefits over the document centric approach by enhancing productivity and quality, reducing risk, and providing improved communications among the system development team \cite{omgwiki}.
+Applying MBSE is expected to provide significant benefits over the document document-centric by enhancing productivity and quality, reducing risk, and providing improved communications among the system development team~\cite{omgwiki}.
 
-In MBSE, one of the most important concepts is the term \enquote{model} itself. Literature gives various definitions for models:
+In MBSE, one of the most important concepts is the term ``model'' itself. Literature gives various definitions for models:
 
 \begin{enumerate}
-	\item A physical, mathematical, or otherwise logical representation of a system, entity, phenomenon, or process.\cite{DoD_modeling_and_simulation}\label{item:dod}
-	\item A representation of one or more concepts that may be realized in the physical world \cite{sysml_practical_guide}.
-	\item A simplified representation of a system at some particular point in time or space intended to promote understanding of the real system \cite{modsim}.
-	\item An abstraction of a system, aimed at understanding, communicating, explaining, or designing aspects of interest of that system \cite{object-process-methodology}.
-	\item A selective representation of some system whose form and content are chosen based on a specific set of concerns. The model is related to the system by an explicit or implicit mapping \cite{ORMSC/2010-09-06}.
+	\item A physical, mathematical, or otherwise logical representation of a system, entity, phenomenon, or process~\cite{DoD_modeling_and_simulation}.\label{item:dod}
+	\item A representation of one or more concepts that may be realized in the physical world~\cite{sysml_practical_guide}.
+	\item A simplified representation of a system at some particular point in time or space intended to promote understanding of the real system~\cite{modsim}.
+	\item An abstraction of a system, aimed at understanding, communicating, explaining, or designing aspects of interest of that system~\cite{object-process-methodology}.
+	\item A selective representation of some system whose form and content are chosen based on a specific set of concerns. The model is related to the system by an explicit or implicit mapping~\cite{ORMSC/2010-09-06}.
 \end{enumerate}
 
-As one can see, choosing a definition is very much dependent upon how we wish to use our \enquote{model}; in this work I will use the \ref{item:dod}st definition.
+As one can see, choosing a definition is very much dependent upon how we wish to use our ``model''; in this work I will use the \ref{item:dod}st definition.
 
 \subsection{Systems Modeling Language}\label{ssec:sysml}
 
-Systems Modeling Language (OMG SysML \cite{omg_sysml}) is a general-purpose modeling language that supports the specification, design, analysis, and verification of systems that may include harware and equipment, software, data, personnel, procedures, and facilities. SysML is a graphical modeling language with a semantic foundation for representing requirements, behaviour, structure, and properties of the system and its components \cite{sysml_practical_guide}.
+Systems Modeling Language (OMG SysML~\cite{omg_sysml}) is a general-purpose modeling language that supports the specification, design, analysis, and verification of systems that may include harware and equipment, software, data, personnel, procedures, and facilities. SysML is a graphical modeling language with a semantic foundation for representing requirements, behaviour, structure, and properties of the system and its components ~\cite{sysml_practical_guide}.
 
-This work focuses only on the \emph{behavioural} modeling tools SysML provides. In the following section, I present two of the most used concepts; State Machines and Activity Diagrams.
+This work focuses only on the \emph{behavioural} modeling facilities SysML provides. In the following section, I present two of the most used diagram types in SysML; State Machine Diagrams and Activity Diagrams.
 
-\subsubsection*{State Machine}
+\subsubsection*{State Machine Diagram}
 
-Reactive systems are all around us in our daily lives; in smart phones, avionics systems or event our calculators. Frequently, reactive systems appear in areas, where safety-critical operation is crucial, as even the slightest
-misbehaviour can have catastrophic consequences. This makes the verification of these systems a must during their design process.
+Reactive systems are all around us in our daily lives; in smart phones, avionics systems or even our calculators. Oftentimes, reactive systems appear in areas, where safety-critical operation is crucial, as even the slightest misbehaviour can have catastrophic consequences. This makes the verification of these systems a must during their design process.
 
-The defining characteristic of reactive systems is their event-driven nature, which means that they continuously receive external stimuli (\emph{events}), based on which they change their internal \emph{state} and possibly react with some output \cite{10.1007/978-3-642-82453-1_17}. Reactive systems can be verified using model checking techniques (see \autoref{sec:formal_verification}). Statecharts \cite{HAREL1987231} are a popular and intuitive language to capture the behaviour of reactive systems \cite{10.1145/3417990.3421407, 10.1007/978-3-319-11653-2_10}, while also being formally defined.
+The defining characteristic of reactive systems is their event-driven nature, which means that they continuously receive external stimuli (\emph{events}), based on which they change their internal \emph{state} and possibly react with some output~\cite{10.1007/978-3-642-82453-1_17}. Reactive systems can be verified using model checking techniques (see \autoref{sec:formal_verification}). Statecharts ~\cite{HAREL1987231} are a popular and intuitive language to capture the behaviour of reactive systems ~\cite{10.1145/3417990.3421407, 10.1007/978-3-319-11653-2_10}, while also being formally defined.
 
 \begin{figure}[!ht]
 	\centering
@@ -40,13 +39,13 @@ The defining characteristic of reactive systems is their event-driven nature, wh
 	\label{fig:sysml_state_machine}
 \end{figure}
 
-SysML state machines extend the concept of statecharts with hierarchical state-refinement, orthogonal regions, action-effect behaviour and state machine composition. These advanced abstraction constructs make state machines easy to use for engineers, but hinder their formal verification. This abstraction gap can be bridged using a transformation tool, such as Gamma, of which I will be talking in \autoref{sec:gamma}.
+SysML state machines extend the concept of statecharts with hierarchical state-refinement, orthogonal regions, action-effect behaviour and state machine composition. These advanced abstraction constructs support the concise modeling of state machines for engineers, but hinder their formal verification. This abstraction gap can be bridged using a transformation tool, such as Gamma (see \autoref{sec:gamma}) that maps these high-level constructs into low-level analysis formalisms. 
 
-\autoref{fig:sysml_state_machine} shows a state machine modeling the behaviour of a traffic light controller. The \emph{TrafficLightCtrl} component has three ports, two inputs (\emph{Control} and \emph{PoliceInterrupt}) for user input, and one output (\emph{LightCommands}) for controlling the specific light it is connected to. The state machine changes between the \emph{red}-\emph{green}\emph{yellow} lights, upon a \emph{toggle} command. However, if a \emph{police} signal is received, it starts turning on and off the yellow light every 500ms.
+\autoref{fig:sysml_state_machine} shows a state machine modeling the behaviour of a traffic light controller. The \emph{TrafficLightCtrl} component has three ports, two inputs (\emph{Control} and \emph{PoliceInterrupt}) for user input, and one output (\emph{LightCommands}) for controlling (turning on and off) the specific light it is connected to. The state machine changes between the \emph{red}-\emph{green}-\emph{yellow} lights, upon a \emph{toggle} command (Normal state - main cycle). However, if a \emph{police} signal is received, it starts turning on and off the yellow light every 500ms (Interrupted state - blinking cycle).
 
 \subsubsection*{Activity Diagram}\label{ssec:sysml_activity}
 
-State machines cannot describe the complicated semantics of distributed systems with concurrent, parallel behaviour, where the \emph{interesting} thing is what the system \emph{does} step-by-step. SysML activity diagrams are a primary representation for modeling process based behaviour \cite{omg_sysml} for distributed, concurrent systems. \autoref{fig:sysml_activity_artifacts} shows the set of interesting modeling elements used in this work. In the following, I introduce the different artifacts of SysML activities and show an example of a SysML activity diagram.
+State machines cannot describe the complicated semantics of distributed systems with concurrent, parallel behaviour, where the \emph{interesting} thing is what the system \emph{does} step-by-step.(e.g., batch processing). SysML activity diagrams are a primary representation for modeling process based behaviour~\cite{omg_sysml} for distributed, concurrent systems. \autoref{fig:sysml_activity_artifacts} shows the set of interesting modeling elements used in this work. In the following, I introduce the different modeling elements of SysML activities and show an example of a SysML activity diagram.
 
 \begin{figure}[!ht]
 	\centering
@@ -57,12 +56,12 @@ State machines cannot describe the complicated semantics of distributed systems 
 
 SysML activity diagram is a graph based model, where the nodes are connected via flows. The dynamic behaviour of activity diagrams comes from \emph{tokens} travelling from node to node; based on the given node's semantics, a connected flow removes tokens from the source node and puts them onto the target node. Flows can also have \emph{guards}, which are expressions specifying when the given flow is \emph{enabled} or not; only enabled nodes can transfer tokens.
 
-Tokens are a way of creating limitations over which node can run, and which cannot; a given node is considered \emph{running}, only when it contains a token. Tokens \emph{flow} between nodes, carrying with them a given value - this value can be of type \emph{void}, which makes it a \emph{control} token.
+Tokens are a way of creating limitations over which node can run, and which cannot; a given node is considered \emph{running}, only when it contains a token. Tokens \emph{flow} between nodes, carrying with them a given value - this value can also be of type \emph{void}, which makes it a \emph{control} token.
 
-The different nodes represent the different semantic \enquote{tools} at our disposal; they can represent different actions, or introduce interesting token flow semantics.
-Simple \textbf{actions} represent a single step of behaviour that convert a set of inputs to a set of outputs. Both inputs and outputs are specified as pins, which get their data from connected flows - making that flow a \emph{data flow}. The flow starts from the initial node, and ends with a \emph{Flow Final} or \emph{Activity Final} node. \emph{Fork} nodes generate tokens on all of their output flows, and \emph{Join} nodes forward the tokens, only when all input flows contain one - thus, the two nodes come in a \emph{pair}. On the other hand, \emph{Merge} nodes do not wait for all flows, they forward any token they receive instantly. Likewise, \emph{Decision} nodes take one token from its input flows, and sends it out on its single enabled output flow.
+The different nodes represent the different semantic ``tools'' at our disposal; they can represent different actions, or introduce interesting token flow semantics.
+Simple \textbf{actions} represent a single step of behaviour that convert a set of inputs to a set of outputs. Both inputs and outputs are specified as \emph{pins}, which get their data from connected flows - making that flow a \emph{data flow}. The flow starts from the initial node, and ends with a \emph{Flow Final} or \emph{Activity Final} node. \emph{Fork} nodes generate tokens on all of their output flows, and \emph{Join} nodes forward the tokens, only when all input flows contain one - thus, the two nodes complement each other. On the other hand, \emph{Merge} nodes do not wait for all flows, they forward any token they receive instantly. Likewise, \emph{Decision} nodes take one token from its input flows, and send it out on its single enabled output flow.
 
-The detailed specification for SysML Activity Diagrams can be found in the OMG specification \cite{omg_sysml}.
+The detailed specification for SysML Activity Diagrams can be found in the OMG specification~\cite{omg_sysml}.
 
 \begin{figure}[!ht]
 	\centering
@@ -71,13 +70,13 @@ The detailed specification for SysML Activity Diagrams can be found in the OMG s
 	\label{fig:activity-running-example}
 \end{figure}
 
-\autoref{fig:activity-running-example} shows an example activity diagram, modeling the process of editing, compiling and linking two files. First, the files have to be read, after which they are \emph{transfered} to the compiler module. We want to compile the two different files in \emph{parallel}, thus we split the control flow using a \emph{fork} node. Once the files are compiled, we link both of them - since linking requires both files, it is preceded by a \emph{join} node. Finally, if the resulting code contains errors, we \emph{edit} the source files and start over - otherwise we are done.
+\autoref{fig:activity-running-example} shows an example activity diagram, modeling the process of editing, compiling and linking two files. First, the files have to be \textsl{read}, after which they are \textsl{transferred} to the compiler module. We want to compile the two different files in \emph{parallel}, thus we split the control flow using a \textsl{fork} node. Once the files are compiled, we \textsl{link} them - since linking requires both files, it is preceded by a \emph{join} node. Finally, if the resulting code contains errors, we \textsl{edit} the source files and start over - otherwise we are done.
 
 \iffalse
 \subsubsection{Differences and Combination}
 
 State Machines are a popular [1, 2] language to capture the behaviour
-of reactive systems\cite{HAREL1987231} that react to external stimuli depending on
+of reactive systems~\cite{HAREL1987231} that react to external stimuli depending on
 their internal state. Stat Machines provide an expressive formalism to
 represent complex \emph{state-based} behaviour by introducing hierarchical
 state refinement, memory (variables and history state) and complex

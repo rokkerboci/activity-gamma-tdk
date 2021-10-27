@@ -2,15 +2,15 @@
 \clearpage\section{Language Gramar}\label{sec:activity-grammar}
 %----------------------------------------------------------------------------
 
-Similarly to the Gamma Statechart Language, the Gamma Activity Language is intended to be a first-class citizen in the Gamma Framework, thus it must have a grammar to represent in a textual way. This implementation incorporates elements from the SysMLv2 \cite{omg_sysml_v2} language design, while also fitting into the already existing language family of Gamma (\autoref{sec:gamma}). In the following, I define the \emph{metamodel} and the \emph{grammar} created to implement the formalism specified in \autoref{sec:activity-formal-definition}.
+Similarly to the Gamma Statechart Language, the Gamma Activity Language is intended to be a first-class citizen in the Gamma Framework, thus it must have a grammar to support the representation of models in a textual way. This grammar definition incorporates elements from the SysMLv2~\cite{omg_sysml_v2} language design, while also fitting into the already existing language family of Gamma (\autoref{sec:gamma}). In the following, I define the \emph{metamodel} and the \emph{grammar} created to realise the formalism specified in \autoref{sec:activity-formal-definition}.
 
 \subsection{Metamodel}
 
-Due to the complexity of the final metamodel of the language, I have split it into multiple parts for easier understanding: Pins (\autoref{ssec:pins}), Flows (\autoref{ssec:flows}), Activity Nodes  (\autoref{ssec:activity_nodes}), Structure (\autoref{ssec:activity_nodes}), Composite Activities (\autoref{ssec:composing-activities}) and Data-, Pin-reference (\autoref{ssec:data-reference}-\autoref{ssec:pin-reference}).
+Due to the complexity of the final metamodel of the language, I have split it into multiple parts for easier understanding: Pins (\ref{ssec:pins}), Flows (\ref{ssec:flows}), Activity Nodes  (\ref{ssec:activity_nodes}), Structure (\ref{ssec:activity_nodes}), Composite Activities (\ref{ssec:composing-activities}) and Data-, Pin-reference (\ref{ssec:data-reference}-\ref{ssec:pin-reference}).
 
 \subsubsection*{Pins}\label{ssec:pins}
 
-Pins are categorised into two sets, \emph{InputPins} and \emph{OutputPins}. All pins have a \emph{Type}\footnote{Types come from the Gamma Expression Language.} associated with them, which define their domain. \autoref{fig:pins} shows this section of the metamodel.
+Pins are categorised into two sets, \emph{InputPins} and \emph{OutputPins}. All pins have a \emph{Type}\footnote{Types come from the Gamma Expression Language} associated with them, which define their domain. \autoref{fig:pins} shows this section of the metamodel.
 
 \begin{figure}[!ht]
 	\centering
@@ -21,7 +21,7 @@ Pins are categorised into two sets, \emph{InputPins} and \emph{OutputPins}. All 
 
 \subsubsection*{Flows}\label{ssec:flows}
 
-Flows have two kinds, \emph{ControlFlows} and \emph{DataFlows}. All flows have a guard of type \emph{Expression}, which can evaluate to a \emph{boolean} value; if it evaluates to \emph{True}, the flow is considered \emph{enabled}. \autoref{fig:flows} depicts the relation of flows in the metamodel.
+Flows have two kinds, \emph{ControlFlows} and \emph{DataFlows}. All flows have a guard of type \emph{Expression}\footnote{Written in the Gamma Expression Language}, which can evaluate to a \emph{boolean} value; if it evaluates to \emph{True}, the flow is considered \emph{enabled}. \autoref{fig:flows} depicts the relation of flows in the metamodel.
 
 \begin{figure}[!ht]
 	\centering
@@ -36,7 +36,7 @@ Flows have two kinds, \emph{ControlFlows} and \emph{DataFlows}. All flows have a
 
 \paragraph{Data Flow}\label{par:data_flow}
 
-\emph{DataFlows} contain a \emph{DataSourceReference} and a \emph{DataTargetReference}, which can either be a \emph{Pin}, or a \emph{DataNode}. A data token may contain a value of any kind, but that token can travel only to and from data \emph{sources} and \emph{targets}. This will be explained in more detail below in \autoref{ssec:data-reference}.
+\emph{DataFlows} contain a \emph{DataSourceReference} and a \emph{DataTargetReference}, which can either be a \emph{Pin}, or a \emph{DataNode}. A data token may contain a value of any kind, but that token can travel only to and from data \emph{sources} and \emph{targets}. This will be explained in more detail below.
 
 \subsubsection*{Activity Nodes}\label{ssec:activity_nodes}
 
@@ -55,7 +55,7 @@ In the following, I will talk about the different kinds of \emph{ActivityNodes} 
 
 \paragraph{Pseudo Activity Node}
 
-\emph{PseudoActivityNodes} are nodes, that do not represent a specific action, however are needed to convey specific meanings, e.g., the initial active node, or a decision between flows.
+\emph{PseudoActivityNodes} are nodes that do not represent a specific action, however are needed to convey specific meanings, e.g., the initial active node, or a decision between flows.
 
 \paragraph{Initial Node}
 
@@ -63,7 +63,7 @@ In the following, I will talk about the different kinds of \emph{ActivityNodes} 
 
 \paragraph{Final Node}
 
-A special node representing the final node of the activity.
+A node representing the final node of the activity.
 
 \paragraph{Data Node}
 
@@ -71,15 +71,15 @@ A special node representing the final node of the activity.
 
 \paragraph{Fork Node}
 
-\emph{ForkNodes} are used to model parallelism, by creating one token on each of its output flows when executed. Fork nodes shall have only one input flow.
+\emph{ForkNodes} are used to model parallelism by creating one token on each of its output flows when executed.
 
 \paragraph{Join Node}
 
-\emph{JoinNodes} are the complementary elements of fork nodes; the additional created tokens are swallowed by this node, by sending out one token, regardless of the number of input flows.
+\emph{JoinNodes} are the complementary elements of fork nodes; the additional created tokens are swallowed by this node by transfering out one token, regardless of the number of input flows.
 
 \paragraph{Decision Node}
 
-\emph{DecisionNodes} create branches across multiple output flows. An input flow's token is removed, and sent out to a single output flow - depending on which of the output flows are \emph{enabled} (see \autoref{ssec:flows}).
+\emph{DecisionNodes} create branches across multiple output flows. An input flow's token is removed, and transfered out to a single output flow - depending on which of the output flows are \emph{enabled}\footnote{In the case when multiple flows are enabled one is chosen nondeterministically}.
 
 \paragraph{Merge Node}
 
@@ -87,7 +87,7 @@ A special node representing the final node of the activity.
 
 \subsubsection*{Root Structure}\label{ssec:root_structure}
 
-The root structure defines where the elements of the activity reside in the model. The metamodel described in this section can be seen in \autoref{fig:declaration}.
+The root structure defines where the elements of the activity reside in the model. The metamodel described in this section is depicted in \autoref{fig:declaration}.
 
 \begin{figure}[!ht]
 	\centering
@@ -98,15 +98,15 @@ The root structure defines where the elements of the activity reside in the mode
 
 \paragraph{Activity Declaration}\label{par:activity_declaration}
 
-All elements inside an activity are contained in a root \emph{ActivityDeclaration} element. It contains \emph{Pins} needed for value passing (see \autoref{ssec:pins}) and a \emph{Definition}. Declarations can be \emph{InlineActivityDeclarations}, which means they are declared in an other declaration, or \emph{NamedActivityDeclaration}, which is a standalone activity declaration - \emph{NamedActivityDeclaration} can be referenced from other parts of the model, while \emph{InlineActivityDeclaration} cannot.
+All elements inside an activity are contained in a root \emph{ActivityDeclaration} element. It contains \emph{Pins} needed for value passing and a \emph{Definition}. Declarations can be \emph{InlineActivityDeclarations}, which means they are declared in an other declaration, or \emph{NamedActivityDeclaration}, which is a standalone activity declaration - \emph{NamedActivityDeclaration} can be referenced from other parts of the model, while \emph{InlineActivityDeclaration} cannot.
 
 \paragraph{Definition}\label{par:definition}
 
-Definitions define how the activity is described; using activity nodes, or by the Gamma Action Language. \emph{ActionDefinition} contains a single \emph{Block}\footnote{A \emph{Block} contains multiple \emph{Actions} which are executed one after the other}, which is executed as is when the activity is executed\footnote{This means, that upon execution the given activity is executed atomically; it will not be interlaced with other XSTS transitions. See \autoref{ssec:calling-activities}.}. \emph{ActivityDefinitions} contain \emph{ActivityNodes} (\autoref{ssec:activity_nodes}) and \emph{Flows} (\autoref{ssec:flows}), and are used to \emph{compose} activities (see \autoref{ssec:composing-activities}).
+Definitions define how the activity is described; using activity nodes, or by the Gamma Action Language. \emph{ActionDefinition} contains a single \emph{Block}\footnote{A \emph{Block} contains multiple \emph{Actions} which are executed one after the other}, which is executed as is when the activity is executed\footnote{This means, that upon execution the given activity is executed atomically; it will not be interlaced with other XSTS transitions. See \autoref{ssec:calling-activities}.}. \emph{ActivityDefinitions} contain \emph{ActivityNodes} and \emph{Flows}, and are used to \emph{compose} activities.
 
 \subsubsection*{Composing Activities}\label{ssec:composing-activities}
 
-\emph{ActionNodes} may contain a single \emph{ActivityDeclarationReference} to an \emph{ActivityDeclaration}\footnote{If the node does not have any, it is considered a \emph{simple} node, without any implementation.}, in which case the execution of said node will also include the execution of the underlying \emph{ActivityDeclaration}. This construction gives us the power to pre-declare, or inline specific activities in the model; and use any definition defined above (\autoref{ssec:root_structure})  for them. \autoref{fig:composite_activity} shows this part of the metamodel.
+\emph{ActionNodes} may contain a single \emph{ActivityDeclarationReference} to an \emph{ActivityDeclaration}\footnote{If the node does not have any, it is considered a \emph{simple} node, without any implementation}, in which case the execution of said node will also include the execution of the underlying \emph{ActivityDeclaration}. This construction gives us the power to pre-declare, or inline specific activities in the model; and use any definition defined above (\autoref{ssec:root_structure})  for them. \autoref{fig:composite_activity} shows this part of the metamodel.
 
 \begin{figure}[!ht]
 	\centering
@@ -115,29 +115,29 @@ Definitions define how the activity is described; using activity nodes, or by th
 	\label{fig:composite_activity}
 \end{figure}
 
-\subsubsection*{Data Source-Target Reference}\label{ssec:data-reference}
+\subsubsection*{Data Source Reference and Data Target Reference}\label{ssec:data-reference}
 
-In order to correctly set a data flow's data source and data target, we have to keep in mind where we are referencing the pins. A given \emph{InputPin} can be considered a \emph{DataTarget} from outside of the associated \emph{Activity}, however, it is a \emph{DataSource} from inside the \emph{Defintion}. \emph{DataNodes} can be considered both data sources and data targets. See \autoref{fig:data_source_target_reference} for the metamodel.
+In order to correctly set a data flow's data source and data target, the model has to store where the pins are referenced. A given \emph{InputPin} can be considered a \emph{DataTarget} from outside of the associated \emph{Activity}, however, it is a \emph{DataSource} from inside the \emph{Defintion}. \emph{DataNodes} can be considered both data sources and data targets. See \autoref{fig:data_source_target_reference} for the corresponding metamodel part.
 
 \begin{figure}[!ht]
 	\centering
-	\includesvg[inkscapelatex=false, width=100mm, keepaspectratio]{data-source-target}
+	\includesvg[inkscapelatex=false, width=110mm, keepaspectratio]{data-source-target}
 	\caption{The Data Source-Target reference structure}
 	\label{fig:data_source_target_reference}
 \end{figure}
 
-\paragraph{Example of inside-input/outside-output pin} \autoref{fig:data_source_target_reference_example} shows an example for the multi directional effect of pins. From the perspective of the flow \(P_1 \rightarrow P_2\) the pin \(P_1\) is a \emph{DataSource} and the pin \(P_2\) is a \emph{DataTarget}. However, from the perspective of the flow \(P_2 \rightarrow P_3\), the pin \(P_2\) is a \emph{DataSource} - because the latter flow is inside the composite activity.
+\paragraph{Example of inside-input/outside-output pin} \autoref{fig:data_source_target_reference_example} shows an example for the multidirectional effect of pins. From the perspective of the flow \(P_1 \rightarrow P_2\) the pin \(P_1\) is a \emph{DataSource} and the pin \(P_2\) is a \emph{DataTarget}. However, from the perspective of the flow \(P_2 \rightarrow P_3\), the pin \(P_2\) is a \emph{DataSource} - because the latter flow is inside the composite activity.
 
 \begin{figure}[!ht]
 	\centering
-	\includesvg[inkscapelatex=false, width=90mm, keepaspectratio]{data-source-target-example}
+	\includesvg[inkscapelatex=false, width=80mm, keepaspectratio]{data-source-target-example}
 	\caption{The Data node reference structure}
 	\label{fig:data_source_target_reference_example}
 \end{figure}
 
 \subsubsection*{Pin Reference}\label{ssec:pin-reference}
 
-Pin references are used to define a rigid pin-reference structure in the model. \emph{InputPinReferences} have a reference to a specific \emph{InputPin}, \emph{OutputPinReferences} have a reference to a specific \emph{OutputPin}. \emph{InsidePinReferences} and \emph{OutsidePinReferences} are used to define the direction in which the reference sees the given pin; inside references see it from the inside, outside references see it from the outside. The \emph{OutsidePinReference} must also have a reference to the specific \emph{ActionNode} the pin is associated with\footnote{Note, that the inside pin reference does not have a node reference, because the node must be the activity that contains the pin.}. See \autoref{fig:pin_reference} for the metamodel.
+Pin references are used to define a rigid pin-reference structure in the model. \emph{InputPinReferences} have a reference to a specific \emph{InputPin}, \emph{OutputPinReferences} have a reference to a specific \emph{OutputPin}. \emph{InsidePinReferences} and \emph{OutsidePinReferences} are used to define the direction in which the reference sees the given pin; inside references see it from the inside, outside references see it from the outside. The \emph{OutsidePinReference} must also have a reference to the specific \emph{ActionNode} the pin is associated with\footnote{Note that the inside pin reference does not have a node reference, because the node must be the activity that contains the pin}. See \autoref{fig:pin_reference} for the corresponding metamodel part.
 
 \begin{figure}[!ht]
 	\centering
@@ -148,9 +148,9 @@ Pin references are used to define a rigid pin-reference structure in the model. 
 
 \subsection{Concrete Syntax}
 
-In order to make it easier to test and visualise activities, I defined a grammar for the metamodel in Xtext. The SysMLv2 language served as the main inspiration for the language, however, much of the \emph{syntactic sugars} have been omitted for simplicities' sake. You can see an example in \autoref{lst:gamma-activity}. For the exact language definition, please see \autoref{sec:gamma-activity-language-constructs}
+In order to make it easier to test and visualise activities, I defined a grammar for the metamodel in Xtext. The SysMLv2 language served as the main inspiration for the language, however, much of the \emph{syntactic sugars} have been omitted for the sake of simplicity. \autoref{lst:gamma-activity} is the activity \autoref{fig:activity-running-example} example written in GATL. For the exact grammar definition, please see \autoref{sec:gamma-activity-language-constructs}.
 
-\begin{lstlisting}[float,language=activity, caption={Gamma Activity Language representation of the compilation activity.}, label={lst:gamma-activity}]
+\begin{lstlisting}[float,language=activity, caption={Gamma Activity Language representation of the compilation activity.}, label={lst:gamma-activity}, linewidth=0.75\textwidth, xleftmargin=0.25\textwidth]
 activity CompilationProcess {
 	var errors : boolean := false
 	
@@ -158,31 +158,25 @@ activity CompilationProcess {
 	merge Merge
 	fork Fork
 	
-	action Read1 : activity(
-		out p : integer
-	)
-	action Compile1 : activity(
-		in p : integer
-	)
-	action Read2 : activity(
-		out p : integer
-	)
-	action Compile2 : activity(
-		in p : integer
-	)
+	action Read1 : activity (out pr1 : integer)
+	action Compile1 : activity (in pc1 : integer)
+	action Read2 : activity (out pr2 : integer)
+	action Compile2 : activity (in pc2 : integer)
 	
 	join Join
+	action Link
 	decision Decision
 	action Edit
 	final Final
 	
 	control flow from Initial to Merge 
-	// ...	
-	data flow from Read1.p to Compile1.p
-	control flow from Fork to Read2 
-	// ...
+	// ..
+	control flow from Fork to Read2
+	data flow from Read1.pr1 to Compile1.pc1
+	data flow from Read2.pr2 to Compile2.pc2
+	// ..
 	control flow from Decision to Edit [errors]
-	control flow from Edit to Merge [!errors]
-	control flow from Decision to Final
-}	
+	control flow from Edit to Merge
+	control flow from Decision to Final [!errors]
+}
 \end{lstlisting}

@@ -2,18 +2,18 @@
 \section{Language Design}
 %----------------------------------------------------------------------------
 
-The purpose of GATL is the following: it should support as many features from SysML activity diagrams as possible, while also being simple to implement and transform to low-level models. In order to make the transformation easier, the language only supports a constrained subset of the SysML feature set, however, this does not hinder it's expressiveness.
+The purpose of GATL is twofold: it should support as many features from SysML activity diagrams as possible, while also having formal semantics. In order to make the transformation easier, the language supports only a constrained subset of the SysML feature set, however, this restriction does not hinder its expressiveness.
 
-\subsection{SysML Feature Subset}
+\subsection{Supported SysML Feature Subset}
 
 Compared to SysML activity diagrams, GATL supports the following language constructs:
 
 \begin{itemize}
-	\item \emph{control} and \emph{data} flows.
-	\item \emph{Initial} and \emph{activity final} nodes.
-	\item \emph{Decision} and \emph{merge} nodes - without probability.
-	\item \emph{Fork} and \emph{join} nodes.
-	\item \emph{Action} nodes - which can contain inner activities (Call behaviour in SysML).
-	\item \emph{Pins} on action nodes.
-	\item \emph{Action} nodes - action nodes may contain specific internal actions\footnote{Written in the Gamma Action Language.}, that can calculate values, and send signals through specific ports.
+	\item \emph{control} and \emph{data} flows;
+	\item \emph{Initial} and \emph{activity final} nodes;
+	\item \emph{Decision} and \emph{merge} nodes - without probability;
+	\item \emph{Fork} and \emph{join} nodes;
+	\item \emph{Action} nodes - which can contain inner activities (Call behaviour in SysML);
+	\item \emph{Pins} on action nodes;
+	\item \emph{Action} nodes - action nodes may contain specific internal actions\footnote{Written in the Gamma Action Language} that can calculate values, and send signals through specific ports.
 \end{itemize}
