@@ -1,5 +1,19 @@
 %----------------------------------------------------------------------------
-\section{Related Work}\label{sec:related-work}
+\clearpage\section{Related Work}\label{sec:related-work}
 %----------------------------------------------------------------------------
 
-\todo{Add related work}
+In this section, I showcase various works in the area of process-based model formal verification.
+
+Rik Eshuis \cite{10.1145/1125808.1125809} translates activity diagrams to NuSMV code. The mapping is based on a state machine, and follows the following steps: (1) Inserting a WAIT node for each edge entering a join, (2) Inserting a WAIT node between a join and a fork, (3) Replacing object nodes and flows by wait nodes and control flows, (4) Eliminating pseudo-nodes and define hyperedges. The resulting NuSMV can be checked with LTL temporal logic.
+
+Samir Ouchani et al. in \cite{10.1007/978-3-642-33826-7_18} introduce an abstraction approach for SysML Activity Diagrams that helps mitigate the state-explosion problem. They defined two algorithms for this, the first one eliminates the parts of the model which are irrelevant to the formal requirement, while the second merges nodes, thus abstracting the model.
+
+Samir Ouchani et al. in \cite{OUCHANI20142713} propose a mapping from SysML Activity Diagrams to probabilistic automata written in PRISM language. They have done this by first defining a mapping from the model elements to NuAC terms, which are then mapped to PrismCode using a simple algorithm traversing the activity model. This mapping then was checked by comparing the semantics of the Activity Diagram with the resulting PA.
+
+Huang et al. in ~\cite{https://doi.org/10.1002/sys.21524} propose a partial mapping algorithm from SysML Activity Diagrams to Petri nets, using a constrained subset of SysML. More about this work in \autoref{ssec:activities-as-petri-nets}.
+
+Jan Czopik et al. in \cite{10.1007/978-3-319-08156-4_36} introduce a mapping from SysML Activity Diagrams to Coloured Petri Nets. Coloured Petri Nets is a formalism that extends the semantics of Petri nets with distinguishable tokens. The highlight of this work is the incorporation of data tokens into the resulting formal model.
+
+Messaoud Rahim et al. in \cite{rahim:hal-00935748} introduces a modular and distributed verification process for composite SysML Activity Diagrams mapped to Petri nets. They achieve minimal state-space for the underlying model checker algorithm, by separating the resulting Petri nets into modules, and only explore the state-space of other activities, if the corresponding SysML Activity Diagram called, or is called by the other module. Thus, the resulting state space is significantly reduced.
+
+These works mainly focus on the verification of sole activities, without incorporating state machines; to the best of my knowledge, there is no work in the literature focusing on the formal verification of combined high-level state-based and process-based behaviour descriptions.

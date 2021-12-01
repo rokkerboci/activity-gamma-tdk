@@ -2,4 +2,20 @@
 \chapter{\bevezetes}
 %----------------------------------------------------------------------------
 
-\todo{Add introduction}
+Reactive systems, such as embedded control systems in the railway, automotive and aerospace industries, are getting more and more complex as user requirements proliferate. As a result, such systems are generally not centralized; they consist of heterogeneous components distributed among several computing nodes, which constantly interact with each other and external resources  (e.g., cloud computing via the Internet) while carrying out critical tasks.
+
+In order to tackle the increasing development complexity, new approaches and tools have been introduced to supervise the design, verification and implementation of reactive systems. Component-based systems engineering (CBSE)  and model-based systems engineering (MBSE) aim to support the development process based on the integration of reusable components defined in high-level modeling languages, preferably with automatically derivable implementation and verifiable design.
+
+UML and SysML, the de facto language standards in CBSE and MBSE methodologies, offer the State Machine Diagram and the Activity Diagram to describe reactive component behaviour. These diagram types are often combined: state machines describe changes in component states, whereas activities can define continuous and batch process behaviour in active states and during transitions. Unfortunately, UML and SysML do not provide formal execution semantics for state machines and activities, hindering the verification of the design models. In turn, modeling languages with formal semantics with the necessary tooling can support the verification of component behaviour early during the development process -- an essential facility in the context of critical systems.
+
+This work focuses on process-based (activity) behavioural models and their usability in traditional state-based descriptions, and aims to propose solutions for the formal verification of the combined models. I build on and integrate my work into the Gamma Statechart Composition Framework, a modeling tool for the design and analysis of component-based reactive systems. Gamma supports the semantically sound composition of state-based components and provides system-level formal verification and validation (V\&V) by mapping composite models into analysis formalisms of integrated model checker back-ends. The framework facilitates the implementation process with automated code generators. So far, Gamma has lacked support for activities.
+
+As a novelty, I introduce the following contributions to aid the formal modeling and verification of process models in component-based reactive systems.
+
+\begin{itemize}
+	\item I introduce an activity language with formal semantics inspired by SysMLv2 and integrate it into the modeling language family of the Gamma framework, allowing for the combination of state-based and process-oriented behaviour.
+	\item I define and implement a model transformation that maps activity descriptions into the analysis formalism of Gamma (eXtended Symbolic Transitions Systems - XSTS), enabling the formal verification of combined state-based and process-based behaviour with integrated model checker back-ends.
+	\item Finally, I evaluate the theoretical and practical results of my work on case studies from the aerospace domain and identify improvement possibilities and potential applications.
+\end{itemize}
+
+The rest of the work is structured as follows. \autoref{ch:background} introduces the background necessary to understand the rest of the work. \autoref{ch:gamma-activity-language} presents the Gamma Activity Language including its metamodel, textual syntax and the formal semantics of the model elements. In \autoref{ch:activiy_verification}, I introduce questions regarding the interplay of state machines and activities, propose solutions for them and I integrate the Gamma Activity Language into Gamma. \autoref{ch:evaluation} presents three case studies showcasing the capabilities and correctness of the modeling language and its integration into the Gamma framework. Lastly, in \autoref{ch:conclusion}, I draw the conclusions of the work, and lay down possible future enhancements.

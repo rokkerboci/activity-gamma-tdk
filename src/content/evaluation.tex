@@ -2,24 +2,17 @@
 \chapter{Evaluation}\label{ch:evaluation}
 %----------------------------------------------------------------------------
 
-In this chapter, I present three experiments created to showcase the usability and verifiability of the Gamma Activity Language. 
+In this chapter, I present two case studies to showcase the usability and verifiability of the Gamma Activity Language, using a handcrafted simple model and an industry example model.
 
-\section{Compilation}
+\section{Case Study - Compilation}
 
-The first experiment involves the running example introduced in \autoref{fig:activity-running-example}. The goal of this experiment is to evaluate a simple activity's formal verification.
+The first case study is about the running example introduced in \autoref{fig:activity-running-example}. The goal of this experiment is to evaluate the formal verification capabilities of the language using a toy model.
 
 \subsection{Modeling}
 
-The GATL representation of the model has already been presented in \autoref{lst:gamma-activity}, however this some modifications have to be implemented in order to run the verification.
+The GATL representation of the model has already been presented in \autoref{lst:gamma-activity}, however, some modifications have to be implemented in order to run the verification. As activities can not be verified directly, they must be wrapped within a statechart. Also, because GPL properties can not reference activity model elements, an additional flag (variable declaration of type boolean) must be added, to enable the construction of a reachability property specifying the end of the activity. The modifications can be seen in \autoref{lst:modified-compilation}.
 
-\begin{itemize}
-	\item Activities have to be wrapped inside statecharts.
-	\item Activities can not be referenced from GPL, only statechart constructs.
-\end{itemize}
-
-For this reason, I wrapped the activity inside a statechart, and added an \emph{activityDone} variable, that turns true when before the activity reaches the final state. 
-
-\begin{lstlisting}[language=statechart, linewidth=0.75\textwidth, xleftmargin=0.25\textwidth]
+\begin{lstlisting}[language=statechart, linewidth=0.80\textwidth, xleftmargin=0.20\textwidth, caption={The textual representation of the modified compilation example.}, label={lst:modified-compilation}]
 statechart CompilationWrapper {
 	var activityDone : boolean := false
 	region Main {
@@ -42,28 +35,42 @@ statechart CompilationWrapper {
 }
 \end{lstlisting}
 
-I then added the statechart to \emph{cascade} component, and defined the property I wished to check for.
+The next step was to wrap the statechart in a \emph{cascade} component, and define the reachability property of the variable \emph{activityDone} being true:
 
-\begin{lstlisting}[language=statechart, linewidth=0.75\textwidth, xleftmargin=0.25\textwidth]
+\begin{lstlisting}[language=statechart, linewidth=0.80\textwidth, xleftmargin=0.20\textwidth]
 cascade Compilation {
 	component CompilationWrapper : CompilationWrapper
 }
 \end{lstlisting}
 
-\begin{lstlisting}[language=statechart, linewidth=0.75\textwidth, xleftmargin=0.25\textwidth]
+\begin{lstlisting}[language=statechart, linewidth=0.80\textwidth, xleftmargin=0.20\textwidth]
 component Compilation
 
-// Cam the variable activityDone ever be true?
+// Can the variable activityDone ever be true?
 E F [ { variable CompilationWrapper.activityDone } ] 
 \end{lstlisting}
 
-Finally, I ran the verification using the \emph{Theta} model checker. The result shows, that the variable \emph{activityDone} can indeed become true. 
+Finally, I ran the verification using the Theta and the UPPAAL model checkers. 
 
 \subsection{Results and Conclusion}
 
-The following trace shows the steps the model checker took, in order to reach the desired state. The first step shows the initial values of the system, and the following steps show how the values changed after the component was scheduled. As you can see, the second step is repeated \(17\) times before the variable became true - and these steps were the same. As there are no XSTS transition from the statechart, the only transitions that can be fired come from the activity. The token in the activity goes through 8 nodes, 8 flows to reach node \emph{Done}, after which one additional step is needed to execute its action: \( 8 + 8 + 1 = 17 \).
+\autoref{tab:cs1} contains the execution time of the two model checkers. Interestingly, Theta took -- on average -- one order of magnitude more time, then UPPAAL.
 
-\begin{lstlisting}[language=statechart, linewidth=0.75\textwidth, xleftmargin=0.25\textwidth]
+The trace \autoref{lst:cs1} shows the steps the model checkers took to reach the state described by the property (\emph{activityDone = true}). The first step shows the initial values of the system, while the following steps show how the values change after the component is scheduled. As can be seen, the second step is repeated \(17\) times before the variable becomes true. As there are no transitions in the XSTS model from the statechart, the only transitions that can be fired come from the activity. The token in the activity goes through eight\footnote{Merge, Fork, Read(1,2), Compile(1,2), Join, Link, Decision, Edit, Done} nodes and eight flows to reach node \emph{Done}, after which an additional step is needed to execute its action: thus resulting in a total of \( 8 + 8 + 1 = 17 \) steps.
+
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\textbf{Model Checker} & \textbf{Successful Verification} & \textbf{Execution Time} \\ \hline
+		Theta                  & \emph{Yes}                              & \(1332\) ms                 \\ \hline
+		UPPAAL                 & \emph{Yes}                              & \(162\) ms					\\ \hline
+	\end{tabular}
+	\caption{The execution times for the compilation example.}
+	\label{tab:cs1}
+\end{table}
+
+\begin{lstlisting}[float,language=statechart, linewidth=0.80\textwidth, xleftmargin=0.20\textwidth, caption={The trace of the run formal verification.}, label={lst:cs1}]
 step {
 	act {
 		reset
@@ -94,55 +101,77 @@ step {
 }
 \end{lstlisting}
 
-The reason for the repetition, is the lack of trace information provided by the activity; the XSTS transitions are executed as expected, however, the trace mechanism of Gamma can not display these changes.
+The reason for the repetition is the lack of trace information regarding the activity model; the XSTS transitions are executed as expected, however, the trace mechanism of Gamma can not display these changes.
 
-This case study proved, that the underlying XSTS formalism does indeed work as expected, however, there is still more work to be done, to let the user choose activity nodes as reachability properties, and to show activity variables in the resulting trace (see \autoref{ch:conclusion}).
+This case study showed that the Gamma Activity Language formalism does indeed work for simple examples. However, there is still more work to be done, to let the user choose activity nodes as reachability properties, and to show activity variables in the resulting trace (see \autoref{ch:conclusion}).
 
-\section{Complicated System}
+\section{Case Study - Simple Space Mission}
 
-\section{Space-mission}
+This section introduces an example model from the aerospace domain which we use as a case study to demonstrate the capability of the Gamma Activity Language to model complex SysML behavioural models. The example model was proposed by NASA in the context of the OpenMBEE\footnote{https://www.openmbee.org/} framework. The goal of OpenMBEE is to create a common model repository to facilitate tool integration, so the ability to handle models in the scope of this project can raise the relevance of any model analysis tool.
 
-This section introduces an example model from the aerospace domain which we use as a case study to demonstrate the applicability of Gamma to describe SysML behavioral models. The example model was proposed by NASA in the context
-of the OpenMBEE\footnote{https://www.openmbee.org/} framework. The goal of OpenMBEE is to create a common model repository to facilitate tool integration, so the ability to handle models in the scope of this project can raise the relevance of any model analysis tool.
-
-The Gamma models used in this section are a modification of a previous case study~\cite{mixed_statecharts_2020}, in which the activities were mapped to statechart formalism. In this case study, I modified the models to use the GATL to represent the activities.
+The Gamma models used in this section are a modification of a previous case study~\cite{mixed_statecharts_2020}, in which the activities were mapped to parallel regions and composite states. For this case study, I modified the models to use GATL to represent the activities.
 
 \subsection{System Modeling}
 
-The SysML model describes how a satellite communicates with a ground station as well as the state of the battery of the satellite. The state-based behavior of the system can be seen in Figures \ref{fig:ground_station} and \ref{fig:spacecraft_modes}, while the more complex activities are depicted in Figures \ref{fig:recharge_batteries} and \ref{fig:transmit_data}
-
-\begin{figure}[!ht]
+\begin{figure}[]
 	\centering
 	\includesvg[inkscapelatex=false, width=80mm, keepaspectratio]{ground_station}
-	\caption{The state machine describing the behaviour of the ground station component}
+	\caption{The state machine describing the behaviour of the ground station component.}
 	\label{fig:ground_station}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[]
 	\centering
 	\includesvg[inkscapelatex=false, width=100mm, keepaspectratio]{spacecraft_modes}
-	\caption{The state machine describing the behaviour of the spacecraft component}
+	\caption{The state machine describing the behaviour of the spacecraft component.}
 	\label{fig:spacecraft_modes}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[]
 	\centering
 	\includesvg[inkscapelatex=false, width=90mm, keepaspectratio]{recharge_batteries}
-	\caption{The activity diagram describing the battery recharge process of the spacecraft component}
+	\caption{The activity diagram describing the battery recharge process of the spacecraft component.}
 	\label{fig:recharge_batteries}
 \end{figure}
 
-\begin{figure}[!ht]
-	\centering
-	\includesvg[inkscapelatex=false, width=110mm, keepaspectratio]{transmit_data}
-	\caption{The activity diagram describing the data transmission process of the spacecraft component}
-	\label{fig:transmit_data}
-\end{figure}
+The Simple Space Mission SysML model describes how a satellite with limited battery charge communicates with a ground station, where data transfer results in large power losses. The state-based behaviour of the system can be seen in Figures \ref{fig:ground_station} and \ref{fig:spacecraft_modes}, while the more complex activities are depicted in Figures \ref{fig:recharge_batteries} and \ref{fig:transmit_data}.
 
-The challenge of the mapping came from some of the not supported modeling elements used in the model. The SysML activities use \emph{duration constraints} to model how much time a given action takes to execute. The GATL language does not support such constraints, however, we can use \emph{timeouts} and \emph{trigger nodes} to insert waiting in before the given action can be executed. The other not supported, but used activity formalisms are interrupting edges, and internal signals. I used additional boolean variables to model the behaviour of these modeling formalisms. You can find the created Gamma models in \autoref{sec:spacecraft-model}
+The challenge of the mapping is posed by the elements that are not supported in GATL. The SysML activities use \emph{duration constraints} to model how much time a given action takes to execute, along with \emph{interrupting edges} and \emph{internal signals} to simplify the models. The GATL language does not support these elements, however, they can be substituted with other modeling constructs. Duration constraints can be modeled using \emph{timeouts} and \emph{trigger nodes} to insert waiting before the given action can be executed -- although the time waited will be deterministic, unlike the SysML specification. The behaviour defined with the interrupting edge and internal signals can be substituted with additional boolean variables that signal when the execution of the activity should be halted. The easiest way to halt the activity is to leave its state. To detect the changes in the flags, I added a timeout that tests for the flags every second. The created Gamma models can be found in \autoref{sec:spacecraft-model}
 
 \subsection{Results and Conclusion}
 
-To check the conformance of the Gamma model with the original SysML model, I ran a set of verifications on the resulting model, and all traces were consistent with the behaviour described by the SysML.
+To check the conformance of the Gamma model with the original SysML model, I generated a state covering test set using the test generation functionality of Gamma, which produces reachability properties for all states in the system. \autoref{tab:cs2-uppaal} shows the execution times of the UPPAAL model checker. The table clearly shows how the state space of the low-level formalism ``exploded'' when checking for the \textsl{Satellite.Battery.Recharging} state, hence the high duration.
 
-This case study showed, that real world SysML models can be mapped to the Gamma Activity Language, although, certain semantics (e.g., \emph{interrupting edge}) have to be mapped to different formalisms. Nevertheless, this case study provides proof of the usability of the language in industrial contexts.
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{|l|c|c|}
+		\hline
+		\textbf{Reachability Property}                       & \textbf{UPPAAL} & \textbf{Theta} \\ \hline
+		Station.Main.Idle                    & 239 ms                              & 960 ms                  \\ \hline
+		Station.Main.Operation               & 222 ms                              & 1 450 ms                  \\ \hline
+		Satellite.Communication.WaitingPing  & 179 ms                              & 890 ms                  \\ \hline
+		Satellite.Communication.Transmitting & 220 ms                              & 1 172 ms                  \\ \hline
+		Satellite.Battery.NotRecharging      & 171 ms                              & 947 ms                  \\ \hline
+		Satellite.Battery.Recharging         & 35 998 ms                              & \textit{out of memory}               \\ \hline
+		Satellite.Battery.transmitionDone         & \textit{timeout}                              & 1 931 ms              \\ \hline
+		Satellite.Battery.batteryRecharging         & 42 462 ms                              & \textit{timeout}               \\ \hline
+		Satellite.Battery.batteryFullyCharged         & \textit{timeout}                              & 2 018 ms              \\ \hline
+		Satellite.Battery.battery = 95         & 2 369 ms                             & \textit{timeout}               \\ \hline
+		Satellite.Battery.battery = 90         & 9 899 ms                              & \textit{timeout}               \\ \hline
+		Satellite.Battery.battery = 80         & 45 703 ms                              & \textit{timeout}               \\ \hline
+		Satellite.Battery.battery = 70         & \textit{timeout}                              & \textit{timeout}               \\ \hline
+	\end{tabular}
+	\caption{The execution times for the Simple Space Mission system using UPPAAL.}
+	\label{tab:cs2-uppaal}
+\end{table}
+
+In contrast, \autoref{tab:cs2-theta} shows the execution times of the Theta model checker. Every property took significantly more time to run on Theta, moreover, the previous state space explosion caused Theta to run out of memory.
+
+This case study showed, that real world SysML models can be mapped to the Gamma Activity Language, although, some SysML elements may have to be transformed into a series of GATL elements manually. However, the model verification takes exponentially more time as we increase the model elements.
+
+\begin{figure}[]
+	\centering
+	\includesvg[inkscapelatex=false, width=110mm, keepaspectratio]{transmit_data}
+	\caption{The activity diagram describing the data transmission process of the spacecraft component.}
+	\label{fig:transmit_data}
+\end{figure}

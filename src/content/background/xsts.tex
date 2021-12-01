@@ -4,7 +4,7 @@
 
 In this section, I introduce the Extended Symbolic Transition System~\cite{xsts} language, which is a low-level modeling formalism designed to bridge the abstraction gap between engineering models and formal methods.
 
-\subsection{Formal definition}
+\subsection{Formal Definition}
 
 \begin{definition}[Extended symbolic transition system]
 	
@@ -12,7 +12,7 @@ In this section, I introduce the Extended Symbolic Transition System~\cite{xsts}
 	
 	\begin{itemize}
 		\item \(D = \{ d_{v_1}, d_{v_2}, \dots, d_{v_n} \} \) is a set of value domains;
-		\item \(V = \{ v_1, v_2, \dots, v_n \} \) is a set of variables with domains \(d_{v_1}, d_{v_2}, \dots, d_{v_n}\);
+		\item \(V = \{ v_1, v_2, \dots, v_n \} \) is a set of variables with domains \( \{  d_{v_1}, d_{v_2}, \dots, d_{v_n} \} \);
 		\item \(V_C \subseteq V\) is a set of variables marked as \emph{control variables};
 		\item \(\mathit{IV} \in d_{v_1} \times d_{v_2} \times \dots \times d_{v_n}\) is the \emph{initial value function} used to describe the initial state. The initial value function \(\mathit{IV}\) assigns an initial value \(\mathit{IV}(v) \in d_v\) to variables \(v \in V\) of their domain \(d_v\);
 		\item \(\mathit{Tr} \subseteq \mathit{Ops}\) is a set of operations, representing the \emph{internal transition relation}; it describes the internal behaviour of the system;
@@ -31,7 +31,7 @@ Basic operations contain no inner (nested) operations.
 
 \begin{itemize}
 	\item \emph{Assignments} assign a given value \(v\) from domain \(d_n\) to variable \(V_n\).
-	\item \emph{Havocs} behave likewise, except the value is not predetermined, giving a way to assign a random value to a variable.
+	\item \emph{Havocs} behave likewise, except the value is not predetermined, giving a way to assign a nondeterministic value to a variable.
 	\item Lastly, \emph{assume} operations check a condition, and can be executed only if their condition evaluates to \emph{true}.
 \end{itemize}
 
@@ -41,20 +41,23 @@ Composite operations contain other operations, and can be used to describe compl
 
 \begin{itemize}
 	\item \emph{Sequences} are essentially multiple operations executed one after the other.
-	\item \emph{Parallels} are like sequences, however they execute all operations in parallel.
+	\item \emph{Parallels} are execute all operations in parallel.
 	\item And lastly, \emph{choices} model non-deterministic choices between multiple operations; one and only one branch of the choice operation is selected for execution.
 \end{itemize}
 
-Note that while these are composite operations, their execution is still atomic; i.e., a potential false evaluation of a containing assume operation prevents the execution of all operations in that particular branch. E.g., if a sequence's 2nd operation is an assume operation, which cannot execute, then the whole sequence operation will be prevented from execution.
+Note that while these are composite operations, their execution is still atomic; i.e., a potential false evaluation of a containing assume operation prevents the execution of all operations in that particular branch. E.g., if a sequence's second operation is an assume operation, which cannot execute, then the whole sequence operation will be prevented from execution.
 
 \subsection{Traffic Light Controller Example}
 
-\autoref{lst:gamma-xsts} is the textual representation of the traffic light controller statechart (\autoref{fig:sysml_state_machine}) transformed\footnote{The transformation was done using Gamma} to XSTS. For a more exact presentation please see \autoref{sec:xsts_language}.
+\autoref{lst:gamma-xsts} shows the example traffic light controller statechart (\autoref{fig:sysml_state_machine}) transformed into the textual representation of XSTS, using the Gamma framework. It shows how the different states and regions are modeled, and clearly showcases the structure of XSTS. For a more exact presentation see \autoref{sec:xsts_language}.
 
 \begin{lstlisting}[float,language=xsts, caption={Gamma XSTS Language representing the traffic light controller statechart.}, label={lst:gamma-xsts}]
 type ActivityNodeState : { __Idle__, __Running__, __Done__ }
 // ...
-type Operating_Controller : { __Inactive__, Priority, Init, PriorityPrepares, Secondary, SecondaryPrepares }
+type Operating_Controller : { 
+	__Inactive__, Priority, Init, 
+	PriorityPrepares, Secondary, SecondaryPrepares
+}
 var PoliceInterrupt_police_In_Controller : boolean = false
 // ...
 ctrl var main_region_Controller : Main_region_Controller = __Inactive__
@@ -66,21 +69,14 @@ trans {
 	choice {
 		assume (main_region_Controller == Interrupted); 
 		// ...
-		choice {
-			assume (operating_Controller == Priority);
-			SecondaryTimeout2_Controller := 0;
-			PriorityControl_toggle_Out_Controller := true;
-			SecondaryControl_toggle_Out_Controller := true;
-			// ...
-		}
 	} or {
+		assume (main_region_Controller == Normal); 
 		// ...
 	}
 	PoliceInterrupt_police_In_Controller := false;
 }
 init {
 	SecondaryTimeout2_Controller := 2 * 1000;
-	main_region_Controller := __Inactive__;
 	// ...
 	PriorityPolice_police_Out_Controller := false;
 	choice {
@@ -93,9 +89,7 @@ init {
 }
 env {
 	havoc PoliceInterrupt_police_In_Controller;
-	PriorityPolice_police_Out_Controller := false;
-	SecondaryControl_toggle_Out_Controller := false;
-	PriorityControl_toggle_Out_Controller := false;
+	// ...
 	SecondaryPolice_police_Out_Controller := false;
 }
 \end{lstlisting}

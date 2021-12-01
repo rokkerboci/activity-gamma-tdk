@@ -1,5 +1,5 @@
 %----------------------------------------------------------------------------
-\section{The Gamma Statechart Composition Framework}\label{sec:gamma}
+\section{Gamma Statechart Composition Framework}\label{sec:gamma}
 %----------------------------------------------------------------------------
 
 The Gamma Statechart Composition Framework\footnote{https://inf.mit.bme.hu/en/gamma}~\cite{mixed_statecharts_2020} is an integrated tool to support the design, verification and validation of, as well as code generation for component-based reactive systems. The behaviour of each component is captured by a statechart, while assembling the system from components is driven by a domain-specific composition language\footnote{The composition language bears close similarities to the \emph{ibd} language in SysML}. Gamma supports the formal verification of the assembled system by mapping composite statecharts to a back-end model checker. Execution traces obtained as witnesses during verification are back-annotated as test cases to replay an error trace or to validate external code generators~\cite{molnar2018gamma}. 
@@ -28,9 +28,9 @@ Finally, the abstract traces are mapped into concrete (executable) traces tailor
 
 \subsection{Example Statechart}
 
-\autoref{lst:gamma-statechart} shows the Gamma Statechart representation of the SysML State Machine introduced in \autoref{fig:sysml_state_machine}.
+\autoref{lst:gamma-statechart} shows the Gamma Statechart representation of the SysML State Machine introduced in \autoref{fig:sysml_state_machine}. The Gamma Statechart Language is highly expressive language, capable of defining composite statecharts with \emph{ports}, \emph{timeout triggers} and composite actions. My work builds the activity language on top of this formalism. 
 
-\begin{lstlisting}[float,language=statechart, caption={The traffic light controller state machine in the textual representation of Gamma's statechart language.}, label={lst:gamma-statechart}]
+\begin{lstlisting}[float,language=statechart, caption={The traffic light controller state machine in the textual representation of the Gamma Statechart Language.}, label={lst:gamma-statechart}]
 package TrafficLightCtrl
 import "Interfaces"
 statechart TrafficLightCtrl [

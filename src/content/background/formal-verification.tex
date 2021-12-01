@@ -2,7 +2,7 @@
 \section{Formal Verification}\label{sec:formal_verification}
 %----------------------------------------------------------------------------
 
-In order to raise the reliability of system models, various analysis techniques are used to verify their correctness. Among these techniques are \emph{unit tests}, \emph{module tests}, \emph{system tests} and \emph{acceptance tests}. However, no matter how many kinds of tests we use, the test cases are ultimately constructed by people - rendering them as error prone as the model. Formal verification tools are meant to extend these analysis techniques by not specifying a given \emph{sequence} of event, but rather specifying the undesirable state of the system. Formal verification methods are primarily based on theoretical computer science fundamentals like logic calculi, automata theory and strongly type systems. The main principle behind formal analysis of a system is to construct a computer based mathematical model of the given system and formally verify, within a computer, that this model meets rigorous specifications of the intended behaviour. Due to the mathematical nature of the analysis, 100\% accuracy can be guaranteed.
+In order to ensure the reliability of system models, various analysis techniques are used to verify their correctness. Among these techniques are \emph{unit tests}, \emph{module tests}, \emph{system tests} and \emph{acceptance tests}. However, no matter how many kinds of tests we use, the test cases can not cover the entire system. Formal verification tools are meant to extend these analysis techniques by not specifying a given \emph{sequence} of events, but rather specifying the undesirable state of the system \cite{10.5555/332656}. Formal verification methods are primarily based on theoretical computer science fundamentals like logic calculi, automata theory and strongly typed systems \cite{en12010019}. The main principle behind formal analysis of a system is to construct a computer-based mathematical model of the given system and formally verify, within a computer, that this model meets rigorous specifications of the intended behaviour. Due to the mathematical nature of the analysis, very high accuracy can be guaranteed.
 
 \subsection{Model Checking}
 
@@ -26,7 +26,7 @@ Model checker algorithms (see \autoref{fig:model_checking}), such as the ones us
 	\label{fig:petri_net}
 \end{figure}
 
-Petri nets are a widely used formalism to model concurrent, asynchronous systems~\cite{24143}. The formal definition of a Petri net ~\cite{REISIG19911} is as follows (see \autoref{fig:petri_net} for an illustration of the notations).
+Petri nets are an example of formal models, and thus can be formally verified. Petri nets are a widely used formalism to model concurrent, asynchronous systems~\cite{24143}. The formal definition of a Petri net~\cite{REISIG19911} is as follows (see \autoref{fig:petri_net} for an illustration of the notations).
 
 \begin{definition}[Petri net]
 	
@@ -35,22 +35,22 @@ Petri nets are a widely used formalism to model concurrent, asynchronous systems
 	\begin{itemize}
 		\item \(P\) is the set of \emph{places} (defining state variables);
 		\item \(T\) is the set of \emph{transitions} (defining behaviour), such that \( P \bigcap T = \emptyset \);
-		\item \(W \subseteq W^+ \bigcup W^- \) is a set of two types of arcs, where \(  W^+ : T \times P \rightarrow \mathbb{N}\) and \( W^- : P \times T \rightarrow \mathbb{N} \) are the set of input arcs and output arcs, respectively (\( \mathbb{N} \) is the set of all natural numbers);
+		\item \(W \subseteq W^+ \bigcup W^- \) is a set of two types of arcs, where \(  W^+ : T \times P \rightarrow \mathbb{N}\) and \( W^- : P \times T \rightarrow \mathbb{N} \) are the set of input arcs and output arcs, respectively (\( \mathbb{N} \) is the set of all natural numbers). The number returned is an arc's \emph{weight};
 		\item \(M_0 : P \rightarrow \mathbb{N} \) is the \emph{initial marking}, i.e., the number of \emph{tokens} on each place.
 	\end{itemize}
 \end{definition}
 
-The state of a Petri net is defined by the current marking \( M : P \rightarrow \mathbb{N} \). The behaviour of the systems is described as follows. A transition \( t \) is enabled if \( \forall p \in P : M(p) \in W(p, t) \). Any enabled transition \(t\) may fire nondeterministically, creating the new marking \( M' \) of the Petri as follows: \( \forall p \in P : M'(p) = M(p) - W^-(p, t) + W^+(t, p) \).
+The state of a Petri net is defined by the current marking \( M : P \rightarrow \mathbb{N} \). The behaviour of the systems is described as follows. A transition \( t \) is enabled if \( \forall p \in P : M(p) \geq W(p, t) \). Any enabled transition \(t\) may fire nondeterministically, creating the new marking \( M' \) of the Petri as follows: \( \forall p \in P : M'(p) = M(p) - W^-(p, t) + W^+(t, p) \).
 
-In words: W describes the \emph{weight} of each flow from a transition to a place, or from a place to a transition. Firing a transition \(t\) in a marking \(M\) consumes \(W^-(p_i, t)\) tokens from each of its input places \(p_i\), and produces \(W(t, p_o)\) tokens in each of its output places \(p_o\). One such transition \(t\) is \emph{enabled} (it may \emph{fire}) in \(M\) if there are enough tokens in its input places for the consumptions to be possible, i.e., if and only if \( \forall p : M(p) \ge W(s, t)\).
+In words: W describes the \emph{weight} of each arc from a transition to a place, or from a place to a transition. Firing a transition \(t\) in a marking \(M\) consumes \(W^-(p_i, t)\) tokens from each of its input places \(p_i\), and produces \(W(t, p_o)\) tokens in each of its output places \(p_o\). One such transition \(t\) is \emph{enabled} (it may \emph{fire}) in \(M\) if there are enough tokens in its input places for the consumptions to be possible.
 
 \subsection{Activities as Petri Nets}\label{ssec:activities-as-petri-nets}
 
-Formal verification requires models to be specified using \emph{mathematical} precision, i.e., the modeling language must have a formal syntax and semantics, however UML/SysML does not have precise semantics~\cite{pssm-testing, pssm, euml}. Huang et al. in ~\cite{https://doi.org/10.1002/sys.21524} propose a way to \emph{partially} map SysML activity diagrams to Petri nets, giving a denotational semantics to the subset of SysML Activity Diagrams. In the following, I will summarise their work, as my main contributions (see \autoref{ch:gamma-activity-language}) build on it.
+Formal verification requires models to be specified using \emph{mathematical} precision, i.e., the modeling language must have a formal syntax and semantics. However UML/SysML does not have precise semantics~\cite{pssm-testing, pssm, euml}. Huang et al. in ~\cite{https://doi.org/10.1002/sys.21524} propose a way to \emph{partially} map SysML Activity Diagrams to Petri nets, giving a denotational semantics to the subset of SysML Activity Diagrams. In the following, I will summarise their work, as my main contributions (see \autoref{ch:gamma-activity-language}) build on it.
 
 \subsubsection*{Constrained Subset of SysML}\label{ssec:sysml_assumptions}
 
-Since UML/SysML Activity Diagrams do not have precise execution semantics, the Petri net mapping can can be defined only for a limited subset of the modeling elements: \emph{actions}, \emph{initial nodes}, \emph{final nodes}, \emph{join nodes}, \emph{fork nodes}, \emph{merge nodes}, \emph{decision nodes}, \emph{pins} and \emph{object/control flows}, which have precise execution semantics as defined in the Foundational Subset for Executable UML Models~\cite{fuml}.
+Since UML/SysML Activity Diagrams do not have precise execution semantics, the Petri net mapping can be defined only for a limited subset of the modeling elements: \emph{actions}, \emph{initial nodes}, \emph{final nodes}, \emph{join nodes}, \emph{fork nodes}, \emph{merge nodes}, \emph{decision nodes}, \emph{pins} and \emph{object/control flows}, which have precise execution semantics as defined in the Foundational Subset for Executable UML Models~\cite{fuml}.
 
 The paper also assumes the following constrains:
 

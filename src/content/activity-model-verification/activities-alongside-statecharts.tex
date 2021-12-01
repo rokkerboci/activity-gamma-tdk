@@ -2,31 +2,42 @@
 \section{Activities Alongside Statecharts}\label{sec:activities-alongside-statecharts}
 %----------------------------------------------------------------------------
 
-In this section, I present the various questions that arose when I integrated GATL into Gamma statecharts, and present my solutions and reasoning for said problems.
+In this section, I present the various questions that arose when I integrated GATL into the statechart language of Gamma, and present my solutions and reasoning for them.
 
 \subsection{Calling Activities}\label{ssec:calling-activities}
 
-In order to create the connection between statecharts and activities, the user needs an interface to do so. There are many ways to call activities from statecharts:
+In order to create a connection between statecharts and activities, the user needs an interface to do so. In SysML, there are many ways to call activities from statecharts. In the following I summarize them, and chose one for the language.
 
 \paragraph{Transition Actions}
 
-The first solution that came in mind was calling activities from transition actions. At first glance, this makes the most sense, however, as activities are inherently parallel in nature, the resulting implementation would have to \emph{flatten} the activity model - the action cannot contain loops, and has to be atomic. Because of time constraints, this feature was not chosen. 
+One possible solution is calling activities from transition actions. At first glance, this makes the most sense, however transitions have to be executed in a single step, meaning they can not contain loops and recursions. As activities are inherently parallel in nature, the resulting implementation would have to \emph{flatten} the activity model. Because of time constraints, this solution was implemented. 
 
 \paragraph{Do Behaviours}
 
-In SysML, states may have do behaviours. This means, that the \emph{behaviour} (activity in our case) is \emph{ran} while the state machine is inside the given state, and \emph{halted} when the state is left. However, the semantics are not clear.
+In SysML, states may have \emph{do behaviours}. This means, that the \emph{behaviour} (activity in our case) is \emph{under execution} while the state machine is inside the given state, and \emph{halted} when the state is left. However, there are many questions:
 
-Semantically, the halting of the activity can happen in two ways: 
+How does an activity know to halt?
 
 \begin{itemize}
-	\item The state \emph{signals} the activity, that is should end, and waits until it halts - creating a synchronisation step.
-	\item The activity checks if it should run - whether the state machine is in the given state.
+	\item The state \emph{signals} the activity that it should end, and waits until it halts -- in this case a synchronisation step is created;
+	\item The activity checks if it should run, that is, whether the state machine is in the given state. However, this adds an extra assume operation per each node and flow.
 \end{itemize}
 
-Another open question is what happens, when a state has a loop transition into itself? Is the activity stopped, asked to stop, or a whole new activity is created?
+What happens, when a state has a transition into itself, while also having a do behaviour action?
 
-For simplicities sake, I chose do behaviours with option two: check each time when the activity would do something, whether it is \emph{enabled} to run, or not. Additionally, when the containing state becomes active, the activity nodes are reset to \emph{Idle} state, and the initial nodes are started. Figure \autoref{fig:gamma-extension} shows the added elements to the Gamma metamodel.
+\begin{itemize}
+	\item Either a new activity is created each time the state is entered;
+	\item Or the same activity is used after reset.
+\end{itemize}
 
+For the sake of simplicity, I choose the last option of each for do behaviours:
+
+\begin{itemize}
+	\item The activity should check if its state is active before each operation;
+	\item The entry action of the transition resets the activity.
+\end{itemize}
+
+Note that these questions have a critical impact on the semantics of composing state machines and activities, and unfortunately, SysML does not give an exact answer. \autoref{fig:gamma-extension} shows the added elements to the Gamma metamodel.
 
 \begin{figure}[!ht]
 	\begin{subfigure}{.66\textwidth}
@@ -45,15 +56,14 @@ For simplicities sake, I chose do behaviours with option two: check each time wh
 
 \subsection{Activities Defining Components}
 
-In SysML, components' behaviour may be defined directly by activities. However in Gamma, all components use reactive semantics, which would have been difficult to implement. Thus, activities may only appear inside statecharts for now.
+In SysML, components' behaviour may be defined directly by activities. However, in Gamma, all components use reactive semantics, which would have been difficult to implement, in the context of activities. Thus, SysML components that use Activity Diagrams as their behaviour must be mapped wrapper statechart calling the activity.
 
 Although this constrains us to only use statecharts directly, we can still utilise the reactive nature of components, by adding a special activity node, that listens for such events.
 
-\subsection{Trigger Node}
+\emph{TriggerNodes} extend the activity semantics, by adding an additional assumption operation inside the \(	O_\mathit{NodeRun}\) operation function, checking if the given event has been received. The example in \autoref{lst:trigger-example} shows a trigger node, which is only executed when it has a token from the initial node, and the \emph{start} event is received from the \emph{Control} port.
 
-\emph{TriggerNodes} extend the activity semantics, by adding an additional assumption operation inside the \(	O_\mathit{NodeRun}\) operation function, checking if the given event has been received. The following example shows a trigger node, that will be executed only when it has a token from the initial node, and the \emph{start} event is received from the \emph{Control} port.
 \vspace{6mm}
-\begin{lstlisting}[language=statechart, linewidth=0.75\textwidth, xleftmargin=0.25\textwidth]
+\begin{lstlisting}[float, language=statechart, linewidth=0.75\textwidth, xleftmargin=0.25\textwidth, caption={An example trigger node accepting a start signal.}, label={lst:trigger-example}]
 statechart Statechart [
 	port connection : requires Control
 ] {

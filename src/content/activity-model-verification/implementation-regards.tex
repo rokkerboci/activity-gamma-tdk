@@ -2,11 +2,11 @@
 \section{Implementation Remarks}\label{sec:implementation-remarks}
 %----------------------------------------------------------------------------
 
-In order to implement the language, I had to immerse myself in multiple technologies. Gamma is implemented as an Eclipse plugin\footnote{https://www.eclipse.org/downloads/}, and uses multiple frameworks: Ecore Modeling Foundation\footnote{https://www.eclipse.org/modeling/emf/} to create the metamodels, Xtext\footnote{https://www.eclipse.org/Xtext/} to define the language grammars, and Viatra\footnote{https://www.eclipse.org/viatra/} to transform the models.
+I used multiple technologies during the implementation of GATL. Gamma is implemented as an Eclipse plugin\footnote{https://www.eclipse.org/downloads/}, and uses multiple frameworks: Ecore Modeling Framework\footnote{https://www.eclipse.org/modeling/emf/} (EMF) to create the metamodels, Xtext\footnote{https://www.eclipse.org/Xtext/} to define the language grammars, and Viatra\footnote{https://www.eclipse.org/viatra/} to transform the models.
 
-During the implementation, I added a new \emph{model} project and a new \emph{language} project. I then had to extend the preexisting Gamma Statechart Language, and the transformation pipeline.
+During the implementation, I added a new \emph{EMF} project and a new \emph{Xtext} project. I then had to extend the preexisting Gamma Statechart Language, and the transformation pipeline.
 
-The contributions include \(12,383\) line additions, \(2,184\) line deletions in \(38\) commits. There is currently an open pull request to the main GitHub repo\footnote{https://github.com/ftsrg/gamma}.
+The contributions include (at the time of writing) \(12,601\) line additions, \(2,235\) line deletions in \(42\) commits. There is currently an open pull request to the main GitHub repository\footnote{https://github.com/ftsrg/gamma}.
 
 These changes implemented are visualised in \autoref{fig:gamma-activity-overview}: added parts are outlined with green, while edited parts are outlined with orange.
 

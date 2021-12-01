@@ -2,13 +2,17 @@
 \chapter{Conclusion}\label{ch:conclusion}
 %----------------------------------------------------------------------------
 
-ami nem ment evaluationbe
- - lassú
- - nem skálázódik
- - de egy első lépés, hogy unified verifikációt lehessen csinálni komplikált rendszereken
+In this work, I have proposed and implemented the Gamma Activity Language that extends the Gamma Statechart Composition Framework with support for \emph{do actions} in states describing activities. I have shown the theoretical background of state-based and process-based behavioural modelling and motivated the need for formal verification of such models. After examining the related work, which mainly focuses on verifying activities alone, I have formalized the precise semantics of the new activity language by providing a mapping to Gamma's XSTS language. Combining state machines and activities in Gamma is now possible with the usage of \emph{do actions}, which are activities performed while the component is in a certain state. Finally, I have demonstrated through the simple case study model used throughout the report as well as a more complex example coming from the space domain that the proposed approach indeed works. This work will provide the foundations to more closely examine the possible interactions between state machines and activities, and create solid foundations to improve upon all the shortcomings of this initial prototype.
 
 \paragraph{Future Work}
- - sysml activity nagyobb mappelése
- - signalok bevezetése
- - activity külön komponensként
- - activity inline-olása transition action-re
+
+As direct next steps, I plan to:
+
+\begin{itemize}
+	\item Extend the Gamma Property Language and Gamma Trace Language to integrate with activity models.
+	\item Implement a broader subset of the SysML formalism to take the language closer to the user level.
+	\item Extend the semantics of Gamma Activity models with a queueing system for multiple tokens flowing on the same flow.
+	\item Enable the definition of Gamma components directly with activities - as this would allow more flexibility in the design of heterogeneous systems.
+	\item Find a way to use activities as transition effects, entry or exit behaviours, which would require a different mapping of activities to XSTS models.
+	\item Explore alternatives in the XSTS mapping to improve verification performance.
+\end{itemize}
